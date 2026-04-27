@@ -1,0 +1,118 @@
+<!--
+index.html
+
+This is the main dashboard page.
+
+What it does:
+1. Shows all smart home devices.
+2. Displays authentication result.
+3. Allows user to simulate normal behavior.
+4. Allows user to simulate attack behavior.
+5. Opens logs page.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Home AI Security Dashboard</title>
+
+    <!-- Link CSS design file -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Main title -->
+    <h1>Smart Home AI Security Dashboard</h1>
+
+    <!-- Subtitle -->
+    <p class="subtitle">
+        Behavioral Authentication for IoT Devices
+    </p>
+
+    <!-- Devices table -->
+    <table>
+
+        <!-- Table headers -->
+        <tr>
+            <th>Device Name</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Risk</th>
+            <th>Action</th>
+            <th>Controls</th>
+        </tr>
+
+        <!-- Loop through all devices -->
+        {% for device in devices %}
+        <tr>
+
+            <td>{{ device.name }}</td>
+            <td>{{ device.type }}</td>
+
+            <!-- Show status -->
+            <td>
+                {% if device.status %}
+                    {{ device.status }}
+                {% else %}
+                    Waiting
+                {% endif %}
+            </td>
+
+            <!-- Show risk -->
+            <td>
+                {% if device.risk_level %}
+                    {{ device.risk_level }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+
+            <!-- Show recommended action -->
+            <td>
+                {% if device.action %}
+                    {{ device.action }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+
+            <!-- Control buttons -->
+            <td>
+
+                <!-- Simulate normal behavior -->
+                <a href="/simulate/{{ loop.index0 }}/normal">
+                    <button class="green">
+                        Normal
+                    </button>
+                </a>
+
+                <!-- Simulate attack -->
+                <a href="/simulate/{{ loop.index0 }}/attack">
+                    <button class="red">
+                        Simulate Attack
+                    </button>
+                </a>
+
+            </td>
+
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <br>
+
+    <!-- Open logs page -->
+    <a href="/logs">
+        <button class="blue">
+            View Logs
+        </button>
+    </a>
+
+</div>
+
+</body>
+</html>

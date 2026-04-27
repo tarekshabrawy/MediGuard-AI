@@ -1,0 +1,88 @@
+/*
+style.css
+
+This file controls the design of the Smart Home AI Security Dashboard.
+
+What it does:
+1. Sets the background and font.
+2. Styles the main dashboard container.
+3. Designs the table.
+4. Designs the buttons.
+5. Makes the UI cleaner and easier to present.
+*/
+
+/* General page design */
+body {
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main white dashboard box */
+.container {
+    width: 90%;
+    margin: 40px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+/* Main page title */
+h1 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+/* Small subtitle under the title */
+.subtitle {
+    text-align: center;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+/* Main table layout */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Table header cells */
+th {
+    background: #1f2937;
+    color: white;
+    padding: 12px;
+}
+
+/* Table data cells */
+td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+/* General button style */
+button {
+    border: none;
+    padding: 9px 14px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    margin: 3px;
+}
+
+/* Green button for normal behavior */
+.green {
+    background: #16a34a;
+}
+
+/* Red button for attack simulation */
+.red {
+    background: #dc2626;
+}
+
+/* Blue button for navigation/actions */
+.blue {
+    background: #2563eb;
+}

@@ -1,0 +1,3 @@
+time,device_name,device_type,status,risk_level,action
+2026-04-27 04:08:24.821673,Living Room Temperature Sensor,temperature_sensor,Authenticated,Low,Allow Access
+2026-04-27 04:08:39.572872,Kitchen Gas Sensor,gas_sensor,Suspicious,High,Block / Alert Admin
