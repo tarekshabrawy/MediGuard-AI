@@ -1,117 +1,59 @@
-<!--
-index.html
-
-This is the main dashboard page.
-
-What it does:
-1. Shows all smart home devices.
-2. Displays authentication result.
-3. Allows user to simulate normal behavior.
-4. Allows user to simulate attack behavior.
-5. Opens logs page.
--->
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Smart Home AI Security Dashboard</title>
-
-    <!-- Link CSS design file -->
+    <title>MediGuard AI</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
-
 <body>
 
 <div class="container">
+    <h1>MediGuard AI</h1>
+    <p class="subtitle">AI-based monitoring for medicine and vaccine storage conditions</p>
 
-    <!-- Main title -->
-    <h1>Smart Home AI Security Dashboard</h1>
+    <div class="top-buttons">
+        <a href="/add_device"><button class="blue">Add Sensor</button></a>
+        <a href="/logs"><button class="dark">View Logs</button></a>
+    </div>
 
-    <!-- Subtitle -->
-    <p class="subtitle">
-        Behavioral Authentication for IoT Devices
-    </p>
-
-    <!-- Devices table -->
     <table>
-
-        <!-- Table headers -->
         <tr>
             <th>Device Name</th>
             <th>Type</th>
+            <th>Location</th>
+            <th>Storage Type</th>
+            <th>Temp °C</th>
+            <th>Humidity</th>
             <th>Status</th>
             <th>Risk</th>
             <th>Action</th>
-            <th>Controls</th>
+            <th>Demo</th>
         </tr>
 
-        <!-- Loop through all devices -->
         {% for device in devices %}
         <tr>
+            <td>{{ device.device_name }}</td>
+            <td>{{ device.device_type }}</td>
+            <td>{{ device.location }}</td>
+            <td>{{ device.storage_type }}</td>
+            <td>{{ device.temperature_c }}</td>
+            <td>{{ device.humidity }}</td>
 
-            <td>{{ device.name }}</td>
-            <td>{{ device.type }}</td>
+            <td>{{ device.status }}</td>
+            <td>{{ device.risk_score }}% {{ device.risk_level }}</td>
+            <td>{{ device.action }}</td>
 
-            <!-- Show status -->
             <td>
-                {% if device.status %}
-                    {{ device.status }}
-                {% else %}
-                    Waiting
-                {% endif %}
+                <a href="/simulate/{{ loop.index0 }}/safe"><button class="green">Safe</button></a>
+                <a href="/simulate/{{ loop.index0 }}/warning"><button class="yellow">Warning</button></a>
+                <a href="/simulate/{{ loop.index0 }}/critical"><button class="red">Critical</button></a>
             </td>
-
-            <!-- Show risk -->
-            <td>
-                {% if device.risk_level %}
-                    {{ device.risk_level }}
-                {% else %}
-                    -
-                {% endif %}
-            </td>
-
-            <!-- Show recommended action -->
-            <td>
-                {% if device.action %}
-                    {{ device.action }}
-                {% else %}
-                    -
-                {% endif %}
-            </td>
-
-            <!-- Control buttons -->
-            <td>
-
-                <!-- Simulate normal behavior -->
-                <a href="/simulate/{{ loop.index0 }}/normal">
-                    <button class="green">
-                        Normal
-                    </button>
-                </a>
-
-                <!-- Simulate attack -->
-                <a href="/simulate/{{ loop.index0 }}/attack">
-                    <button class="red">
-                        Simulate Attack
-                    </button>
-                </a>
-
-            </td>
-
         </tr>
         {% endfor %}
-
     </table>
 
-    <br>
-
-    <!-- Open logs page -->
-    <a href="/logs">
-        <button class="blue">
-            View Logs
-        </button>
-    </a>
-
+    <div class="note">
+        Simulation buttons are only for demonstration. In real life, readings come automatically from sensors.
+    </div>
 </div>
 
 </body>

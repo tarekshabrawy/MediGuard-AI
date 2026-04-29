@@ -1,175 +1,451 @@
 """
-app.py
+app.py - Medical Storage AI Risk Monitoring Dashboard (Version 0.2)
 
-This is the main Flask website file for the Smart Home AI Security Dashboard.
+This is the main Flask application file for the Medical Storage AI Risk Monitoring Dashboard.
 
 What it does:
-1. Loads the trained Machine Learning model.
-2. Displays IoT devices on the dashboard.
-3. Simulates normal behavior or attack behavior.
-4. Uses the ML model to classify the behavior.
-5. Shows the result as Authenticated or Suspicious.
-6. Saves every result in logs.csv.
+1. Loads the trained Machine Learning model (model.pkl).
+2. Loads devices from data/devices.csv dynamically.
+3. Allows the user to add new devices via /add_device.
+4. Simulates safe, warning, or critical medical storage conditions.
+5. Uses the ML model to predict storage condition.
+6. Calculates risk score from 0% to 100%.
+7. Saves all monitoring results to logs.csv.
 """
 
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request, url_for
 import joblib
 import csv
 import os
+import random
 from datetime import datetime
 
-# Create the Flask application
+# Create Flask application
 app = Flask(__name__)
 
-# Load the trained ML model
+# Load trained ML model
 model = joblib.load("model.pkl")
 
-# Load the encoder that converts device types into numbers
-encoder = joblib.load("encoder.pkl")
-
-# File where security logs will be saved
+# File paths
+DEVICES_FILE = "data/devices.csv"
 LOG_FILE = "logs.csv"
 
-# If logs.csv does not exist, create it with column names
-if not os.path.exists(LOG_FILE):
-    with open(LOG_FILE, "w", newline="") as file:
+
+def load_devices():
+    """
+    Load devices from data/devices.csv.
+
+    This function safely handles empty CSV cells.
+    For example, if risk_score is empty, it becomes 0 instead of crashing.
+    """
+    devices = []
+
+    if os.path.exists(DEVICES_FILE):
+        with open(DEVICES_FILE, "r", newline="") as file:
+            reader = csv.DictReader(file)
+
+            for row in reader:
+                # Convert risk_score safely.
+                # If the value is empty, use 0.
+                risk_score = int(row.get("risk_score") or 0)
+
+                device = {
+                    "device_name": row.get("device_name", ""),
+                    "device_type": row.get("device_type", ""),
+                    "location": row.get("location", ""),
+                    "storage_type": row.get("storage_type", ""),
+                    "temperature_c": row.get("temperature_c") or "-",
+                    "humidity": row.get("humidity") or "-",
+                    "object_temperature": row.get("object_temperature") or "-",
+                    "cooling_status": row.get("cooling_status") or "-",
+                    "status": row.get("status") or "No Data",
+                    "risk_score": risk_score,
+                    "risk_level": row.get("risk_level") or "-",
+                    "action": row.get("action") or "-"
+                }
+
+                devices.append(device)
+
+    return devices
+
+
+def save_device(device_name, device_type, location, storage_type):
+    """
+    Save a new user-added device to data/devices.csv.
+    """
+
+    # Make sure data folder exists
+    os.makedirs("data", exist_ok=True)
+
+    file_exists = os.path.exists(DEVICES_FILE)
+
+    with open(DEVICES_FILE, "a", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow(["time", "device_name", "device_type", "status", "risk_level", "action"])
+
+        # Write header if file does not exist
+        if not file_exists:
+            writer.writerow([
+                "device_name",
+                "device_type",
+                "location",
+                "storage_type",
+                "temperature_c",
+                "humidity",
+                "object_temperature",
+                "cooling_status",
+                "status",
+                "risk_score",
+                "risk_level",
+                "action"
+            ])
+
+        # Add new device with empty monitoring values
+        writer.writerow([
+            device_name,
+            device_type,
+            location,
+            storage_type,
+            "",
+            "",
+            "",
+            "",
+            "No Data",
+            0,
+            "-",
+            "-"
+        ])
 
 
-# List of smart home IoT devices shown on the dashboard
-devices = [
-    {"name": "Living Room Temperature Sensor", "type": "temperature_sensor"},
-    {"name": "Kitchen Gas Sensor", "type": "gas_sensor"},
-    {"name": "Main Door Lock", "type": "door_lock"},
-    {"name": "Front Camera", "type": "camera"},
-    {"name": "Bedroom Smart Light", "type": "smart_light"},
-]
-
-
-def predict_behavior(device_type, behavior):
+def update_device_readings(device_index, updated_data):
     """
-    This function sends device behavior data to the ML model.
-
-    Input:
-    - device_type: type of IoT device
-    - behavior: traffic/activity values
-
-    Output:
-    - status: Authenticated or Suspicious
-    - risk_level: Low or High
-    - action: Allow Access or Block / Alert Admin
+    Update one device row in data/devices.csv after monitoring/simulation.
     """
 
-    # Convert device type text into the number used during training
-    device_type_encoded = encoder.transform([device_type])[0]
+    if not os.path.exists(DEVICES_FILE):
+        return
 
-    # Arrange input features in the same order used in train_model.py
+    # Read all devices
+    with open(DEVICES_FILE, "r", newline="") as file:
+        reader = csv.DictReader(file)
+        devices = list(reader)
+
+    # Validate index
+    if device_index < 0 or device_index >= len(devices):
+        return
+
+    # Update selected device row
+    devices[device_index]["temperature_c"] = updated_data.get("temperature_c", "-")
+    devices[device_index]["humidity"] = updated_data.get("humidity", "-")
+    devices[device_index]["object_temperature"] = updated_data.get("object_temperature", "-")
+    devices[device_index]["cooling_status"] = updated_data.get("cooling_status", "-")
+    devices[device_index]["status"] = updated_data.get("status", "No Data")
+    devices[device_index]["risk_score"] = updated_data.get("risk_score", 0)
+    devices[device_index]["risk_level"] = updated_data.get("risk_level", "-")
+    devices[device_index]["action"] = updated_data.get("action", "-")
+
+    # Save all devices again
+    fieldnames = [
+        "device_name",
+        "device_type",
+        "location",
+        "storage_type",
+        "temperature_c",
+        "humidity",
+        "object_temperature",
+        "cooling_status",
+        "status",
+        "risk_score",
+        "risk_level",
+        "action"
+    ]
+
+    with open(DEVICES_FILE, "w", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(devices)
+
+
+def generate_readings(mode):
+    """
+    Generate realistic medical storage readings for demo/testing.
+
+    In the real product, these readings would come from actual sensors.
+    """
+
+    if mode == "safe":
+        # Safe: temperature 2–8°C, humidity 40–60%, cooling normal
+        return {
+            "serial_reading": random.randint(50, 200),
+            "temp_c": round(random.uniform(2.0, 8.0), 2),
+            "temp_fh": round(random.uniform(35.6, 46.4), 2),
+            "humidity": round(random.uniform(40.0, 60.0), 2),
+            "object_temp": round(random.uniform(2.0, 8.0), 2),
+            "nw_cooling": 0
+        }
+
+    elif mode == "warning":
+        # Warning: temperature slightly high or humidity slightly high
+        if random.choice([True, False]):
+            return {
+                "serial_reading": random.randint(200, 500),
+                "temp_c": round(random.uniform(8.0, 12.0), 2),
+                "temp_fh": round(random.uniform(46.4, 53.6), 2),
+                "humidity": round(random.uniform(40.0, 60.0), 2),
+                "object_temp": round(random.uniform(8.0, 12.0), 2),
+                "nw_cooling": 0
+            }
+        else:
+            return {
+                "serial_reading": random.randint(200, 500),
+                "temp_c": round(random.uniform(2.0, 8.0), 2),
+                "temp_fh": round(random.uniform(35.6, 46.4), 2),
+                "humidity": round(random.uniform(60.0, 75.0), 2),
+                "object_temp": round(random.uniform(2.0, 8.0), 2),
+                "nw_cooling": 0
+            }
+
+    else:
+        # Critical: high temperature, high humidity, or cooling failure
+        return {
+            "serial_reading": random.randint(500, 2000),
+            "temp_c": round(random.uniform(12.0, 25.0), 2),
+            "temp_fh": round(random.uniform(53.6, 77.0), 2),
+            "humidity": round(random.uniform(75.0, 95.0), 2),
+            "object_temp": round(random.uniform(12.0, 25.0), 2),
+            "nw_cooling": random.choice([0, 1])
+        }
+
+
+def calculate_risk_score(behavior, ml_prediction):
+    """
+    Calculate risk score from 0 to 100.
+
+    The final risk depends on:
+    1. ML model prediction.
+    2. Temperature range.
+    3. Humidity range.
+    4. Cooling system status.
+    """
+
+    risk_score = 0
+
+    # ML model risk
+    if ml_prediction == 1:
+        risk_score += 60
+
+    # Temperature risk
+    temp_c = behavior["temp_c"]
+
+    if temp_c > 8:
+        risk_score += 15
+    if temp_c > 12:
+        risk_score += 15
+    if temp_c > 20:
+        risk_score += 10
+    if temp_c < -25:
+        risk_score += 10
+
+    # Humidity risk
+    humidity = behavior["humidity"]
+
+    if humidity > 60:
+        risk_score += 10
+    if humidity > 75:
+        risk_score += 10
+    if humidity > 85:
+        risk_score += 10
+
+    # Cooling failure risk
+    if behavior["nw_cooling"] == 1:
+        risk_score += 10
+
+    return min(risk_score, 100)
+
+
+def predict_condition(behavior):
+    """
+    Send readings to the ML model and return:
+    status, risk level, action, risk score, and ML prediction.
+    """
+
+    # Features must match the order used during model training
     features = [[
-        device_type_encoded,
-        behavior["packet_rate"],
-        behavior["avg_packet_size"],
-        behavior["connection_count"],
-        behavior["bytes_sent"],
-        behavior["bytes_received"],
-        behavior["failed_connections"]
+        behavior["serial_reading"],
+        behavior["temp_c"],
+        behavior["temp_fh"],
+        behavior["humidity"],
+        behavior["object_temp"],
+        behavior["nw_cooling"]
     ]]
 
-    # Predict if behavior is normal or suspicious
-    prediction = model.predict(features)[0]
+    # Predict condition: 0 = normal, 1 = critical
+    ml_prediction = model.predict(features)[0]
 
-    # Convert prediction into dashboard-friendly output
-    if prediction == "normal":
-        return "Authenticated", "Low", "Allow Access"
+    # Calculate risk score
+    risk_score = calculate_risk_score(behavior, ml_prediction)
+
+    # Risk matrix
+    if risk_score < 30:
+        status = "Normal"
+        risk_level = "Low"
+        action = "Continue Monitoring"
+    elif risk_score < 70:
+        status = "Warning"
+        risk_level = "Medium"
+        action = "Alert Admin"
     else:
-        return "Suspicious", "High", "Block / Alert Admin"
+        status = "Critical"
+        risk_level = "High"
+        action = "Immediate Action Required"
+
+    return status, risk_level, action, risk_score, ml_prediction
 
 
-def save_log(device_name, device_type, status, risk_level, action):
+def save_log(device_name, device_type, location, storage_type, behavior, ml_prediction, risk_score, risk_level, action):
     """
-    This function saves each authentication result in logs.csv.
+    Save each monitoring result to logs.csv.
     """
 
-    # Open logs.csv and add a new row
+    file_exists = os.path.exists(LOG_FILE)
+
     with open(LOG_FILE, "a", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow([datetime.now(), device_name, device_type, status, risk_level, action])
+
+        # Write header if logs.csv does not exist
+        if not file_exists:
+            writer.writerow([
+                "time",
+                "device_name",
+                "device_type",
+                "location",
+                "storage_type",
+                "temperature_c",
+                "humidity",
+                "object_temperature",
+                "cooling_status",
+                "ml_prediction",
+                "risk_score",
+                "risk_level",
+                "action"
+            ])
+
+        writer.writerow([
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            device_name,
+            device_type,
+            location,
+            storage_type,
+            behavior["temp_c"],
+            behavior["humidity"],
+            behavior["object_temp"],
+            "Normal" if behavior["nw_cooling"] == 0 else "Failure",
+            ml_prediction,
+            risk_score,
+            risk_level,
+            action
+        ])
 
 
 @app.route("/")
 def dashboard():
     """
-    This route displays the main dashboard page.
+    Display the main dashboard.
+    Devices are loaded dynamically from data/devices.csv.
     """
 
-    # Send the devices list to index.html
+    devices = load_devices()
     return render_template("index.html", devices=devices)
+
+
+@app.route("/add_device", methods=["GET", "POST"])
+def add_device():
+    """
+    Add new medical storage sensor/device.
+    """
+
+    if request.method == "POST":
+        device_name = request.form.get("device_name")
+        device_type = request.form.get("device_type")
+        location = request.form.get("location")
+        storage_type = request.form.get("storage_type")
+
+        save_device(device_name, device_type, location, storage_type)
+
+        return redirect(url_for("dashboard"))
+
+    return render_template("add_device.html")
 
 
 @app.route("/simulate/<int:device_index>/<mode>")
 def simulate(device_index, mode):
     """
-    This route simulates normal or attack behavior for a selected device.
+    Simulate safe/warning/critical sensor readings for a selected device.
+
+    Demo note:
+    In the real system, this route would be replaced by live sensor readings.
     """
 
-    # Select the device based on its index in the devices list
+    devices = load_devices()
+
+    # Validate selected device
+    if device_index < 0 or device_index >= len(devices):
+        return redirect(url_for("dashboard"))
+
     device = devices[device_index]
 
-    # Normal behavior simulation
-    if mode == "normal":
-        behavior = {
-            "packet_rate": 5,
-            "avg_packet_size": 300,
-            "connection_count": 2,
-            "bytes_sent": 1500,
-            "bytes_received": 1200,
-            "failed_connections": 0
-        }
+    # Generate readings
+    behavior = generate_readings(mode)
 
-    # Attack behavior simulation
-    else:
-        behavior = {
-            "packet_rate": 75,
-            "avg_packet_size": 2300,
-            "connection_count": 25,
-            "bytes_sent": 70000,
-            "bytes_received": 55000,
-            "failed_connections": 10
-        }
+    # Predict condition and calculate risk
+    status, risk_level, action, risk_score, ml_prediction = predict_condition(behavior)
 
-    # Use the ML model to classify the behavior
-    status, risk_level, action = predict_behavior(device["type"], behavior)
+    # Prepare updated dashboard data
+    updated_data = {
+        "temperature_c": behavior["temp_c"],
+        "humidity": behavior["humidity"],
+        "object_temperature": behavior["object_temp"],
+        "cooling_status": "Normal" if behavior["nw_cooling"] == 0 else "Failure",
+        "status": status,
+        "risk_score": risk_score,
+        "risk_level": risk_level,
+        "action": action
+    }
 
-    # Store the result inside the device dictionary so the dashboard can show it
-    device["status"] = status
-    device["risk_level"] = risk_level
-    device["action"] = action
+    # Update devices.csv
+    update_device_readings(device_index, updated_data)
 
-    # Save the result in logs.csv
-    save_log(device["name"], device["type"], status, risk_level, action)
+    # Save log
+    save_log(
+        device["device_name"],
+        device["device_type"],
+        device["location"],
+        device["storage_type"],
+        behavior,
+        ml_prediction,
+        risk_score,
+        risk_level,
+        action
+    )
 
-    # Return to the dashboard after simulation
-    return redirect("/")
+    return redirect(url_for("dashboard"))
 
 
 @app.route("/logs")
 def logs():
     """
-    This route displays the logs page.
+    Display monitoring logs.
     """
 
     logs_data = []
 
-    # Read saved logs from logs.csv
     if os.path.exists(LOG_FILE):
         with open(LOG_FILE, "r") as file:
             reader = csv.DictReader(file)
             logs_data = list(reader)
 
-    # Send logs data to logs.html
     return render_template("logs.html", logs=logs_data)
 
 
-# Run the Flask app
+# Run Flask app
 if __name__ == "__main__":
     app.run(debug=True)

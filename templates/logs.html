@@ -1,35 +1,39 @@
 <!--
-logs.html
+logs.html - Monitoring Logs Page (Version 0.2)
 
-This page displays the history of authentication checks.
+This page displays the history of all monitoring checks.
 
 What it does:
-1. Reads logs sent from app.py.
-2. Shows every device behavior check.
-3. Displays time, device name, type, status, risk level, and action.
-4. Allows the user to return to the dashboard.
+1. Reads logs from logs.csv
+2. Shows all monitoring events with detailed information
+3. Displays ML prediction, risk score, and risk level
+4. Allows user to return to the dashboard
 -->
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Authentication Logs</title>
-
-    <!-- Link CSS design file -->
+    <title>Monitoring Logs - Medical Storage AI Dashboard</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
-
 <body>
 
 <div class="container">
 
     <!-- Page title -->
-    <h1>Authentication Logs</h1>
-
-    <!-- Page subtitle -->
+    <h1>Monitoring Logs</h1>
+    
+    <!-- Subtitle -->
     <p class="subtitle">
-        History of device behavior checks
+        History of all device monitoring events
     </p>
+
+    <!-- Back button -->
+    <div class="nav-buttons">
+        <a href="/">
+            <button class="blue">Back to Dashboard</button>
+        </a>
+    </div>
 
     <!-- Logs table -->
     <table>
@@ -39,7 +43,14 @@ What it does:
             <th>Time</th>
             <th>Device Name</th>
             <th>Device Type</th>
-            <th>Status</th>
+            <th>Location</th>
+            <th>Storage Type</th>
+            <th>Temp (°C)</th>
+            <th>Humidity (%)</th>
+            <th>Object Temp</th>
+            <th>Cooling</th>
+            <th>ML Prediction</th>
+            <th>Risk Score</th>
             <th>Risk Level</th>
             <th>Action</th>
         </tr>
@@ -50,22 +61,49 @@ What it does:
             <td>{{ log.time }}</td>
             <td>{{ log.device_name }}</td>
             <td>{{ log.device_type }}</td>
-            <td>{{ log.status }}</td>
-            <td>{{ log.risk_level }}</td>
+            <td>{{ log.location }}</td>
+            <td>{{ log.storage_type }}</td>
+            <td>{{ log.temperature_c }}</td>
+            <td>{{ log.humidity }}</td>
+            <td>{{ log.object_temperature }}</td>
+            <td>{{ log.cooling_status }}</td>
+            
+            <!-- ML Prediction with color -->
+            <td>
+                {% if log.ml_prediction == "0" or log.ml_prediction == 0 %}
+                    <span class="badge badge-green">Normal</span>
+                {% else %}
+                    <span class="badge badge-red">Critical</span>
+                {% endif %}
+            </td>
+            
+            <!-- Risk score -->
+            <td>{{ log.risk_score }}%</td>
+            
+            <!-- Risk level with color badge -->
+            <td>
+                {% if log.risk_level == "Low" %}
+                    <span class="badge badge-green">{{ log.risk_level }}</span>
+                {% elif log.risk_level == "Medium" %}
+                    <span class="badge badge-yellow">{{ log.risk_level }}</span>
+                {% elif log.risk_level == "High" %}
+                    <span class="badge badge-red">{{ log.risk_level }}</span>
+                {% else %}
+                    <span class="badge badge-gray">{{ log.risk_level }}</span>
+                {% endif %}
+            </td>
+            
+            <!-- Action -->
             <td>{{ log.action }}</td>
         </tr>
         {% endfor %}
 
     </table>
 
-    <br>
-
-    <!-- Back button -->
-    <a href="/">
-        <button class="blue">
-            Back to Dashboard
-        </button>
-    </a>
+    <!-- Empty state message -->
+    {% if not logs %}
+    <p class="empty-message">No logs recorded yet. Simulate some readings from the dashboard!</p>
+    {% endif %}
 
 </div>
 

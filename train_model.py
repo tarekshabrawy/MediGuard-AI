@@ -1,57 +1,44 @@
-"""
-train_model.py
-
-This file trains the Machine Learning model for the Smart Home AI Security project.
-
-What it does:
-1. Reads the IoT behavior dataset from data/dataset.csv.
-2. Converts device type text into numbers because ML models need numerical data.
-3. Trains a Random Forest model to classify behavior as normal or suspicious.
-4. Saves the trained model as model.pkl.
-5. Saves the encoder as encoder.pkl so the website can understand device types later.
-"""
+# train_model.py
 
 import pandas as pd
+from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import classification_report
 import joblib
 
-# Read the dataset file from the data folder
-df = pd.read_csv("data/dataset.csv")
+# Load the dataset
+dataset = pd.read_csv('data/medical_storage_dataset.csv')
 
-# Create an encoder to convert device type names into numbers
-encoder = LabelEncoder()
+# Clean up column names (strip extra spaces)
+dataset.columns = dataset.columns.str.replace(' ', '_')
 
-# Convert device_type column from text into numbers
-df["device_type"] = encoder.fit_transform(df["device_type"])
+# Check the first few rows to understand the dataset
+print(dataset.head())
 
-# X contains the input features used by the model to learn behavior
-X = df[
-    [
-        "device_type",
-        "packet_rate",
-        "avg_packet_size",
-        "connection_count",
-        "bytes_sent",
-        "bytes_received",
-        "failed_connections",
-    ]
-]
+# Preprocessing the dataset: 
+# Feature columns are everything except 'Critical_Level'
+X = dataset.drop(columns=['Critical_Level'])
 
-# y contains the correct answer: normal or suspicious
-y = df["label"]
+# Target column is 'Critical_Level'
+y = dataset['Critical_Level']
 
-# Create the Random Forest classifier model
-model = RandomForestClassifier(random_state=42)
+# Split the data into training and testing sets (80% training, 20% testing)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Train the model using the dataset
-model.fit(X, y)
+# Initialize the model
+model = RandomForestClassifier(n_estimators=100, random_state=42)
 
-# Save the trained model so app.py can use it later
-joblib.dump(model, "model.pkl")
+# Train the model
+model.fit(X_train, y_train)
 
-# Save the encoder so app.py can convert device types in the same way
-joblib.dump(encoder, "encoder.pkl")
+# Make predictions
+y_pred = model.predict(X_test)
 
-# Print success message
-print("Model trained and saved successfully.")
+# Print classification report (accuracy, precision, recall, F1-score)
+print(classification_report(y_test, y_pred))
+
+# Save the trained model
+joblib.dump(model, 'model.pkl')
+
+# Save the encoder (if needed in the future)
+joblib.dump(X.columns, 'encoder.pkl')
