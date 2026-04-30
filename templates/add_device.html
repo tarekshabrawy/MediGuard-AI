@@ -1,83 +1,49 @@
-<!--
-add_device.html - Add New Device Form (Version 0.2)
-
-This page allows users to register new medical storage devices.
-
-What it does:
-1. Shows a form to enter device details
-2. Validates required fields
-3. Saves new device to data/devices.csv
-4. Provides navigation back to dashboard
--->
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add New Device - Medical Storage AI Dashboard</title>
+    <title>Add Sensor - MediGuard AI</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-<div class="container">
+<div class="form-page">
+    <div class="form-card">
+        <div class="form-badge">+</div>
+        <h1>Add New Sensor</h1>
+        <p>Register a medical storage device for AI monitoring.</p>
 
-    <!-- Page title -->
-    <h1>Add New Device</h1>
-    
-    <!-- Subtitle -->
-    <p class="subtitle">
-        Register a new medical storage monitoring device
-    </p>
+        <form method="POST">
+            <label>Device Name</label>
+            <input type="text" name="device_name" placeholder="Vaccine Refrigerator Unit 1" required>
 
-    <!-- Form -->
-    <form method="POST" action="/add_device">
-        
-        <div class="form-group">
-            <label for="device_name">Device Name:</label>
-            <input type="text" id="device_name" name="device_name" required 
-                   placeholder="e.g., Vaccine Refrigerator Unit 3">
-        </div>
-
-        <div class="form-group">
-            <label for="device_type">Device Type:</label>
-            <select id="device_type" name="device_type" required>
-                <option value="">Select device type...</option>
+            <label>Device Type</label>
+            <select name="device_type" required>
+                <option value="">Select device type</option>
                 <option value="temperature_sensor">Temperature Sensor</option>
                 <option value="humidity_sensor">Humidity Sensor</option>
-                <option value="combined_sensor">Combined Sensor</option>
-                <option value="cooling_monitor">Cooling Monitor</option>
+                <option value="cold_room_sensor">Cold Room Sensor</option>
+                <option value="storage_monitor">Storage Monitor</option>
             </select>
-        </div>
 
-        <div class="form-group">
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="location" required 
-                   placeholder="e.g., Building A - Room 201">
-        </div>
+            <label>Location</label>
+            <input type="text" name="location" placeholder="Pharmacy Room 1" required>
 
-        <div class="form-group">
-            <label for="storage_type">Storage Type:</label>
-            <select id="storage_type" name="storage_type" required>
-                <option value="">Select storage type...</option>
+            <label>Storage Type</label>
+            <select name="storage_type" required>
+                <option value="">Select storage type</option>
                 <option value="Vaccines">Vaccines</option>
                 <option value="Medicines">Medicines</option>
                 <option value="Biological Samples">Biological Samples</option>
                 <option value="Chemicals">Chemicals</option>
                 <option value="General Storage">General Storage</option>
-                <option value="Blood Bank">Blood Bank</option>
-                <option value="Organs">Organs</option>
             </select>
-        </div>
 
-        <!-- Form buttons -->
-        <div class="form-buttons">
-            <button type="submit" class="blue">Register Device</button>
-            <a href="/">
-                <button type="button" class="gray">Cancel</button>
-            </a>
-        </div>
-
-    </form>
-
+            <div class="form-actions">
+                <button class="btn-primary" type="submit">Register Sensor</button>
+                <a class="btn-secondary" href="/dashboard">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
 
 </body>

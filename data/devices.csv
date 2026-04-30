@@ -1,7 +1,6 @@
-device_name,device_type,location,storage_type,temperature_c,humidity,object_temperature,cooling_status,status,risk_score,risk_level,action
-Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,22.33,91.9,19.73,Failure,Critical,100,High,Immediate Action Required
-Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,3.07,41.6,7.02,Normal,Warning,60,Medium,Alert Admin
-Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,6.42,44.53,5.53,Normal,Warning,60,Medium,Alert Admin
-Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,11.88,59.13,11.83,Normal,Critical,75,High,Immediate Action Required
-Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,12.75,86.25,17.45,Normal,Critical,100,High,Immediate Action Required
-pill refregerator ,temperature_sensor,building c ,Medicines,2.02,60.96,5.07,Normal,Critical,70,High,Immediate Action Required
+device_name,device_type,location,storage_type,temperature_c,humidity,object_temperature,cooling_status,status,risk_score,risk_level,action,ml_prediction,anomaly_status,attack_status
+Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,5.63,57.57,5.51,Normal,Normal,10,Low,Continue Monitoring,0,Normal Pattern,Normal Operation
+Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,5.03,47.13,5.12,Normal,Normal,10,Low,Continue Monitoring,0,Normal Pattern,Normal Operation
+Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,3.03,54.96,2.82,Normal,Normal,20,Low,Continue Monitoring,0,Anomalous,Suspicious Behavior
+Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,25.7,90.62,26.48,Normal,Critical,100,High,Immediate Action Required,1,Anomalous,Environmental Failure
+Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,26.22,85.95,28.67,Normal,Critical,100,High,Immediate Action Required,1,Anomalous,Possible Cyber Attack

@@ -1,110 +1,81 @@
-<!--
-logs.html - Monitoring Logs Page (Version 0.2)
-
-This page displays the history of all monitoring checks.
-
-What it does:
-1. Reads logs from logs.csv
-2. Shows all monitoring events with detailed information
-3. Displays ML prediction, risk score, and risk level
-4. Allows user to return to the dashboard
--->
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Monitoring Logs - Medical Storage AI Dashboard</title>
+    <title>MediGuard AI Logs</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-<div class="container">
+<div class="app-layout">
 
-    <!-- Page title -->
-    <h1>Monitoring Logs</h1>
-    
-    <!-- Subtitle -->
-    <p class="subtitle">
-        History of all device monitoring events
-    </p>
+    <aside class="sidebar">
+        <div class="side-logo">
+            <div class="logo-dot">✦</div>
+            <h2>MediGuard</h2>
+        </div>
 
-    <!-- Back button -->
-    <div class="nav-buttons">
-        <a href="/">
-            <button class="blue">Back to Dashboard</button>
-        </a>
-    </div>
+        <nav>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/add_device">Add Sensor</a>
+            <a href="/logs" class="active">Logs</a>
+            <a href="/">Welcome</a>
+        </nav>
+    </aside>
 
-    <!-- Logs table -->
-    <table>
+    <main class="main-content">
+        <div class="topbar">
+            <div>
+                <h1>Monitoring Logs</h1>
+                <p>Sensor readings, AI results, risk decisions, and attack/failure outcomes.</p>
+            </div>
 
-        <!-- Table headers -->
-        <tr>
-            <th>Time</th>
-            <th>Device Name</th>
-            <th>Device Type</th>
-            <th>Location</th>
-            <th>Storage Type</th>
-            <th>Temp (°C)</th>
-            <th>Humidity (%)</th>
-            <th>Object Temp</th>
-            <th>Cooling</th>
-            <th>ML Prediction</th>
-            <th>Risk Score</th>
-            <th>Risk Level</th>
-            <th>Action</th>
-        </tr>
+            <div class="top-actions">
+                <a href="/dashboard" class="btn-secondary">Back to Dashboard</a>
+            </div>
+        </div>
 
-        <!-- Loop through all saved logs -->
-        {% for log in logs %}
-        <tr>
-            <td>{{ log.time }}</td>
-            <td>{{ log.device_name }}</td>
-            <td>{{ log.device_type }}</td>
-            <td>{{ log.location }}</td>
-            <td>{{ log.storage_type }}</td>
-            <td>{{ log.temperature_c }}</td>
-            <td>{{ log.humidity }}</td>
-            <td>{{ log.object_temperature }}</td>
-            <td>{{ log.cooling_status }}</td>
-            
-            <!-- ML Prediction with color -->
-            <td>
-                {% if log.ml_prediction == "0" or log.ml_prediction == 0 %}
-                    <span class="badge badge-green">Normal</span>
-                {% else %}
-                    <span class="badge badge-red">Critical</span>
-                {% endif %}
-            </td>
-            
-            <!-- Risk score -->
-            <td>{{ log.risk_score }}%</td>
-            
-            <!-- Risk level with color badge -->
-            <td>
-                {% if log.risk_level == "Low" %}
-                    <span class="badge badge-green">{{ log.risk_level }}</span>
-                {% elif log.risk_level == "Medium" %}
-                    <span class="badge badge-yellow">{{ log.risk_level }}</span>
-                {% elif log.risk_level == "High" %}
-                    <span class="badge badge-red">{{ log.risk_level }}</span>
-                {% else %}
-                    <span class="badge badge-gray">{{ log.risk_level }}</span>
-                {% endif %}
-            </td>
-            
-            <!-- Action -->
-            <td>{{ log.action }}</td>
-        </tr>
-        {% endfor %}
+        <section class="panel">
+            <div class="table-wrap">
+                <table>
+                    <tr>
+                        <th>Time</th>
+                        <th>Device</th>
+                        <th>Type</th>
+                        <th>Location</th>
+                        <th>Storage</th>
+                        <th>Temp</th>
+                        <th>Humidity</th>
+                        <th>Cooling</th>
+                        <th>ML</th>
+                        <th>Anomaly</th>
+                        <th>Risk</th>
+                        <th>Level</th>
+                        <th>Action</th>
+                        <th>Attack Status</th>
+                    </tr>
 
-    </table>
-
-    <!-- Empty state message -->
-    {% if not logs %}
-    <p class="empty-message">No logs recorded yet. Simulate some readings from the dashboard!</p>
-    {% endif %}
-
+                    {% for log in logs %}
+                    <tr>
+                        <td>{{ log.time }}</td>
+                        <td>{{ log.device_name }}</td>
+                        <td>{{ log.device_type }}</td>
+                        <td>{{ log.location }}</td>
+                        <td>{{ log.storage_type }}</td>
+                        <td>{{ log.temperature_c }}</td>
+                        <td>{{ log.humidity }}</td>
+                        <td>{{ log.cooling_status }}</td>
+                        <td>{{ log.ml_prediction }}</td>
+                        <td>{{ log.anomaly_status }}</td>
+                        <td>{{ log.risk_score }}%</td>
+                        <td>{{ log.risk_level }}</td>
+                        <td>{{ log.action }}</td>
+                        <td>{{ log.attack_status }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </section>
+    </main>
 </div>
 
 </body>
