@@ -33,6 +33,7 @@ def get_fieldnames():
         "ml_prediction", "anomaly_status", "attack_status",
         "security_status", "isolation_status",
         "behavior_status", "behavior_reason",
+        "attack_type", "attack_reason",
         "last_temperature", "last_humidity", "repeat_count"
     ]
 
@@ -61,6 +62,8 @@ def create_default_sensor():
         "isolation_status": "Active",
         "behavior_status": "-",
         "behavior_reason": "-",
+        "attack_type": "-",
+        "attack_reason": "-",
         "last_temperature": "",
         "last_humidity": "",
         "repeat_count": 0
@@ -78,16 +81,15 @@ def ensure_single_sensor():
         return
 
     with open(DEVICES_FILE, "r", newline="") as file:
-        reader = csv.DictReader(file)
-        devices = list(reader)
+        devices = list(csv.DictReader(file))
 
     if len(devices) == 0:
         create_default_sensor()
         return
 
     device = devices[0]
-
     cleaned = {}
+
     for field in get_fieldnames():
         cleaned[field] = device.get(field, "")
 
@@ -104,7 +106,6 @@ def ensure_single_sensor():
 
 def load_devices():
     ensure_single_sensor()
-
     devices = []
 
     with open(DEVICES_FILE, "r", newline="") as file:
@@ -132,6 +133,8 @@ def load_devices():
                 "isolation_status": row.get("isolation_status") or "Active",
                 "behavior_status": row.get("behavior_status") or "-",
                 "behavior_reason": row.get("behavior_reason") or "-",
+                "attack_type": row.get("attack_type") or "-",
+                "attack_reason": row.get("attack_reason") or "-",
                 "last_temperature": row.get("last_temperature") or "",
                 "last_humidity": row.get("last_humidity") or "",
                 "repeat_count": int(row.get("repeat_count") or 0)
@@ -169,7 +172,6 @@ def get_dashboard_stats(devices):
     anomalies = sum(1 for d in devices if d.get("anomaly_status") == "Anomalous")
     attacks = sum(1 for d in devices if d.get("attack_status") == "Possible Cyber Attack")
     isolated = sum(1 for d in devices if d.get("isolation_status") == "Isolated")
-
     avg_risk = round(sum(int(d.get("risk_score") or 0) for d in devices) / total, 1) if total else 0
 
     return {
@@ -185,20 +187,6 @@ def get_dashboard_stats(devices):
 
 
 def calculate_environmental_result(behavior, ml_prediction, anomaly_flag):
-    """
-    Room monitoring logic.
-
-    Temperature:
-    Normal   = 20°C to 30°C
-    Warning  = 30°C to 37.9°C
-    Critical = 38°C+
-
-    Humidity:
-    Normal   = 30% to 70%
-    Warning  = 20% to 29% OR 71% to 80%
-    Critical = below 20% OR above 80%
-    """
-
     temp = behavior["temp_c"]
     humidity = behavior["humidity"]
 
@@ -250,10 +238,8 @@ def calculate_environmental_result(behavior, ml_prediction, anomaly_flag):
 
     if temp >= 38 or humidity < 20 or humidity > 80 or risk_score >= 70:
         return "Critical", "High", "Immediate Environmental Check Required", risk_score, reason_text
-
     elif temp > 30 or temp < 20 or humidity < 30 or humidity > 70 or risk_score >= 30:
         return "Warning", "Medium", "Check Room Conditions", risk_score, reason_text
-
     else:
         return "Normal", "Low", "Continue Monitoring", risk_score, reason_text
 
@@ -275,10 +261,8 @@ def get_condition_prediction(behavior):
 
 def get_anomaly_status(behavior):
     prediction = anomaly_model.predict(make_features(behavior))[0]
-
     if prediction == -1:
         return "Anomalous", 1
-
     return "Normal Pattern", 0
 
 
@@ -288,6 +272,16 @@ def get_attack_model_decision(environmental_risk, vulnerability_score, anomaly_f
 
 
 def analyze_sensor_behavior(device, behavior):
+    """
+    Important:
+    Gradual heating = physical/environmental issue.
+    It should NOT be suspicious.
+
+    Suspicious behavior means:
+    - impossible jump
+    - impossible mismatch
+    - fake / manipulated pattern
+    """
     reasons = []
     suspicious = False
 
@@ -304,22 +298,24 @@ def analyze_sensor_behavior(device, behavior):
 
     repeat_count = int(device.get("repeat_count") or 0)
 
-    # Real DHT readings can repeat naturally. Repetition alone is NOT a cyber attack.
     if last_temp is not None:
         temp_jump = abs(current_temp - last_temp)
-        if temp_jump >= 18:
+
+        # Only huge jump is suspicious. Normal heating stays normal behavior.
+        if temp_jump >= 20:
             suspicious = True
-            reasons.append("Very large sudden temperature jump")
+            reasons.append("Impossible sudden temperature jump")
 
     if last_humidity is not None:
         humidity_jump = abs(current_humidity - last_humidity)
-        if humidity_jump >= 50:
-            suspicious = True
-            reasons.append("Very large sudden humidity jump")
 
-    if abs(object_temp - current_temp) >= 15:
+        if humidity_jump >= 55:
+            suspicious = True
+            reasons.append("Impossible sudden humidity jump")
+
+    if abs(object_temp - current_temp) >= 18:
         suspicious = True
-        reasons.append("Impossible sensor/object temperature mismatch")
+        reasons.append("Sensor temperature and object temperature are inconsistent")
 
     if last_temp is not None and last_humidity is not None:
         if current_temp == last_temp and current_humidity == last_humidity:
@@ -327,10 +323,12 @@ def analyze_sensor_behavior(device, behavior):
         else:
             repeat_count = 0
 
+    # Repetition alone is NOT enough because DHT11 may repeat naturally.
+    # It is only tracked for audit.
     if suspicious:
         return "Suspicious Behavior", "; ".join(reasons), 1, repeat_count
 
-    return "Normal Behavior", "Real sensor pattern is normal", 0, repeat_count
+    return "Normal Behavior", "Pattern is consistent with real physical sensor behavior", 0, repeat_count
 
 
 def get_vulnerability_risks(devices):
@@ -342,13 +340,10 @@ def get_vulnerability_risks(devices):
     for device in devices:
         if device.get("attack_status") == "Possible Cyber Attack":
             attack_count += 1
-
         if device.get("anomaly_status") == "Anomalous":
             anomaly_count += 1
-
         if device.get("behavior_status") == "Suspicious Behavior":
             suspicious_count += 1
-
         if device.get("isolation_status") == "Isolated":
             isolated_count += 1
 
@@ -413,6 +408,22 @@ def get_vulnerability_risks(devices):
         },
         {
             "id": "V6",
+            "vulnerability": "No malware protection on gateway",
+            "threat": "Malware on the gateway/laptop may manipulate sensor data",
+            "likelihood": values(2, 4, 5),
+            "impact": values(4, 5, 5),
+            "recommendation": "Add endpoint protection and restrict execution permissions"
+        },
+        {
+            "id": "V7",
+            "vulnerability": "No rate limiting",
+            "threat": "DDoS/flooding may overwhelm the API with fake readings",
+            "likelihood": values(2, 4, 5),
+            "impact": values(3, 4, 5),
+            "recommendation": "Add rate limiting and request throttling"
+        },
+        {
+            "id": "V8",
             "vulnerability": "No SOC isolation response",
             "threat": "Compromised sensor may remain trusted",
             "likelihood": values(1, 3, 5),
@@ -420,7 +431,7 @@ def get_vulnerability_risks(devices):
             "recommendation": "Allow SOC to isolate suspicious sensors"
         },
         {
-            "id": "V7",
+            "id": "V9",
             "vulnerability": "Isolated sensor detected",
             "threat": "Sensor removed from trusted monitoring",
             "likelihood": values(1, 1, 2, isolated=3),
@@ -448,7 +459,6 @@ def get_vulnerability_risks(devices):
 def get_vulnerability_percentage(vulnerability_risks):
     if not vulnerability_risks:
         return 0
-
     avg_score = sum(risk["score"] for risk in vulnerability_risks) / len(vulnerability_risks)
     return min(100, int((avg_score / 25) * 100))
 
@@ -494,25 +504,27 @@ def save_log(device, behavior, ml_prediction, anomaly_status, risk_score, risk_l
         ])
 
 
-def process_device_reading(device_index, behavior, simulated_attack=False):
+def process_device_reading(device_index, behavior, simulated_attack=False, attack_type="-", attack_reason="-"):
     devices = load_devices()
 
     if device_index < 0 or device_index >= len(devices):
         return False
 
-    if devices[device_index].get("isolation_status") == "Isolated":
-        return False
-
     device = devices[device_index]
 
-    ml_prediction = get_condition_prediction(behavior)
+    # If isolated, the real sensor should not overwrite SOC state.
+    if device.get("isolation_status") == "Isolated" and not simulated_attack:
+        return False
 
-    # We still call the model, but final anomaly decision is based on behavior or SOC attack simulation.
+    ml_prediction = get_condition_prediction(behavior)
     model_anomaly_status, model_anomaly_flag = get_anomaly_status(behavior)
 
     behavior_status, behavior_reason, behavior_anomaly_flag, repeat_count = analyze_sensor_behavior(device, behavior)
 
-    if simulated_attack:
+    # If already under attack, keep cyber state until SOC isolates/restores.
+    already_under_attack = device.get("attack_status") == "Possible Cyber Attack"
+
+    if simulated_attack or already_under_attack:
         anomaly_flag = 1
     elif behavior_anomaly_flag == 1:
         anomaly_flag = 1
@@ -529,7 +541,7 @@ def process_device_reading(device_index, behavior, simulated_attack=False):
 
     temp_devices = devices.copy()
     temp_devices[device_index]["anomaly_status"] = anomaly_status
-    temp_devices[device_index]["behavior_status"] = "Suspicious Behavior" if simulated_attack else behavior_status
+    temp_devices[device_index]["behavior_status"] = "Suspicious Behavior" if simulated_attack or already_under_attack else behavior_status
 
     vulnerability_risks = get_vulnerability_risks(temp_devices)
     vulnerability_percentage = get_vulnerability_percentage(vulnerability_risks)
@@ -543,6 +555,8 @@ def process_device_reading(device_index, behavior, simulated_attack=False):
 
     if simulated_attack:
         attack_status = "Possible Cyber Attack"
+    elif already_under_attack:
+        attack_status = "Possible Cyber Attack"
     elif anomaly_flag == 1 and vulnerability_percentage >= 60:
         attack_status = "Possible Cyber Attack"
     elif status == "Critical":
@@ -554,6 +568,22 @@ def process_device_reading(device_index, behavior, simulated_attack=False):
 
     isolation_status = device.get("isolation_status") or "Active"
     security_status = get_security_status(attack_status, anomaly_status, isolation_status)
+
+    if simulated_attack:
+        final_behavior_status = "Suspicious Behavior"
+        final_behavior_reason = attack_reason
+        final_attack_type = attack_type
+        final_attack_reason = attack_reason
+    elif already_under_attack:
+        final_behavior_status = "Suspicious Behavior"
+        final_behavior_reason = device.get("behavior_reason") or "Active cyber incident remains unresolved"
+        final_attack_type = device.get("attack_type") or "Active Cyber Incident"
+        final_attack_reason = device.get("attack_reason") or "Attack persists until SOC isolate/restore action"
+    else:
+        final_behavior_status = behavior_status
+        final_behavior_reason = behavior_reason
+        final_attack_type = "-"
+        final_attack_reason = "-"
 
     updated_data = {
         "temperature_c": behavior["temp_c"],
@@ -570,8 +600,10 @@ def process_device_reading(device_index, behavior, simulated_attack=False):
         "attack_status": attack_status,
         "security_status": security_status,
         "isolation_status": isolation_status,
-        "behavior_status": "Suspicious Behavior" if simulated_attack else behavior_status,
-        "behavior_reason": "Controlled SOC cyber-attack simulation" if simulated_attack else behavior_reason,
+        "behavior_status": final_behavior_status,
+        "behavior_reason": final_behavior_reason,
+        "attack_type": final_attack_type,
+        "attack_reason": final_attack_reason,
         "last_temperature": behavior["temp_c"],
         "last_humidity": behavior["humidity"],
         "repeat_count": repeat_count
@@ -601,32 +633,64 @@ def generate_attack_reading(current_device):
         previous_temp = 27.0
         previous_humidity = 50.0
 
-    attack_type = random.choice(["spoofing", "mitm_modification", "replay_like"])
+    attack_type = random.choice([
+        "Data Spoofing Attack",
+        "Man-in-the-Middle Modification",
+        "Replay Attack",
+        "DDoS / Flooding Attempt",
+        "Malware Data Manipulation",
+        "Sensor Identity Spoofing"
+    ])
 
-    if attack_type == "spoofing":
-        temp_c = round(previous_temp + random.uniform(12, 25), 2)
+    if attack_type == "Data Spoofing Attack":
+        temp_c = round(previous_temp + random.uniform(15, 25), 2)
         humidity = round(random.choice([random.uniform(5, 15), random.uniform(85, 99)]), 2)
-        object_temp = round(temp_c + random.uniform(12, 25), 2)
+        object_temp = round(temp_c + random.uniform(18, 30), 2)
+        reason = "Fake abnormal sensor values were injected into the system"
 
-    elif attack_type == "mitm_modification":
+    elif attack_type == "Man-in-the-Middle Modification":
         temp_c = round(random.uniform(-5, 5), 2)
         humidity = round(random.uniform(90, 99), 2)
         object_temp = round(random.uniform(35, 50), 2)
+        reason = "Readings were modified in transit and became inconsistent"
 
-    else:
+    elif attack_type == "Replay Attack":
         temp_c = previous_temp
         humidity = previous_humidity
         object_temp = previous_temp
+        reason = "Old valid readings were resent to hide the real current state"
+
+    elif attack_type == "DDoS / Flooding Attempt":
+        temp_c = round(previous_temp + random.uniform(-2, 2), 2)
+        humidity = round(previous_humidity + random.uniform(-3, 3), 2)
+        object_temp = round(temp_c, 2)
+        reason = "High-frequency fake requests attempted to overwhelm the monitoring API"
+
+    elif attack_type == "Malware Data Manipulation":
+        temp_c = round(random.uniform(0, 50), 2)
+        humidity = round(random.uniform(0, 100), 2)
+        object_temp = round(random.uniform(-10, 60), 2)
+        reason = "Gateway-side malware manipulated sensor values before submission"
+
+    else:
+        temp_c = round(previous_temp + random.uniform(10, 20), 2)
+        humidity = round(previous_humidity, 2)
+        object_temp = round(temp_c + random.uniform(15, 25), 2)
+        reason = "An unauthorized fake device attempted to impersonate the real ESP32 sensor"
 
     temp_fh = round((temp_c * 9 / 5) + 32, 2)
 
     return {
-        "serial_reading": random.randint(100, 5000),
-        "temp_c": temp_c,
-        "temp_fh": temp_fh,
-        "humidity": humidity,
-        "object_temp": object_temp,
-        "nw_cooling": random.choice([0, 1])
+        "attack_type": attack_type,
+        "attack_reason": reason,
+        "behavior": {
+            "serial_reading": random.randint(100, 5000),
+            "temp_c": temp_c,
+            "temp_fh": temp_fh,
+            "humidity": humidity,
+            "object_temp": object_temp,
+            "nw_cooling": random.choice([0, 1])
+        }
     }
 
 
@@ -713,8 +777,15 @@ def simulate_attack(device_index):
     if device_index < 0 or device_index >= len(devices):
         return redirect(url_for("soc_dashboard"))
 
-    behavior = generate_attack_reading(devices[device_index])
-    process_device_reading(device_index, behavior, simulated_attack=True)
+    attack = generate_attack_reading(devices[device_index])
+
+    process_device_reading(
+        device_index,
+        attack["behavior"],
+        simulated_attack=True,
+        attack_type=attack["attack_type"],
+        attack_reason=attack["attack_reason"]
+    )
 
     return redirect(url_for("soc_dashboard"))
 
@@ -730,6 +801,7 @@ def isolate_device(device_index):
         devices[device_index]["isolation_status"] = "Isolated"
         devices[device_index]["security_status"] = "Isolated"
         devices[device_index]["action"] = "Sensor Isolated by SOC"
+        devices[device_index]["attack_status"] = "Possible Cyber Attack"
 
     save_devices(devices)
 
@@ -746,6 +818,12 @@ def restore_device(device_index):
     if 0 <= device_index < len(devices):
         devices[device_index]["isolation_status"] = "Active"
         devices[device_index]["security_status"] = "Secure"
+        devices[device_index]["attack_status"] = "Normal Operation"
+        devices[device_index]["anomaly_status"] = "Normal Pattern"
+        devices[device_index]["behavior_status"] = "Normal Behavior"
+        devices[device_index]["behavior_reason"] = "Sensor restored after SOC validation"
+        devices[device_index]["attack_type"] = "-"
+        devices[device_index]["attack_reason"] = "-"
         devices[device_index]["action"] = "Sensor Restored by SOC"
 
     save_devices(devices)
@@ -790,7 +868,9 @@ def api_sensor_reading():
         "attack_status": device["attack_status"],
         "security_status": device["security_status"],
         "behavior_status": device["behavior_status"],
-        "behavior_reason": device["behavior_reason"]
+        "behavior_reason": device["behavior_reason"],
+        "attack_type": device["attack_type"],
+        "attack_reason": device["attack_reason"]
     }
 
 

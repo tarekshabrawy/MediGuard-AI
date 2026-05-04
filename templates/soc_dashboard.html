@@ -53,7 +53,8 @@
                 <div>
                     <h2>Cybersecurity Decision Center</h2>
                     <p>
-                        Real ESP32 readings are monitored continuously. The only simulation is controlled cyber-attack testing.
+                        Physical heating can cause environmental failure, while cyber incidents remain active
+                        until SOC isolates or restores the device.
                     </p>
                 </div>
             </div>
@@ -69,6 +70,8 @@
                         <th>Anomaly</th>
                         <th>Behavior</th>
                         <th>Behavior Reason</th>
+                        <th>Attack Type</th>
+                        <th>Attack Reason</th>
                         <th>Cyber Decision</th>
                         <th>Security</th>
                         <th>Isolation</th>
@@ -117,6 +120,8 @@
                         </td>
 
                         <td>{{ device.behavior_reason }}</td>
+                        <td>{{ device.attack_type }}</td>
+                        <td>{{ device.attack_reason }}</td>
 
                         <td>
                             {% if device.attack_status == "Possible Cyber Attack" %}
@@ -182,7 +187,8 @@
                 <div>
                     <h2>Cybersecurity Vulnerability Risk Matrix</h2>
                     <p>
-                        This matrix focuses on authentication, encryption, integrity, replay protection, validation, and SOC response.
+                        The matrix focuses on authentication, encryption, integrity, replay protection,
+                        malware, DDoS, validation, and SOC response.
                     </p>
                 </div>
             </div>
