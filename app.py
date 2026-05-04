@@ -204,72 +204,67 @@ def get_dashboard_stats(devices):
 
 def calculate_environmental_result(behavior, ml_prediction, anomaly_flag):
     """
-    Room monitoring ranges, not freezer ranges.
+    Room temperature monitoring ranges.
 
-    Normal room:
-    - Temperature: 20 to 30 C
-    - Humidity: 30% to 70%
+    Normal room temperature:
+    20°C - 30°C
 
     Warning:
-    - Mildly abnormal temperature/humidity
+    31°C - 37.9°C
 
     Critical:
-    - Very high temp, very low/high humidity, cooling failure, or dangerous ML result
+    38°C and above
+
+    Heating the sensor to 40+ should show Critical / Environmental Failure.
     """
-    risk_score = 0
 
     temp = behavior["temp_c"]
     humidity = behavior["humidity"]
-    object_temp = behavior["object_temp"]
-    cooling = behavior["nw_cooling"]
 
-    # Room temperature risk
+    risk_score = 0
+
+    # Temperature risk
     if 20 <= temp <= 30:
-        risk_score += 5
+        risk_score += 10
+    elif 30 < temp < 38:
+        risk_score += 45
+    elif temp >= 38:
+        risk_score += 75
     elif 15 <= temp < 20:
-        risk_score += 20
-    elif 30 < temp <= 35:
-        risk_score += 30
-    elif 35 < temp <= 40:
-        risk_score += 55
+        risk_score += 35
     else:
-        risk_score += 70
+        risk_score += 60
 
-    # Room humidity risk
+    # Humidity risk
     if 30 <= humidity <= 70:
         risk_score += 5
+    elif 70 < humidity <= 80:
+        risk_score += 15
+    elif humidity > 80:
+        risk_score += 25
     elif 20 <= humidity < 30:
         risk_score += 15
-    elif 70 < humidity <= 80:
-        risk_score += 20
-    elif humidity < 20 or humidity > 80:
-        risk_score += 35
-
-    # Object-temp mismatch
-    if abs(object_temp - temp) > 5:
-        risk_score += 15
-
-    # Cooling / device error
-    if cooling == 1:
-        risk_score += 15
+    else:
+        risk_score += 25
 
     # ML support
     if ml_prediction == 1:
-        risk_score += 10
+        risk_score += 5
 
-    # Anomaly increases risk slightly, but cyber decision is separate
+    # Anomaly affects cyber side more, but still increases general risk slightly
     if anomaly_flag == 1:
-        risk_score += 10
+        risk_score += 5
 
     risk_score = min(risk_score, 100)
 
-    if risk_score < 30:
-        return "Normal", "Low", "Continue Monitoring", risk_score
-    elif risk_score < 70:
-        return "Warning", "Medium", "Check Room Conditions", risk_score
-    else:
+    if temp >= 38 or risk_score >= 70:
         return "Critical", "High", "Immediate Environmental Check Required", risk_score
 
+    elif temp > 30 or risk_score >= 30:
+        return "Warning", "Medium", "Check Room Conditions", risk_score
+
+    else:
+        return "Normal", "Low", "Continue Monitoring", risk_score
 
 # =========================
 # AI Features
