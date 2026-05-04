@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="refresh" content="5">
     <title>SOC Dashboard - MediGuard AI</title>
+    <meta http-equiv="refresh" content="5">
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
@@ -53,7 +53,7 @@
                 <div>
                     <h2>Cybersecurity Decision Center</h2>
                     <p>
-                        Real sensor readings are received from ESP32. The only simulation here is controlled cyber-attack testing.
+                        Real ESP32 readings are monitored continuously. The only simulation is controlled cyber-attack testing.
                     </p>
                 </div>
             </div>
@@ -65,10 +65,10 @@
                         <th>Temp</th>
                         <th>Humidity</th>
                         <th>Environment</th>
-                        <th>Risk</th>
+                        <th>Env Reason</th>
                         <th>Anomaly</th>
                         <th>Behavior</th>
-                        <th>Reason</th>
+                        <th>Behavior Reason</th>
                         <th>Cyber Decision</th>
                         <th>Security</th>
                         <th>Isolation</th>
@@ -94,17 +94,7 @@
                             {% endif %}
                         </td>
 
-                        <td>
-                            {% if device.risk_level == "Low" %}
-                                <span class="badge green">{{ device.risk_score }}%</span>
-                            {% elif device.risk_level == "Medium" %}
-                                <span class="badge yellow">{{ device.risk_score }}%</span>
-                            {% elif device.risk_level == "High" %}
-                                <span class="badge red">{{ device.risk_score }}%</span>
-                            {% else %}
-                                <span class="badge gray">0%</span>
-                            {% endif %}
-                        </td>
+                        <td>{{ device.environment_reason }}</td>
 
                         <td>
                             {% if device.anomaly_status == "Anomalous" %}
@@ -192,7 +182,7 @@
                 <div>
                     <h2>Cybersecurity Vulnerability Risk Matrix</h2>
                     <p>
-                        This matrix focuses on cybersecurity behavior, anomalies, possible attacks, and SOC response.
+                        This matrix focuses on authentication, encryption, integrity, replay protection, validation, and SOC response.
                     </p>
                 </div>
             </div>

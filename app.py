@@ -16,10 +16,6 @@ DEVICES_FILE = "data/devices.csv"
 LOG_FILE = "logs.csv"
 
 
-# =========================
-# Login Helpers
-# =========================
-
 def require_login(role=None):
     if "role" not in session:
         return False
@@ -27,10 +23,6 @@ def require_login(role=None):
         return False
     return True
 
-
-# =========================
-# CSV Helpers
-# =========================
 
 def get_fieldnames():
     return [
@@ -61,6 +53,7 @@ def create_default_sensor():
         "risk_score": 0,
         "risk_level": "-",
         "action": "-",
+        "environment_reason": "-",
         "ml_prediction": "-",
         "anomaly_status": "-",
         "attack_status": "-",
@@ -80,11 +73,6 @@ def create_default_sensor():
 
 
 def ensure_single_sensor():
-    """
-    Final project version:
-    only one real ESP32 sensor is used.
-    If old project has many sensors, we keep the first one and remove the rest.
-    """
     if not os.path.exists(DEVICES_FILE):
         create_default_sensor()
         return
@@ -136,6 +124,7 @@ def load_devices():
                 "risk_score": int(float(row.get("risk_score") or 0)),
                 "risk_level": row.get("risk_level") or "-",
                 "action": row.get("action") or "-",
+                "environment_reason": row.get("environment_reason") or "-",
                 "ml_prediction": row.get("ml_prediction") or "-",
                 "anomaly_status": row.get("anomaly_status") or "-",
                 "attack_status": row.get("attack_status") or "-",
@@ -172,10 +161,6 @@ def update_device_readings(device_index, updated_data):
     save_devices(devices)
 
 
-# =========================
-# Statistics
-# =========================
-
 def get_dashboard_stats(devices):
     total = len(devices)
     normal = sum(1 for d in devices if d.get("status") == "Normal")
@@ -199,77 +184,79 @@ def get_dashboard_stats(devices):
     }
 
 
-# =========================
-# Realistic Room Risk Logic
-# =========================
-
 def calculate_environmental_result(behavior, ml_prediction, anomaly_flag):
     """
-    Room temperature monitoring ranges.
+    Room monitoring logic.
 
-    Normal room temperature:
-    20°C - 30°C
+    Temperature:
+    Normal   = 20°C to 30°C
+    Warning  = 30°C to 37.9°C
+    Critical = 38°C+
 
-    Warning:
-    31°C - 37.9°C
-
-    Critical:
-    38°C and above
-
-    Heating the sensor to 40+ should show Critical / Environmental Failure.
+    Humidity:
+    Normal   = 30% to 70%
+    Warning  = 20% to 29% OR 71% to 80%
+    Critical = below 20% OR above 80%
     """
 
     temp = behavior["temp_c"]
     humidity = behavior["humidity"]
 
     risk_score = 0
+    reasons = []
 
-    # Temperature risk
     if 20 <= temp <= 30:
         risk_score += 10
+        reasons.append("Temperature is within normal room range")
     elif 30 < temp < 38:
         risk_score += 45
+        reasons.append("Temperature is above normal room range")
     elif temp >= 38:
         risk_score += 75
+        reasons.append("Temperature is critically high")
     elif 15 <= temp < 20:
         risk_score += 35
+        reasons.append("Temperature is lower than normal room range")
     else:
         risk_score += 60
+        reasons.append("Temperature is critically abnormal")
 
-    # Humidity risk
     if 30 <= humidity <= 70:
         risk_score += 5
-    elif 70 < humidity <= 80:
-        risk_score += 15
-    elif humidity > 80:
-        risk_score += 25
+        reasons.append("Humidity is within normal room range")
     elif 20 <= humidity < 30:
-        risk_score += 15
+        risk_score += 20
+        reasons.append("Humidity is lower than normal")
+    elif 70 < humidity <= 80:
+        risk_score += 20
+        reasons.append("Humidity is higher than normal")
+    elif humidity < 20:
+        risk_score += 40
+        reasons.append("Humidity is critically low")
     else:
-        risk_score += 25
+        risk_score += 40
+        reasons.append("Humidity is critically high")
 
-    # ML support
     if ml_prediction == 1:
         risk_score += 5
+        reasons.append("Condition model detected risky reading")
 
-    # Anomaly affects cyber side more, but still increases general risk slightly
     if anomaly_flag == 1:
         risk_score += 5
+        reasons.append("Suspicious data behavior detected")
 
     risk_score = min(risk_score, 100)
+    reason_text = "; ".join(reasons)
 
-    if temp >= 38 or risk_score >= 70:
-        return "Critical", "High", "Immediate Environmental Check Required", risk_score
+    if temp >= 38 or humidity < 20 or humidity > 80 or risk_score >= 70:
+        return "Critical", "High", "Immediate Environmental Check Required", risk_score, reason_text
 
-    elif temp > 30 or risk_score >= 30:
-        return "Warning", "Medium", "Check Room Conditions", risk_score
+    elif temp > 30 or temp < 20 or humidity < 30 or humidity > 70 or risk_score >= 30:
+        return "Warning", "Medium", "Check Room Conditions", risk_score, reason_text
 
     else:
-        return "Normal", "Low", "Continue Monitoring", risk_score
+        return "Normal", "Low", "Continue Monitoring", risk_score, reason_text
 
-# =========================
-# AI Features
-# =========================
 
 def make_features(behavior):
     return [[
@@ -300,10 +287,6 @@ def get_attack_model_decision(environmental_risk, vulnerability_score, anomaly_f
     return attack_model.predict(features)[0]
 
 
-# =========================
-# Behavior Analysis
-# =========================
-
 def analyze_sensor_behavior(device, behavior):
     reasons = []
     suspicious = False
@@ -321,23 +304,22 @@ def analyze_sensor_behavior(device, behavior):
 
     repeat_count = int(device.get("repeat_count") or 0)
 
+    # Real DHT readings can repeat naturally. Repetition alone is NOT a cyber attack.
     if last_temp is not None:
         temp_jump = abs(current_temp - last_temp)
-
-        if temp_jump >= 10:
+        if temp_jump >= 18:
             suspicious = True
-            reasons.append("Sudden unrealistic temperature jump")
+            reasons.append("Very large sudden temperature jump")
 
     if last_humidity is not None:
         humidity_jump = abs(current_humidity - last_humidity)
-
-        if humidity_jump >= 35:
+        if humidity_jump >= 50:
             suspicious = True
-            reasons.append("Sudden unrealistic humidity jump")
+            reasons.append("Very large sudden humidity jump")
 
-    if abs(object_temp - current_temp) >= 10:
+    if abs(object_temp - current_temp) >= 15:
         suspicious = True
-        reasons.append("Object temperature does not match sensor temperature")
+        reasons.append("Impossible sensor/object temperature mismatch")
 
     if last_temp is not None and last_humidity is not None:
         if current_temp == last_temp and current_humidity == last_humidity:
@@ -345,19 +327,11 @@ def analyze_sensor_behavior(device, behavior):
         else:
             repeat_count = 0
 
-    if repeat_count >= 4:
-        suspicious = True
-        reasons.append("Repeated identical readings detected - possible replay attack")
-
     if suspicious:
         return "Suspicious Behavior", "; ".join(reasons), 1, repeat_count
 
-    return "Normal Behavior", "Reading pattern is consistent", 0, repeat_count
+    return "Normal Behavior", "Real sensor pattern is normal", 0, repeat_count
 
-
-# =========================
-# Cyber Risk Matrix
-# =========================
 
 def get_vulnerability_risks(devices):
     attack_count = 0
@@ -378,82 +352,84 @@ def get_vulnerability_risks(devices):
         if device.get("isolation_status") == "Isolated":
             isolated_count += 1
 
-    base_likelihood = 1
-    base_impact = 2
-
     if attack_count > 0:
-        base_likelihood = 5
-        base_impact = 5
+        mode = "attack"
     elif anomaly_count > 0 or suspicious_count > 0:
-        base_likelihood = 4
-        base_impact = 4
+        mode = "suspicious"
     elif isolated_count > 0:
-        base_likelihood = 2
-        base_impact = 3
+        mode = "isolated"
+    else:
+        mode = "normal"
+
+    def values(normal, suspicious, attack, isolated=None):
+        if mode == "attack":
+            return attack
+        if mode == "suspicious":
+            return suspicious
+        if mode == "isolated" and isolated:
+            return isolated
+        return normal
 
     vulnerabilities = [
         {
             "id": "V1",
             "vulnerability": "No device authentication",
             "threat": "Fake ESP32/sensor may send false readings",
-            "likelihood": base_likelihood + (1 if attack_count else 0),
-            "impact": base_impact + (1 if attack_count else 0),
+            "likelihood": values(2, 4, 5),
+            "impact": values(4, 5, 5),
             "recommendation": "Use API token or device secret for each sensor"
         },
         {
             "id": "V2",
             "vulnerability": "Unencrypted communication",
-            "threat": "Man-in-the-middle may read or modify readings",
-            "likelihood": base_likelihood + (1 if anomaly_count else 0),
-            "impact": base_impact + (1 if attack_count else 0),
+            "threat": "Man-in-the-middle may modify readings",
+            "likelihood": values(2, 4, 5),
+            "impact": values(4, 5, 5),
             "recommendation": "Use HTTPS/TLS or MQTT over TLS"
         },
         {
             "id": "V3",
             "vulnerability": "No message integrity check",
             "threat": "Sensor data may be changed in transit",
-            "likelihood": base_likelihood + (1 if suspicious_count else 0),
-            "impact": base_impact + (1 if attack_count else 0),
+            "likelihood": values(2, 4, 5),
+            "impact": values(4, 5, 5),
             "recommendation": "Add HMAC/signature for every reading"
         },
         {
             "id": "V4",
             "vulnerability": "No replay protection",
             "threat": "Old valid readings may be resent",
-            "likelihood": base_likelihood + (1 if suspicious_count else 0),
-            "impact": base_impact,
+            "likelihood": values(2, 3, 5),
+            "impact": values(3, 4, 5),
             "recommendation": "Add timestamp, nonce, and last-seen validation"
         },
         {
             "id": "V5",
             "vulnerability": "No input validation",
             "threat": "Impossible values can affect decisions",
-            "likelihood": base_likelihood + (1 if anomaly_count else 0),
-            "impact": base_impact,
+            "likelihood": values(2, 4, 5),
+            "impact": values(3, 4, 5),
             "recommendation": "Validate ranges, sensor ID, and payload format"
         },
         {
             "id": "V6",
-            "vulnerability": "SOC response required",
-            "threat": "Attack may continue if sensor remains trusted",
-            "likelihood": 3 if attack_count else 1,
-            "impact": 5 if attack_count else 2,
-            "recommendation": "Isolate suspicious sensor until inspected"
+            "vulnerability": "No SOC isolation response",
+            "threat": "Compromised sensor may remain trusted",
+            "likelihood": values(1, 3, 5),
+            "impact": values(3, 4, 5),
+            "recommendation": "Allow SOC to isolate suspicious sensors"
         },
         {
             "id": "V7",
             "vulnerability": "Isolated sensor detected",
             "threat": "Sensor removed from trusted monitoring",
-            "likelihood": 3 if isolated_count else 1,
-            "impact": 4 if isolated_count else 2,
+            "likelihood": values(1, 1, 2, isolated=3),
+            "impact": values(2, 2, 3, isolated=4),
             "recommendation": "Inspect and restore only after validation"
         }
     ]
 
     for item in vulnerabilities:
-        item["likelihood"] = min(item["likelihood"], 5)
-        item["impact"] = min(item["impact"], 5)
-
         score = item["likelihood"] * item["impact"]
         item["score"] = score
 
@@ -487,10 +463,6 @@ def get_security_status(attack_status, anomaly_status, isolation_status):
     return "Secure"
 
 
-# =========================
-# Logs
-# =========================
-
 def save_log(device, behavior, ml_prediction, anomaly_status, risk_score, risk_level, action, attack_status):
     file_exists = os.path.exists(LOG_FILE)
 
@@ -522,10 +494,6 @@ def save_log(device, behavior, ml_prediction, anomaly_status, risk_score, risk_l
         ])
 
 
-# =========================
-# Reading Processor
-# =========================
-
 def process_device_reading(device_index, behavior, simulated_attack=False):
     devices = load_devices()
 
@@ -538,14 +506,22 @@ def process_device_reading(device_index, behavior, simulated_attack=False):
     device = devices[device_index]
 
     ml_prediction = get_condition_prediction(behavior)
+
+    # We still call the model, but final anomaly decision is based on behavior or SOC attack simulation.
     model_anomaly_status, model_anomaly_flag = get_anomaly_status(behavior)
 
     behavior_status, behavior_reason, behavior_anomaly_flag, repeat_count = analyze_sensor_behavior(device, behavior)
 
-    anomaly_flag = 1 if model_anomaly_flag == 1 or behavior_anomaly_flag == 1 or simulated_attack else 0
+    if simulated_attack:
+        anomaly_flag = 1
+    elif behavior_anomaly_flag == 1:
+        anomaly_flag = 1
+    else:
+        anomaly_flag = 0
+
     anomaly_status = "Anomalous" if anomaly_flag else "Normal Pattern"
 
-    status, risk_level, action, risk_score = calculate_environmental_result(
+    status, risk_level, action, risk_score, environment_reason = calculate_environmental_result(
         behavior,
         ml_prediction,
         anomaly_flag
@@ -553,7 +529,7 @@ def process_device_reading(device_index, behavior, simulated_attack=False):
 
     temp_devices = devices.copy()
     temp_devices[device_index]["anomaly_status"] = anomaly_status
-    temp_devices[device_index]["behavior_status"] = behavior_status
+    temp_devices[device_index]["behavior_status"] = "Suspicious Behavior" if simulated_attack else behavior_status
 
     vulnerability_risks = get_vulnerability_risks(temp_devices)
     vulnerability_percentage = get_vulnerability_percentage(vulnerability_risks)
@@ -565,7 +541,9 @@ def process_device_reading(device_index, behavior, simulated_attack=False):
         ml_prediction
     )
 
-    if simulated_attack or (anomaly_flag == 1 and vulnerability_percentage >= 35):
+    if simulated_attack:
+        attack_status = "Possible Cyber Attack"
+    elif anomaly_flag == 1 and vulnerability_percentage >= 60:
         attack_status = "Possible Cyber Attack"
     elif status == "Critical":
         attack_status = "Environmental Failure"
@@ -586,6 +564,7 @@ def process_device_reading(device_index, behavior, simulated_attack=False):
         "risk_score": risk_score,
         "risk_level": risk_level,
         "action": action,
+        "environment_reason": environment_reason,
         "ml_prediction": ml_prediction,
         "anomaly_status": anomaly_status,
         "attack_status": attack_status,
@@ -614,15 +593,7 @@ def process_device_reading(device_index, behavior, simulated_attack=False):
     return True
 
 
-# =========================
-# Attack Simulation Only
-# =========================
-
 def generate_attack_reading(current_device):
-    """
-    Only cyber simulation left.
-    This simulates suspicious manipulated data, not physical heating.
-    """
     try:
         previous_temp = float(current_device.get("temperature_c"))
         previous_humidity = float(current_device.get("humidity"))
@@ -658,10 +629,6 @@ def generate_attack_reading(current_device):
         "nw_cooling": random.choice([0, 1])
     }
 
-
-# =========================
-# Routes
-# =========================
 
 @app.route("/")
 def welcome():
@@ -819,6 +786,7 @@ def api_sensor_reading():
         "humidity": device["humidity"],
         "status": device["status"],
         "risk_score": device["risk_score"],
+        "environment_reason": device["environment_reason"],
         "attack_status": device["attack_status"],
         "security_status": device["security_status"],
         "behavior_status": device["behavior_status"],

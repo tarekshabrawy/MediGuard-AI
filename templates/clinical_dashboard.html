@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="refresh" content="5">
     <title>Doctor Dashboard - MediGuard AI</title>
+    <meta http-equiv="refresh" content="5">
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
@@ -66,6 +66,7 @@
                         <th>Status</th>
                         <th>Risk</th>
                         <th>Medical Action</th>
+                        <th>Reason</th>
                         <th>Isolation</th>
                     </tr>
 
@@ -101,6 +102,7 @@
                         </td>
 
                         <td>{{ device.action }}</td>
+                        <td>{{ device.environment_reason }}</td>
 
                         <td>
                             {% if device.isolation_status == "Isolated" %}
@@ -116,7 +118,7 @@
         </section>
 
         <div class="note">
-            Normal room range is approximately 20–30°C. Heating the sensor should create an environmental warning or failure, not a cyber attack.
+            Normal room range: 20–30°C and 30–70% humidity. Heating the sensor should create an environmental warning/failure, not a cyber attack.
         </div>
 
     </main>
