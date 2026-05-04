@@ -436,3 +436,289 @@ time,device_name,device_type,status,risk_level,action
 2026-05-01 01:08:06,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,3.03,54.96,2.82,Normal,0,Anomalous,20,Low,Continue Monitoring,Suspicious Behavior
 2026-05-01 01:08:07,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,5.03,47.13,5.12,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
 2026-05-01 01:08:07,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,5.63,57.57,5.51,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-01 02:00:28,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,6.27,40.71,6.02,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-01 02:00:29,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,3.07,52.4,2.96,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-01 02:00:30,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,9.24,69.2,10.02,Normal,0,Normal Pattern,19,Low,Continue Monitoring,Normal Operation
+2026-05-01 02:00:30,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,8.77,75.18,8.55,Normal,0,Anomalous,40,Medium,Alert Admin,Suspicious Behavior
+2026-05-01 02:00:31,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,8.37,65.42,9.29,Normal,0,Normal Pattern,9,Low,Continue Monitoring,Normal Operation
+2026-05-01 02:00:32,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,15.91,79.22,18.54,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-01 02:00:34,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,12.8,94.84,13.56,Normal,1,Anomalous,97,High,Immediate Action Required,Possible Cyber Attack
+2026-05-01 02:00:35,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,22.92,78.79,23.88,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-01 02:00:45,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,6.12,40.9,6.04,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-01 02:05:29,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,4.38,54.79,4.29,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-01 02:05:29,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,2.47,43.43,2.4,Normal,0,Anomalous,20,Low,Continue Monitoring,Normal Operation
+2026-05-01 02:05:30,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,6.01,40.76,6.19,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-01 02:05:33,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,7.63,57.9,7.4,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-01 02:07:15,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,14.53,71.83,15.71,Failure,1,Anomalous,97,High,Immediate Action Required,Environmental Failure
+2026-05-01 02:07:16,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,26.82,70.69,28.85,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-01 02:07:16,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,21.17,80.12,23.59,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-01 02:07:17,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,21.82,83.89,23.25,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-01 02:07:18,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,24.48,90.93,26.8,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-01 02:07:20,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,9.69,57.68,10.16,Normal,0,Normal Pattern,16,Low,Continue Monitoring,Normal Operation
+2026-05-01 02:07:21,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,7.63,57.87,7.63,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-01 02:07:22,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,6.38,47.19,6.21,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-01 02:07:22,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,10.73,71.03,11.47,Normal,0,Normal Pattern,33,Medium,Alert Admin,Suspicious Behavior
+2026-05-01 02:07:22,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,26.89,80.75,29.32,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-01 02:07:23,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,6.17,44.74,5.97,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-01 02:07:39,pill refregerator ,temperature_sensor,room 2005,Medicines,10.01,70.96,9.86,Normal,0,Normal Pattern,28,Low,Continue Monitoring,Normal Operation
+2026-05-01 02:07:40,pill refregerator ,temperature_sensor,room 2005,Medicines,25.18,97.47,25.86,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-01 02:07:41,pill refregerator ,temperature_sensor,room 2005,Medicines,2.46,51.31,2.4,Normal,0,Anomalous,20,Low,Continue Monitoring,Suspicious Behavior
+2026-05-04 01:43:14,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,2.99,56.72,2.92,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:16,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,4.85,41.63,4.63,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:17,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,3.03,40.81,2.98,Normal,0,Anomalous,20,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-04 01:43:20,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,12.06,57.53,12.31,Normal,0,Normal Pattern,40,Medium,Alert Admin,Suspicious Behavior
+2026-05-04 01:43:21,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,10.33,66.99,11.26,Normal,0,Normal Pattern,25,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:22,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,8.24,58.26,8.55,Normal,0,Normal Pattern,6,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:23,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,11.48,61.94,12.1,Normal,0,Normal Pattern,26,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:23,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,12.87,67.46,13.53,Normal,1,Anomalous,66,Medium,Alert Admin,Possible Cyber Attack
+2026-05-04 01:43:24,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,7.95,68.52,8.06,Normal,0,Normal Pattern,16,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:26,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,11.2,56.28,12.16,Normal,0,Normal Pattern,27,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:27,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,10.26,55.71,10.01,Normal,0,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:28,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,8.67,59.26,8.59,Normal,0,Normal Pattern,9,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:30,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,10.13,75.03,10.71,Normal,0,Normal Pattern,39,Medium,Alert Admin,Suspicious Behavior
+2026-05-04 01:43:31,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,12.86,72.33,12.63,Normal,1,Anomalous,73,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:31,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,8.51,64.07,8.44,Normal,0,Normal Pattern,8,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:32,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,11.94,73.52,12.73,Normal,0,Anomalous,54,Medium,Alert Admin,Possible Cyber Attack
+2026-05-04 01:43:33,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,11.64,77.58,12.3,Normal,0,Anomalous,62,Medium,Alert Admin,Possible Cyber Attack
+2026-05-04 01:43:33,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,12.32,62.6,12.65,Normal,0,Normal Pattern,38,Medium,Alert Admin,Suspicious Behavior
+2026-05-04 01:43:35,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,12.29,76.72,12.88,Normal,0,Anomalous,71,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:37,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,10.54,62.71,10.22,Normal,0,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:37,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,8.82,75.5,9.66,Normal,0,Normal Pattern,30,Medium,Alert Admin,Suspicious Behavior
+2026-05-04 01:43:45,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,2.66,57.7,2.53,Normal,0,Anomalous,20,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-04 01:43:46,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,11.24,59.64,11.54,Normal,0,Normal Pattern,27,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:47,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,23.47,95.12,25.06,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:48,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,20.82,82.55,23.08,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:48,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,26.25,91.04,28.99,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:49,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,22.11,77.32,23.37,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:49,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,23.07,92.88,23.68,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:49,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,16.31,94.42,18.63,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:49,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,12.44,85.64,14.61,Normal,0,Anomalous,89,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:49,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,25.25,88.33,26.49,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:50,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,24.71,91.45,26.84,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:50,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,15.61,94.32,17.22,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:50,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,26.47,79.66,28.63,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:50,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,14.57,80.06,16.1,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:50,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,26.48,88.82,29.1,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:51,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,24.67,73.31,26.77,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:51,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,22.85,83.21,25.29,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:51,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,14.46,87.63,16.11,Normal,1,Anomalous,97,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:51,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,24.7,78.42,25.32,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:51,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,22.5,74.01,23.74,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:51,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,17.5,82.23,18.24,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:52,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,16.82,84.47,17.83,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:43:54,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,9.68,56.75,10.16,Normal,0,Normal Pattern,16,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:54,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,11.59,69.24,12.27,Normal,0,Normal Pattern,37,Medium,Alert Admin,Suspicious Behavior
+2026-05-04 01:43:55,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,8.0,58.28,8.33,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:56,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,10.26,76.53,9.87,Normal,0,Normal Pattern,41,Medium,Alert Admin,Suspicious Behavior
+2026-05-04 01:43:56,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,10.06,73.04,10.01,Normal,0,Normal Pattern,30,Medium,Alert Admin,Suspicious Behavior
+2026-05-04 01:43:56,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,9.48,63.49,9.36,Normal,0,Normal Pattern,14,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:57,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,9.42,57.78,9.62,Normal,0,Normal Pattern,14,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:57,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,8.57,64.26,8.75,Normal,0,Normal Pattern,8,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:57,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,10.04,65.75,10.82,Normal,0,Normal Pattern,21,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:57,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,8.43,55.16,8.99,Normal,0,Normal Pattern,8,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:58,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,12.22,56.19,12.04,Normal,0,Anomalous,50,Medium,Alert Admin,Possible Cyber Attack
+2026-05-04 01:43:58,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,8.29,72.0,8.82,Normal,0,Normal Pattern,17,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:58,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,7.78,69.6,8.0,Normal,0,Normal Pattern,17,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:59,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,11.17,69.29,11.98,Normal,0,Normal Pattern,34,Medium,Alert Admin,Suspicious Behavior
+2026-05-04 01:43:59,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,10.04,62.12,10.24,Normal,0,Normal Pattern,16,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:43:59,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,10.95,65.41,11.04,Normal,0,Normal Pattern,27,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:44:00,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,12.29,69.26,13.04,Normal,0,Anomalous,57,Medium,Alert Admin,Possible Cyber Attack
+2026-05-04 01:44:03,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,8.69,58.65,8.8,Normal,0,Normal Pattern,9,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:44:03,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,10.05,62.7,10.53,Normal,0,Normal Pattern,17,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:44:03,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,9.24,72.71,10.1,Normal,0,Normal Pattern,24,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:44:03,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,8.21,67.23,8.62,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:44:03,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,9.73,62.9,10.66,Normal,0,Normal Pattern,15,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:44:04,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,8.59,55.17,8.27,Normal,0,Normal Pattern,9,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:44:04,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,9.3,76.93,9.26,Normal,0,Normal Pattern,35,Medium,Alert Admin,Suspicious Behavior
+2026-05-04 01:44:04,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,12.6,62.07,12.56,Normal,0,Anomalous,48,Medium,Alert Admin,Possible Cyber Attack
+2026-05-04 01:44:04,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,8.51,63.5,9.31,Normal,0,Normal Pattern,7,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:44:04,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,7.84,55.69,7.85,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:44:04,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,9.19,74.69,8.84,Normal,0,Normal Pattern,27,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:44:05,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,12.42,72.4,12.74,Normal,0,Anomalous,62,Medium,Alert Admin,Possible Cyber Attack
+2026-05-04 01:44:05,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,10.99,64.69,11.79,Normal,0,Normal Pattern,26,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:44:05,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,8.03,59.03,8.67,Normal,0,Normal Pattern,5,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:44:06,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,10.61,63.11,11.46,Normal,0,Normal Pattern,22,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:44:06,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,11.45,67.52,12.33,Normal,0,Normal Pattern,33,Medium,Alert Admin,Suspicious Behavior
+2026-05-04 01:44:33,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,26.57,37.91,2.28,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:44:36,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,7.81,51.93,7.92,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:44:43,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,29.07,37.25,8.42,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:45:49,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,5.39,46.22,5.48,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:45:49,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,6.67,59.83,6.67,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:45:50,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,7.61,53.95,7.38,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:45:51,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,3.16,53.91,3.43,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:46:07,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,22.49,62.33,6.96,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:46:28,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,29.6,81.52,20.71,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:46:32,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,6.6,52.72,6.44,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:46:34,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,4.45,52.25,4.21,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:46:46,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,30.59,17.09,13.52,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:46:47,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,24.53,56.87,13.1,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:46:47,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,29.45,15.0,36.62,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:46:48,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,30.9,88.53,39.02,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:46:49,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,22.14,54.08,33.26,Normal,1,Anomalous,95,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 01:47:10,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,4.15,47.17,4.31,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:47:11,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,3.19,48.45,3.29,Normal,0,Anomalous,20,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-04 01:47:29,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,4.26,40.53,4.05,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:47:30,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,4.85,43.75,4.94,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:47:30,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,4.88,41.96,4.76,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 01:47:30,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,7.31,56.2,7.1,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:08:01,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,19.99,79.14,20.2,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:08:05,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,18.35,89.6,18.53,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:08:09,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,23.19,71.64,22.78,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:08:12,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,18.92,78.22,19.14,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:08:13,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,18.55,81.44,18.14,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:08:36,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,22.82,87.95,41.08,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:08:37,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,26.26,91.21,27.12,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:08:40,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,27.62,76.76,-3.56,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:08:42,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,33.34,52.05,-4.85,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:08:43,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,28.54,83.08,26.65,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:08:46,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,25.04,77.03,25.66,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:08:46,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,23.85,74.41,24.06,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:08:47,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,27.99,84.19,28.09,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:09:20,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,19.64,84.95,19.9,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:09:21,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,21.29,88.8,21.8,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:09:28,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,28.18,97.52,-6.28,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:09:28,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,25.5,65.12,-5.61,Normal,1,Anomalous,96,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:09:30,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,32.81,85.29,36.67,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:09:30,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,33.96,42.45,39.46,Normal,1,Anomalous,95,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:09:31,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,22.77,89.6,-2.63,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:09:33,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,21.04,85.46,20.66,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:09:34,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,24.68,77.35,24.57,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:09:35,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,22.69,82.81,23.38,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:09:35,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,21.23,82.89,21.9,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:09:36,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,23.17,71.29,23.96,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:24:52,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,24.15,70.84,24.62,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:24:53,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,21.8,81.88,22.17,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:24:54,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,23.1,78.41,23.63,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:24:54,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,20.05,75.25,20.34,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:24:55,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,18.03,73.93,18.54,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:24:56,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,25.9,79.15,26.69,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:24:57,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,22.13,60.5,36.32,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:24:59,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,33.4,34.62,4.99,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:25:01,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,22.3,33.91,36.67,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:25:06,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,33.86,6.61,42.53,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:25:07,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,29.43,22.2,38.94,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:25:08,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,26.33,97.0,32.68,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:25:10,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,33.56,6.66,30.19,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:25:11,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,26.86,81.54,27.18,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:25:12,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,26.53,85.16,27.0,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:25:13,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,26.11,73.19,26.68,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:25:15,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,26.48,78.02,26.45,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:25:15,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,20.24,77.03,19.97,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:25:17,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,27.47,89.61,27.33,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:25:18,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,19.38,87.39,18.93,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:25:18,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,26.76,87.41,26.58,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:25:19,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,27.78,86.67,27.68,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:25:20,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,22.76,70.04,23.51,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:25:21,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,6.0,52.85,5.9,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:25:21,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,7.91,49.89,8.13,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:25:22,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,5.57,53.86,5.41,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:25:23,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,5.73,45.52,5.78,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:25:25,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,4.35,47.0,4.4,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:25:35,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,27.39,7.49,31.41,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:25:36,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,31.19,7.89,35.67,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:25:38,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,32.57,20.59,12.9,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:25:40,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,27.98,31.23,9.03,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:25:42,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,34.65,10.35,21.37,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:25:55,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,23.48,77.87,24.22,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:25:56,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,22.59,82.36,22.17,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:25:56,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,23.17,87.63,23.93,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:27:11,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,4.51,55.73,4.45,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:27:11,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,6.78,45.04,6.57,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:27:12,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,7.35,43.21,7.08,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:27:12,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,5.77,47.72,5.53,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:27:12,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,4.88,53.24,4.7,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:28:05,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,26.37,82.38,26.18,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:28:06,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,27.95,86.79,28.32,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:28:07,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,22.98,85.28,23.46,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:28:09,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,25.1,86.56,24.81,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:28:10,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,21.48,83.01,21.16,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:28:40,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,22.63,72.56,22.68,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:28:41,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,21.53,72.06,22.17,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:28:42,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,23.88,79.32,23.6,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:28:49,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,7.39,55.06,7.21,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:28:50,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,5.74,58.87,5.52,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:28:51,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,5.48,47.8,5.45,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:28:51,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,2.87,49.3,2.83,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:28:52,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,3.03,56.62,3.31,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:29:33,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,24.13,67.36,17.41,Normal,1,Anomalous,99,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:29:35,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,34.81,17.26,11.93,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:29:36,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,26.07,53.93,13.27,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:29:40,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,34.27,45.06,17.23,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:29:41,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,23.22,19.0,-2.21,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:30:27,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,3.74,53.23,3.49,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:27,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,2.15,41.62,2.33,Normal,0,Anomalous,20,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-04 02:30:28,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,3.47,59.12,3.62,Normal,0,Anomalous,20,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-04 02:30:28,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,6.01,42.6,6.27,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:29,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,3.96,56.08,3.68,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:29,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,4.68,59.83,4.51,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:30,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,6.49,46.35,6.73,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:30,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,3.46,56.66,3.46,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:30,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,7.72,41.77,7.49,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:31,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,4.43,44.16,4.29,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:31,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,5.16,48.97,5.08,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:31,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,5.39,51.35,5.37,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:31,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,4.2,50.0,4.38,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:32,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,3.6,48.59,3.37,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:32,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,2.02,58.79,2.29,Normal,0,Anomalous,20,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-04 02:30:32,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,2.87,51.89,3.03,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:32,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,5.08,51.05,5.18,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:33,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,7.97,47.75,7.75,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:33,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,2.66,50.62,2.81,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:33,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,5.6,51.25,5.69,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:34,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,3.84,59.52,3.63,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:34,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,7.43,49.85,7.22,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:34,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,4.94,49.74,4.78,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:34,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,7.74,54.98,7.79,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:34,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,2.09,51.58,2.17,Normal,0,Anomalous,20,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-04 02:30:36,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,4.62,46.01,4.88,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:36,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,5.36,49.31,5.5,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:36,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,6.14,44.73,6.28,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:37,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,6.04,47.71,5.97,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:37,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,4.95,57.27,5.16,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:37,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,2.45,46.54,2.52,Normal,0,Anomalous,20,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-04 02:30:38,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,5.78,48.5,5.91,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:38,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,7.86,59.34,7.57,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 02:30:39,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,33.57,33.68,43.95,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:30:39,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,33.62,18.93,1.29,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:30:39,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,33.84,63.05,23.38,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:30:39,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,30.21,41.89,21.39,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:30:39,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,24.72,50.26,1.75,Normal,1,Anomalous,95,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:30:40,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,31.36,15.82,31.24,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:30:40,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,22.3,76.92,24.44,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:30:40,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,29.94,81.82,39.41,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:30:40,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,33.54,28.26,33.6,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:30:41,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,22.03,20.35,-4.1,Failure,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 02:30:41,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,25.14,75.83,24.9,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:30:41,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,21.08,85.53,21.33,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:30:42,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,22.25,78.8,22.67,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:30:42,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,25.42,76.14,25.78,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:30:42,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,23.73,85.1,24.29,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:30:43,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,21.77,85.64,22.1,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:30:43,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,22.95,76.31,23.25,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:30:43,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,27.39,82.0,27.92,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:30:43,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,21.02,76.24,20.87,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:30:43,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,21.24,79.0,20.85,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:30:44,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,22.53,76.75,22.23,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:30:44,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,21.6,85.96,21.85,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:30:45,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,24.29,73.46,23.95,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:30:45,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,19.1,89.52,18.91,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 02:30:45,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,19.41,70.56,20.13,Failure,1,Normal Pattern,100,High,Immediate Action Required,Environmental Failure
+2026-05-04 03:05:06,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,7.06,58.6,7.14,Normal,0,Anomalous,20,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-04 03:05:17,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,52.25,10.93,38.64,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 03:05:28,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,2.5,42.5,2.63,Normal,0,Anomalous,20,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-04 03:07:05,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,46.73,8.86,59.46,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 03:07:07,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,6.17,40.12,6.32,Normal,0,Anomalous,20,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-04 03:07:08,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,2.41,59.24,2.55,Normal,0,Anomalous,20,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-04 03:07:08,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,5.06,44.28,5.05,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 03:07:10,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,7.45,54.87,7.41,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 03:18:33,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,2.77,55.88,2.65,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 03:18:41,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,5.57,41.02,5.77,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 03:18:43,Medicine Freezer Unit 2,temperature_sensor,Building A - Room 102,Medicines,6.5,46.25,6.72,Normal,0,Anomalous,20,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-04 03:18:54,Lab Storage Humidity Sensor,humidity_sensor,Building B - Lab 1,Chemicals,11.37,58.22,11.19,Failure,0,Normal Pattern,48,Medium,Alert Admin,Environmental Warning
+2026-05-04 03:19:02,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,7.47,56.76,7.64,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 03:19:03,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,7.47,56.76,7.47,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 03:19:04,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,7.47,56.76,7.47,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 03:19:04,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,5.88,48.06,5.7,Normal,0,Normal Pattern,10,Low,Continue Monitoring,Normal Operation
+2026-05-04 03:19:05,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,27.79,13.56,43.26,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 03:19:05,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,47.71,97.88,24.47,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
+2026-05-04 03:19:11,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,3.79,46.28,4.06,Normal,0,Anomalous,20,Low,Continue Monitoring,Possible Cyber Attack

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - MediGuard AI</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="welcome-body">
+
+<div class="welcome-shell">
+    <div class="glow glow-one"></div>
+    <div class="glow glow-two"></div>
+
+    <div class="form-card">
+        <div class="form-badge">🔐</div>
+        <h1>System Login</h1>
+        <p>Login as Doctor or SOC Team.</p>
+
+        {% if error %}
+            <div class="error-box">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            <label>Username</label>
+            <input type="text" name="username" placeholder="doctor or soc" required>
+
+            <label>Password</label>
+            <input type="password" name="password" placeholder="123" required>
+
+            <div class="form-actions">
+                <button class="btn-primary" type="submit">Login</button>
+                <a class="btn-secondary" href="/">Back</a>
+            </div>
+        </form>
+
+        <div class="login-hint">
+            Doctor: <b>doctor / 123</b><br>
+            SOC: <b>soc / 123</b>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

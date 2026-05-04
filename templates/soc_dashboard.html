@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SOC Dashboard - MediGuard AI</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <aside class="sidebar">
+        <div class="side-logo">
+            <div class="logo-dot">✦</div>
+            <h2>MediGuard</h2>
+        </div>
+
+        <nav>
+            <a href="/soc" class="active">SOC Dashboard</a>
+            <a href="/add_device">Add Sensor</a>
+            <a href="/logs">Logs</a>
+            <a href="/logout">Logout</a>
+        </nav>
+
+        <div class="side-note">
+            <span>Logged in as</span>
+            <b>SOC Team</b>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <div class="topbar">
+            <div>
+                <h1>SOC Security Dashboard</h1>
+                <p>Behavior-based cyber monitoring, anomaly detection, vulnerability risk, and sensor isolation.</p>
+            </div>
+
+            <div class="top-actions">
+                <a href="/add_device" class="btn-primary">+ Add Sensor</a>
+                <a href="/logout" class="btn-secondary">Logout</a>
+            </div>
+        </div>
+
+        <section class="stats-grid">
+            <div class="stat-card"><span>Total Devices</span><h2>{{ stats.total }}</h2></div>
+            <div class="stat-card warning"><span>Anomalies</span><h2>{{ stats.anomalies }}</h2></div>
+            <div class="stat-card danger"><span>Possible Attacks</span><h2>{{ stats.attacks }}</h2></div>
+            <div class="stat-card danger"><span>Isolated Devices</span><h2>{{ stats.isolated }}</h2></div>
+            <div class="stat-card success"><span>Normal</span><h2>{{ stats.normal }}</h2></div>
+            <div class="stat-card warning"><span>Warnings</span><h2>{{ stats.warning }}</h2></div>
+            <div class="stat-card danger"><span>Critical</span><h2>{{ stats.critical }}</h2></div>
+            <div class="stat-card"><span>Average Risk</span><h2>{{ stats.avg_risk }}%</h2></div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-head">
+                <div>
+                    <h2>Cybersecurity Decision Center</h2>
+                    <p>
+                        Click Run Scenario to generate an unknown device behavior.
+                        The AI then decides whether it is normal, environmental failure, or possible cyber attack.
+                    </p>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <tr>
+                        <th>Device</th>
+                        <th>Location</th>
+                        <th>Medical Status</th>
+                        <th>Risk</th>
+                        <th>ML</th>
+                        <th>Anomaly</th>
+                        <th>Behavior</th>
+                        <th>Reason</th>
+                        <th>Final Decision</th>
+                        <th>Security</th>
+                        <th>Isolation</th>
+                        <th>Scenario Test</th>
+                        <th>SOC Response</th>
+                    </tr>
+
+                    {% for device in devices %}
+                    <tr>
+                        <td>{{ device.device_name }}</td>
+                        <td>{{ device.location }}</td>
+
+                        <td>
+                            {% if device.status == "Normal" %}
+                                <span class="badge green">Normal</span>
+                            {% elif device.status == "Warning" %}
+                                <span class="badge yellow">Warning</span>
+                            {% elif device.status == "Critical" %}
+                                <span class="badge red">Critical</span>
+                            {% else %}
+                                <span class="badge gray">No Data</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if device.risk_level == "Low" %}
+                                <span class="badge green">{{ device.risk_score }}%</span>
+                            {% elif device.risk_level == "Medium" %}
+                                <span class="badge yellow">{{ device.risk_score }}%</span>
+                            {% elif device.risk_level == "High" %}
+                                <span class="badge red">{{ device.risk_score }}%</span>
+                            {% else %}
+                                <span class="badge gray">0%</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if device.ml_prediction == "0" or device.ml_prediction == 0 %}
+                                <span class="badge green">Normal</span>
+                            {% elif device.ml_prediction == "1" or device.ml_prediction == 1 %}
+                                <span class="badge red">Critical</span>
+                            {% else %}
+                                <span class="badge gray">-</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if device.anomaly_status == "Anomalous" %}
+                                <span class="badge red">Anomalous</span>
+                            {% elif device.anomaly_status == "Normal Pattern" %}
+                                <span class="badge green">Normal Pattern</span>
+                            {% else %}
+                                <span class="badge gray">-</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if device.behavior_status == "Suspicious Behavior" %}
+                                <span class="badge red">Suspicious</span>
+                            {% elif device.behavior_status == "Normal Behavior" %}
+                                <span class="badge green">Normal</span>
+                            {% else %}
+                                <span class="badge gray">-</span>
+                            {% endif %}
+                        </td>
+
+                        <td>{{ device.behavior_reason }}</td>
+
+                        <td>
+                            {% if device.attack_status == "Possible Cyber Attack" %}
+                                <span class="badge red">Possible Cyber Attack</span>
+                            {% elif device.attack_status == "Environmental Failure" %}
+                                <span class="badge yellow">Environmental Failure</span>
+                            {% elif device.attack_status == "Environmental Warning" %}
+                                <span class="badge yellow">Environmental Warning</span>
+                            {% elif device.attack_status == "Suspicious Behavior" %}
+                                <span class="badge yellow">Suspicious Behavior</span>
+                            {% elif device.attack_status == "Normal Operation" %}
+                                <span class="badge green">Normal Operation</span>
+                            {% else %}
+                                <span class="badge gray">-</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if device.security_status == "Under Attack" %}
+                                <span class="badge red">Under Attack</span>
+                            {% elif device.security_status == "Suspicious" %}
+                                <span class="badge yellow">Suspicious</span>
+                            {% elif device.security_status == "Isolated" %}
+                                <span class="badge red">Isolated</span>
+                            {% else %}
+                                <span class="badge green">Secure</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if device.isolation_status == "Isolated" %}
+                                <span class="badge red">Isolated</span>
+                            {% else %}
+                                <span class="badge green">Active</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <div class="control-buttons">
+                                {% if device.isolation_status == "Isolated" %}
+                                    <span class="badge gray">Disabled</span>
+                                {% else %}
+                                    <a class="mini-btn warning" href="/simulate/{{ loop.index0 }}/random">
+                                        Run Scenario
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="control-buttons">
+                                {% if device.isolation_status == "Isolated" %}
+                                    <a class="mini-btn safe" href="/soc/restore/{{ loop.index0 }}">Restore</a>
+                                {% else %}
+                                    <a class="mini-btn critical" href="/soc/isolate/{{ loop.index0 }}">Isolate</a>
+                                {% endif %}
+
+                                <a class="mini-btn delete" href="/delete_device/{{ loop.index0 }}"
+                                   onclick="return confirm('Delete this sensor?');">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+                {% if devices|length == 0 %}
+                <div class="empty">
+                    <h3>No sensors added yet</h3>
+                    <p>Add your first sensor to start SOC monitoring.</p>
+                    <a href="/add_device" class="btn-primary">Add Sensor</a>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-head">
+                <div>
+                    <h2>Cybersecurity Vulnerability Risk Matrix</h2>
+                    <p>
+                        Cyber risk is based on suspicious behavior, anomalies, possible attacks,
+                        and isolation state — not only temperature failure.
+                    </p>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Vulnerability</th>
+                        <th>Threat</th>
+                        <th>Likelihood</th>
+                        <th>Impact</th>
+                        <th>Score</th>
+                        <th>Risk</th>
+                        <th>Recommendation</th>
+                    </tr>
+
+                    {% for risk in vulnerability_risks %}
+                    <tr>
+                        <td>{{ risk.id }}</td>
+                        <td>{{ risk.vulnerability }}</td>
+                        <td>{{ risk.threat }}</td>
+                        <td>{{ risk.likelihood }}</td>
+                        <td>{{ risk.impact }}</td>
+                        <td>{{ risk.score }}</td>
+                        <td>
+                            {% if risk.risk_level == "Critical" %}
+                                <span class="badge red">Critical</span>
+                            {% elif risk.risk_level == "High" %}
+                                <span class="badge red">High</span>
+                            {% elif risk.risk_level == "Medium" %}
+                                <span class="badge yellow">Medium</span>
+                            {% else %}
+                                <span class="badge green">Low</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ risk.recommendation }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+</body>
+</html>
