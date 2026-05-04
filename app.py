@@ -37,6 +37,7 @@ def get_fieldnames():
         "device_name", "device_type", "location", "storage_type",
         "temperature_c", "humidity", "object_temperature", "cooling_status",
         "status", "risk_score", "risk_level", "action",
+        "environment_reason",
         "ml_prediction", "anomaly_status", "attack_status",
         "security_status", "isolation_status",
         "behavior_status", "behavior_reason",
