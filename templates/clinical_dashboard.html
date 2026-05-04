@@ -16,7 +16,6 @@
 
         <nav>
             <a href="/clinical" class="active">Doctor Dashboard</a>
-            <a href="/add_device">Add Sensor</a>
             <a href="/logs">Logs</a>
             <a href="/logout">Logout</a>
         </nav>
@@ -32,31 +31,27 @@
         <div class="topbar">
             <div>
                 <h1>Doctor Monitoring Dashboard</h1>
-                <p>Medical staff can only monitor storage condition and environmental risk.</p>
+                <p>Real ESP32 sensor monitoring for room temperature and humidity.</p>
             </div>
 
             <div class="top-actions">
-                <a href="/add_device" class="btn-primary">+ Add Sensor</a>
                 <a href="/logout" class="btn-secondary">Logout</a>
             </div>
         </div>
 
         <section class="stats-grid">
             <div class="stat-card"><span>Total Devices</span><h2>{{ stats.total }}</h2></div>
-            <div class="stat-card"><span>Active Devices</span><h2>{{ stats.active }}</h2></div>
             <div class="stat-card success"><span>Normal</span><h2>{{ stats.normal }}</h2></div>
             <div class="stat-card warning"><span>Warnings</span><h2>{{ stats.warning }}</h2></div>
             <div class="stat-card danger"><span>Critical</span><h2>{{ stats.critical }}</h2></div>
-            <div class="stat-card warning"><span>Failures</span><h2>{{ stats.failures }}</h2></div>
             <div class="stat-card"><span>Average Risk</span><h2>{{ stats.avg_risk }}%</h2></div>
-            <div class="stat-card danger"><span>Isolated</span><h2>{{ stats.isolated }}</h2></div>
         </section>
 
         <section class="panel">
             <div class="panel-head">
                 <div>
-                    <h2>Medical Storage Monitoring</h2>
-                    <p>This view is read-only for doctors. SOC handles attack testing and isolation.</p>
+                    <h2>Room Environment Monitoring</h2>
+                    <p>Doctor view is monitoring-only. Cybersecurity response is handled by SOC.</p>
                 </div>
             </div>
 
@@ -65,8 +60,7 @@
                     <tr>
                         <th>Device</th>
                         <th>Location</th>
-                        <th>Storage</th>
-                        <th>Temp</th>
+                        <th>Temp °C</th>
                         <th>Humidity</th>
                         <th>Status</th>
                         <th>Risk</th>
@@ -78,7 +72,6 @@
                     <tr>
                         <td>{{ device.device_name }}</td>
                         <td>{{ device.location }}</td>
-                        <td>{{ device.storage_type }}</td>
                         <td>{{ device.temperature_c }}</td>
                         <td>{{ device.humidity }}</td>
 
@@ -118,19 +111,11 @@
                     </tr>
                     {% endfor %}
                 </table>
-
-                {% if devices|length == 0 %}
-                <div class="empty">
-                    <h3>No sensors added yet</h3>
-                    <p>Add your first sensor to start monitoring.</p>
-                    <a href="/add_device" class="btn-primary">Add Sensor</a>
-                </div>
-                {% endif %}
             </div>
         </section>
 
         <div class="note">
-            Doctor dashboard is monitoring-only. It does not contain simulation or SOC response buttons.
+            Normal room range is approximately 20–30°C. Heating the sensor should create an environmental warning or failure, not a cyber attack.
         </div>
 
     </main>
