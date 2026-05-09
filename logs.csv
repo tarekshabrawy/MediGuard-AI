@@ -722,6 +722,7 @@ time,device_name,device_type,status,risk_level,action
 2026-05-04 03:19:05,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,27.79,13.56,43.26,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
 2026-05-04 03:19:05,Cold Room Sensor 1,temperature_sensor,Building A - Room 103,Biological Samples,47.71,97.88,24.47,Normal,1,Anomalous,100,High,Immediate Action Required,Possible Cyber Attack
 2026-05-04 03:19:11,Pharmacy Storage Monitor,temperature_sensor,Building C - Pharmacy,General Storage,3.79,46.28,4.06,Normal,0,Anomalous,20,Low,Continue Monitoring,Possible Cyber Attack
+<<<<<<< HEAD
 2026-05-04 22:02:51,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,24.5,32.0,24.5,Normal,1,Anomalous,90,High,Immediate Action Required,Possible Cyber Attack
 2026-05-04 22:02:56,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,24.5,32.0,24.5,Normal,1,Anomalous,90,High,Immediate Action Required,Possible Cyber Attack
 2026-05-04 22:03:01,Vaccine Refrigerator Unit 1,temperature_sensor,Building A - Room 101,Vaccines,24.5,32.0,24.5,Normal,1,Anomalous,90,High,Immediate Action Required,Possible Cyber Attack
@@ -6049,3 +6050,862 @@ time,device_name,device_type,status,risk_level,action
 2026-05-05 18:24:58,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,41.1,11.0,41.1,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
 2026-05-05 18:24:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,41.1,11.0,41.1,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
 2026-05-05 18:25:00,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,41.1,11.0,41.1,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+=======
+2026-05-07 02:30:33,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,20.02,41.02,39.66,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 02:30:48,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,20.02,41.02,20.02,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 02:30:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,2.75,97.14,38.11,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:30:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.09,6.99,44.11,1,Anomalous,60,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:30:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.09,6.99,22.09,1,Anomalous,60,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:30:51,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,0.64,92.87,41.79,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:30:51,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,5.18,64.34,57.62,0,Anomalous,70,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:30:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.32,64.34,46.06,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 02:31:00,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.32,64.34,23.32,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 02:31:00,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.59,61.85,21.59,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 02:31:01,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,35.11,61.85,55.72,1,Anomalous,60,Medium,Check Room Conditions,Possible Cyber Attack
+2026-05-07 02:31:03,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,35.11,61.85,35.11,1,Anomalous,60,Medium,Check Room Conditions,Possible Cyber Attack
+2026-05-07 02:31:04,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,35.11,61.85,35.11,1,Anomalous,60,Medium,Check Room Conditions,Possible Cyber Attack
+2026-05-07 02:31:04,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,52.08,10.2,81.22,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:05,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,52.08,10.2,52.08,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:07,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,10.11,38.74,36.09,0,Anomalous,70,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:07,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,10.11,38.74,10.11,0,Anomalous,70,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,29.44,38.74,52.57,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 02:31:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-4.61,90.94,37.51,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-4.61,90.94,-4.61,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-4.61,90.94,-4.61,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,3.41,97.92,49.9,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,30.67,74.28,55.34,1,Anomalous,75,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,5.71,86.14,30.1,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:15,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,0.95,98.6,44.73,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:15,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-0.79,100.71,-0.79,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:15,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,13.18,100.71,31.98,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,14.3,15.47,45.58,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,37.95,11.95,59.04,1,Anomalous,95,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,57.34,13.41,79.49,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:17,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,57.34,13.41,57.34,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:17,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,44.69,54.77,24.45,1,Anomalous,90,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:17,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,45.64,53.24,45.64,1,Anomalous,90,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,0.33,96.21,43.42,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,4.47,64.87,3.59,0,Anomalous,70,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:26,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,19.0,11.55,6.04,1,Anomalous,85,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:27,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-1.49,96.45,47.46,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:27,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,8.56,96.45,27.54,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:28,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,18.05,72.5,-6.21,1,Anomalous,65,Medium,Check Room Conditions,Possible Cyber Attack
+2026-05-07 02:31:30,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.37,56.42,47.2,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 02:31:30,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,2.4,91.16,40.99,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:31,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,2.4,91.16,2.4,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:33,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.01,91.16,41.77,1,Anomalous,60,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:34,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,28.4,60.66,36.35,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 02:31:34,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,29.12,62.66,29.12,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 02:31:35,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,40.32,62.66,62.7,1,Anomalous,90,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:35,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,53.37,62.66,70.0,1,Anomalous,90,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:36,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,6.07,2.72,58.38,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:36,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,16.34,2.72,32.43,1,Anomalous,85,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:37,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,16.34,2.72,16.34,1,Anomalous,85,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:37,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,7.89,66.37,48.71,0,Anomalous,70,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:38,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,19.23,66.37,39.45,1,Anomalous,50,Medium,Check Room Conditions,Possible Cyber Attack
+2026-05-07 02:31:38,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,37.37,66.37,54.46,1,Anomalous,60,Medium,Check Room Conditions,Possible Cyber Attack
+2026-05-07 02:31:38,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,55.45,66.37,73.59,1,Anomalous,90,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:38,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,6.81,90.31,55.69,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,4.7,95.48,38.06,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,4.7,95.48,4.7,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,3.7,91.86,37.82,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:40,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,3.42,92.6,3.42,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:40,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,3.42,92.6,3.42,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:40,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.92,97.06,45.33,1,Anomalous,60,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:40,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-1.56,90.41,47.24,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:40,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.16,89.59,51.51,1,Anomalous,60,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:31:41,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,38.77,89.59,54.84,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:38:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,50.53,89.59,67.15,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:39:12,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,70.49,89.59,91.77,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:39:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,91.8,90.85,114.3,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:39:18,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,93.26,88.84,93.26,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:39:19,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,93.26,88.84,93.26,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:39:20,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-3.14,98.15,47.74,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:39:20,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,1.75,97.14,49.18,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:39:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-2.63,92.07,43.73,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:39:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,2.67,98.48,46.74,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:39:22,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,16.78,98.48,37.06,1,Anomalous,85,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:39:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,17.93,100.18,17.93,1,Anomalous,85,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:39:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,34.74,100.18,51.57,1,Anomalous,95,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:39:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,54.4,100.18,71.75,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:39:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,53.96,99.39,53.96,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 02:39:25,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,66.52,99.39,86.62,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:22:06,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,3.26,96.51,44.31,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:22:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.71,26.94,58.89,1,Anomalous,40,Medium,Check Room Conditions,Possible Cyber Attack
+2026-05-07 03:22:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,33.18,29.69,5.32,1,Anomalous,75,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:22:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,56.59,8.27,80.87,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:22:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,76.55,13.66,96.93,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:22:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,76.55,13.66,76.55,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:45,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,76.55,13.66,76.55,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:45,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,76.55,13.66,76.55,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:45,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,77.55,14.32,77.55,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,99.28,87.16,123.72,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,112.17,87.16,135.06,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,127.29,87.16,149.95,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,147.63,96.45,165.87,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,4.57,98.05,48.1,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,19.16,98.05,39.45,1,Anomalous,85,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:48,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,41.62,92.38,67.74,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,41.62,92.38,41.62,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,55.27,92.38,74.33,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,57.06,90.41,57.06,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,80.87,14.01,99.72,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:51,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,81.94,14.99,81.94,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:51,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,102.98,89.36,132.83,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:52,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,114.02,89.36,130.46,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:52,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,114.02,89.36,114.02,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:53,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,125.16,89.36,142.0,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:53,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,144.87,9.47,163.13,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:53,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,162.61,86.24,184.68,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:54,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,5.57,4.65,50.77,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:54,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-3.61,96.17,40.9,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,15.49,90.17,37.12,1,Anomalous,85,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,31.41,90.17,48.79,1,Anomalous,95,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:56,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,52.82,87.88,73.28,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:56,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,69.5,85.96,95.27,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:56,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,70.82,87.77,70.82,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:57,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-3.23,94.07,40.97,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:57,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,12.02,10.56,41.75,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:58,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,13.17,8.45,13.17,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:58,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.47,8.45,48.64,1,Anomalous,60,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:58,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,1.54,96.4,46.39,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,1.27,93.36,44.74,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-3.71,98.5,46.85,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:29:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,31.36,54.58,34.92,1,Anomalous,60,Medium,Check Room Conditions,Possible Cyber Attack
+2026-05-07 03:30:00,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,47.27,54.58,72.01,1,Anomalous,90,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:30:00,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-3.25,92.46,37.0,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:30:07,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,15.06,92.46,32.94,1,Anomalous,85,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:30:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,34.69,12.85,59.15,1,Anomalous,95,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:30:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,2.73,90.03,38.62,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:30:12,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,2.73,90.03,2.73,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:30:13,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,1.63,87.63,1.63,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:30:14,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,1.85,86.87,1.85,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:30:15,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,12.93,86.87,37.14,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:30:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,30.48,94.31,56.43,1,Anomalous,95,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:30:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,53.67,14.17,78.57,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:30:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,26.81,59.4,29.27,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 03:34:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,26.81,59.4,26.81,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 03:34:58,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,26.81,59.4,26.81,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 03:34:58,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,46.56,59.4,62.55,1,Anomalous,90,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:34:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,46.34,59.84,46.34,1,Anomalous,90,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:34:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-2.13,97.8,40.07,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:35:00,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-2.13,97.8,-2.13,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:35:05,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-1.11,92.72,47.21,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:35:06,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-0.67,91.13,-0.67,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:35:07,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,7.86,17.87,41.12,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:35:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,31.86,5.11,61.86,1,Anomalous,95,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:35:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,27.61,27.79,49.94,1,Anomalous,40,Medium,Check Room Conditions,Possible Cyber Attack
+2026-05-07 03:35:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-0.62,98.75,48.07,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:35:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.08,11.12,48.11,1,Anomalous,60,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:35:12,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.73,11.08,24.73,1,Anomalous,60,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:35:12,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,17.62,89.97,12.64,1,Anomalous,85,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:35:13,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,17.62,89.97,17.62,1,Anomalous,85,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:43:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,12.2,44.36,39.19,0,Anomalous,70,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:44:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,12.2,44.36,12.2,0,Anomalous,70,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:44:12,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,28.53,44.36,45.24,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 03:44:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,48.24,44.36,68.84,1,Anomalous,90,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:44:22,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,69.83,5.55,96.04,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:44:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,30.11,53.09,9.11,1,Anomalous,60,Medium,Check Room Conditions,Possible Cyber Attack
+2026-05-07 03:44:25,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,42.43,98.79,26.33,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:44:25,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,41.72,97.07,41.72,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:44:26,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,61.17,97.07,85.95,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:44:26,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,61.17,97.07,61.17,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:44:31,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-0.17,94.34,46.54,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:44:32,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-0.17,94.34,-0.17,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:45:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,0.17,91.65,0.17,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:45:14,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,0.17,91.65,0.17,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:45:14,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,19.05,91.65,40.3,1,Anomalous,85,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:45:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,30.5,23.98,20.13,1,Anomalous,75,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:45:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,30.6,25.72,30.6,1,Anomalous,75,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:55:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,2.29,95.9,36.72,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:55:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,7.03,91.92,35.23,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:55:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.66,91.92,41.56,1,Anomalous,60,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:55:48,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.66,91.92,21.66,1,Anomalous,60,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:55:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.66,91.92,21.66,1,Anomalous,60,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:57:04,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,36.48,90.42,58.35,1,Anomalous,95,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:57:05,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,36.48,90.42,36.48,1,Anomalous,95,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:57:06,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,50.71,94.11,70.51,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:57:06,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,-1.94,94.44,38.4,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:57:07,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,12.83,84.75,34.55,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:57:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,13.6,86.12,13.6,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:57:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,13.6,86.12,13.6,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:57:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,4.74,43.11,46.15,0,Anomalous,70,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:57:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,41.97,66.91,13.99,1,Anomalous,90,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:57:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,58.59,66.91,73.7,1,Anomalous,90,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:57:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.4,76.34,53.32,1,Anomalous,40,Medium,Check Room Conditions,Possible Cyber Attack
+2026-05-07 03:57:17,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,4.98,98.42,47.83,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 03:57:17,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,25.75,32.93,36.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:06:04,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,25.48,31.06,25.48,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:07:03,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,6.3,92.19,39.7,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:07:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.33,92.19,38.52,1,Anomalous,60,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:07:14,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,36.01,92.19,52.63,1,Anomalous,95,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:07:15,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,36.97,92.38,36.97,1,Anomalous,95,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:07:20,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,55.55,85.46,72.13,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:12:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,47.0,12.0,-6.0,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:12:22,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,4.0,94.0,42.0,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:12:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,47.0,12.0,-6.0,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:12:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,63.5,88.0,82.5,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:16:30,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,80.55,88.0,101.59,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:16:31,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,97.25,10.4,123.67,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:16:34,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,118.14,10.9,136.47,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:16:34,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,10.95,4.22,49.1,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:16:35,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,11.86,5.95,11.86,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:16:35,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,11.86,5.95,11.86,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:16:36,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,35.72,91.39,65.4,1,Anomalous,95,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:16:36,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,35.42,90.11,35.42,1,Anomalous,95,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:16:37,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.2,46.6,48.95,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:16:37,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.2,46.6,21.2,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:16:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,1.4,93.82,41.18,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:16:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,20.38,93.82,39.02,1,Anomalous,60,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:16:40,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,2.62,93.23,38.39,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:19:12,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:13,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:14,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:15,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:18,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:19,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:20,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:25,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:26,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:27,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:28,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:29,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:31,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:32,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:33,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:34,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:35,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:36,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:37,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:40,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:41,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:42,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:43,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:44,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:45,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:48,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:51,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:52,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:54,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:56,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:57,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:58,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:19:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,50.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:20:01,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,51.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:20:02,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,51.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:20:03,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,26.2,90.0,26.2,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:04,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,26.2,90.0,26.2,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:05,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,31.3,98.0,31.3,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:07,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,31.3,98.0,31.3,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,31.3,98.0,31.3,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,31.3,98.0,31.3,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,31.3,98.0,31.3,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,31.3,98.0,31.3,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:13,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,31.3,98.0,31.3,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:14,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,31.3,98.0,31.3,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:15,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,30.2,98.0,30.2,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,30.2,98.0,30.2,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:18,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,30.2,98.0,30.2,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:19,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,30.2,98.0,30.2,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:20,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,30.2,98.0,30.2,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,30.2,98.0,30.2,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:22,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,30.2,98.0,30.2,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,30.2,98.0,30.2,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,30.2,98.0,30.2,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:26,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,30.2,98.0,30.2,1,Normal Pattern,90,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:27,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,29.8,98.0,29.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:28,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,29.8,98.0,29.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:29,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,29.8,98.0,29.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:30,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,29.8,98.0,29.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:31,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,29.4,98.0,29.4,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:32,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,29.4,98.0,29.4,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:34,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,29.3,98.0,29.3,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:35,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,29.3,98.0,29.3,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:36,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,29.3,98.0,29.3,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:37,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,29.3,98.0,29.3,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:38,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,28.9,98.0,28.9,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,28.9,98.0,28.9,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:41,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,28.5,98.0,28.5,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:42,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,28.5,98.0,28.5,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:43,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,28.5,98.0,28.5,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:44,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,28.5,98.0,28.5,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:45,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,28.0,96.0,28.0,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,28.0,96.0,28.0,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,27.7,96.0,27.7,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,27.7,96.0,27.7,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,27.6,96.0,27.6,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:51,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,27.6,96.0,27.6,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:52,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,27.1,96.0,27.1,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:53,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,27.1,96.0,27.1,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:54,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,27.1,96.0,27.1,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,27.1,96.0,27.1,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:56,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,26.7,95.0,26.7,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:58,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,26.7,95.0,26.7,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:20:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,26.7,95.0,26.7,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:00,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,26.7,95.0,26.7,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:01,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,26.2,94.0,26.2,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:02,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,26.2,94.0,26.2,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:03,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,26.2,94.0,26.2,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:04,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,26.2,94.0,26.2,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:06,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,25.8,93.0,25.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:07,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,25.8,93.0,25.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,25.8,92.0,25.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,25.8,92.0,25.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,25.3,92.0,25.3,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,25.3,92.0,25.3,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:12,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,25.3,90.0,25.3,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:13,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,25.3,90.0,25.3,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:15,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,25.1,89.0,25.1,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,25.1,89.0,25.1,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:17,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.8,89.0,24.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:18,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.8,89.0,24.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:19,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.8,88.0,24.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:20,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.8,88.0,24.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.5,86.0,24.5,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.5,86.0,24.5,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.5,85.0,24.5,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:25,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.5,85.0,24.5,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:26,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.4,84.0,24.4,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:27,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.4,84.0,24.4,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:29,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.1,83.0,24.1,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:30,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.1,83.0,24.1,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:31,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.1,82.0,24.1,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:32,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,24.1,82.0,24.1,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:33,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.8,81.0,23.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:34,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.8,81.0,23.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:36,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.8,81.0,23.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:37,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.8,81.0,23.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:38,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.8,81.0,23.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.8,81.0,23.8,1,Normal Pattern,55,High,Immediate Environmental Check Required,Environmental Failure
+2026-05-07 04:21:40,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.8,80.0,23.8,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:21:41,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.8,80.0,23.8,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:21:42,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.4,80.0,23.4,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:21:44,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.4,80.0,23.4,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:21:45,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.4,79.0,23.4,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:21:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.4,79.0,23.4,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:21:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.4,79.0,23.4,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:21:48,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.4,79.0,23.4,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:21:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.4,79.0,23.4,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:21:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.4,79.0,23.4,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:21:51,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.0,78.0,23.0,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:21:53,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.0,78.0,23.0,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:21:54,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.0,78.0,23.0,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:21:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.0,78.0,23.0,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:21:56,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.0,77.0,23.0,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:21:57,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.0,77.0,23.0,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:21:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.0,77.0,23.0,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:00,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,23.0,77.0,23.0,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:01,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.9,77.0,22.9,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:02,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.9,77.0,22.9,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:03,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.6,77.0,22.6,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:04,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.6,77.0,22.6,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:05,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.6,77.0,22.6,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:06,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.6,77.0,22.6,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.6,76.0,22.6,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.6,76.0,22.6,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.6,75.0,22.6,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.6,75.0,22.6,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:12,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.6,75.0,22.6,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:13,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.6,75.0,22.6,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:14,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.3,74.0,22.3,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.3,74.0,22.3,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:17,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.2,73.0,22.2,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:18,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.2,73.0,22.2,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:19,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.2,72.0,22.2,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:20,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.2,72.0,22.2,1,Normal Pattern,35,Medium,Check Room Conditions,Environmental Warning
+2026-05-07 04:22:22,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.2,70.0,22.2,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.2,70.0,22.2,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.2,69.0,22.2,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:25,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.2,69.0,22.2,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:26,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.2,68.0,22.2,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:28,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.2,68.0,22.2,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:29,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.2,66.0,22.2,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:30,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.2,66.0,22.2,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:31,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.2,64.0,22.2,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:32,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.2,64.0,22.2,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:33,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,63.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:34,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,63.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:36,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,63.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:37,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,63.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:38,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,62.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,62.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:40,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,62.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:41,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,62.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:42,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,61.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:44,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,61.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:45,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,60.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,60.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,60.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:48,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,60.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,59.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,59.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:51,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,59.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:52,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,59.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:54,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,59.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,59.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:56,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,59.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:57,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,59.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:58,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,59.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:22:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.8,59.0,21.8,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:01,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.5,59.0,21.5,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:02,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.5,59.0,21.5,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:03,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,59.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:04,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,59.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:05,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,59.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:06,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,59.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,58.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,58.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,58.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,58.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:12,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,58.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:14,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,58.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:15,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,58.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,58.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:17,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:18,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:19,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:20,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:25,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:26,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:27,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:28,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,58.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:30,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,58.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:31,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:32,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:33,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:34,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:35,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:36,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:37,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:40,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:41,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:42,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:43,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:44,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:45,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,57.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.2,57.0,21.2,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:48,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.2,57.0,21.2,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.1,57.0,21.1,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.1,57.0,21.1,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:51,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:52,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:53,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,58.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,58.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:56,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,58.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:23:56,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,1.86,91.78,39.57,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:23:57,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,58.0,21.0,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:23:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:00,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:01,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:03,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:04,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:05,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:06,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:07,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:12,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:13,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:14,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:15,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:17,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:18,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:20,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:22,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:25,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:26,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:28,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:29,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:30,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:31,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:32,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:33,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:35,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:36,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:37,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:38,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:40,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:41,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:42,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:44,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:45,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,57.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:48,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:51,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:53,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:54,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:56,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:57,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:58,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:24:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:01,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:02,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:03,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:04,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:05,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:06,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:07,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:12,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:13,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:14,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:15,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:18,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:19,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:20,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:22,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:26,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:27,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:28,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:29,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:30,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,56.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:31,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:32,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:34,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:35,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:36,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:37,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:38,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:41,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:42,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:43,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:44,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:45,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:51,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:52,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:53,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:54,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:57,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:58,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:25:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:00,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:01,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:02,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:03,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:05,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:06,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:07,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,55.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:13,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:14,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:15,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:17,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:18,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:19,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:22,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:25,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:26,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:27,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:28,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:30,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:31,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:32,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:33,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:34,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:36,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:37,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,54.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:38,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:40,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:41,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:42,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:44,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:45,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:48,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:52,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:53,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:54,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:56,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:57,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:58,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:26:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:01,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:02,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:03,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:04,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:05,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:06,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:07,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.0,53.0,21.0,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:14,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.1,53.0,21.1,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:15,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.1,53.0,21.1,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.1,53.0,21.1,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:17,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.2,53.0,21.2,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:18,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.2,53.0,21.2,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:19,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,53.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,53.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:22,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,53.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:22,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,53.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,53.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,53.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:25,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,53.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:26,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,53.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:27,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,53.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:28,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:29,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,20.3,52.86,20.3,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:29,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:30,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,22.77,13.09,35.61,1,Anomalous,60,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:27:31,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:32,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:33,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:34,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:34,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:35,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:36,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,39.35,90.32,65.22,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:27:36,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:37,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:40,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:41,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:41,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:42,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:43,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:44,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,3.84,14.2,37.19,0,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:27:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,15.85,84.61,3.09,1,Anomalous,85,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:27:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,15.85,84.61,15.85,1,Anomalous,85,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:27:48,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:48,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,20.79,49.24,20.79,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,20.79,49.24,20.79,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.85,53.85,21.85,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,46.84,13.89,70.25,1,Anomalous,100,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:27:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,4.15,67.54,27.44,0,Anomalous,70,High,Immediate Environmental Check Required,Possible Cyber Attack
+2026-05-07 04:27:51,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Anomalous,25,Low,Continue Monitoring,Possible Cyber Attack
+2026-05-07 04:27:53,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:54,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:56,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:57,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:27:58,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:00,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:01,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:02,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:03,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:04,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:05,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:06,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:12,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:13,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:15,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:17,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:18,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:19,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:22,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:25,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:26,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:27,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:28,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:30,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:31,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:32,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:33,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:34,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:35,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:37,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:38,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:40,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:41,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:42,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:43,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:45,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:48,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:51,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:52,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:53,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:54,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:56,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:57,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:28:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:00,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:01,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:02,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:03,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:04,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:05,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:07,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,52.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:12,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:14,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:15,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:17,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:18,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:20,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:22,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:25,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:27,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:28,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:29,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:30,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:31,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:32,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:33,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:34,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:36,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:37,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:38,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:40,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:42,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:43,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:44,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:45,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:50,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:51,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:52,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:53,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:56,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:57,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:58,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:29:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:00,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:01,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:02,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:04,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:05,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:06,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:07,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:12,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:13,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:14,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:17,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:18,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:19,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:22,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:25,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:27,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:28,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:29,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:30,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:31,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:33,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:34,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:35,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:36,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:37,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:38,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:39,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:40,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:41,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:43,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:44,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:45,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:46,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:47,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:48,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:49,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:51,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:52,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:53,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:54,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:55,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:57,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:58,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:30:59,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:00,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:01,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:02,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:03,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:05,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:06,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:07,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:08,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:09,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:10,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:11,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:13,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:14,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:15,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:16,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:17,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:18,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:19,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:21,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:22,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:23,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:24,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+2026-05-07 04:31:25,Real ESP32 Room Sensor,temperature_humidity_sensor,Demo Room,21.4,51.0,21.4,1,Normal Pattern,20,Low,Continue Monitoring,Normal Operation
+>>>>>>> e5416965b3a397761362756b5caf945730e62c3c

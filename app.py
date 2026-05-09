@@ -272,16 +272,6 @@ def get_attack_model_decision(environmental_risk, vulnerability_score, anomaly_f
 
 
 def analyze_sensor_behavior(device, behavior):
-    """
-    Important:
-    Gradual heating = physical/environmental issue.
-    It should NOT be suspicious.
-
-    Suspicious behavior means:
-    - impossible jump
-    - impossible mismatch
-    - fake / manipulated pattern
-    """
     reasons = []
     suspicious = False
 
@@ -300,15 +290,12 @@ def analyze_sensor_behavior(device, behavior):
 
     if last_temp is not None:
         temp_jump = abs(current_temp - last_temp)
-
-        # Only huge jump is suspicious. Normal heating stays normal behavior.
         if temp_jump >= 20:
             suspicious = True
             reasons.append("Impossible sudden temperature jump")
 
     if last_humidity is not None:
         humidity_jump = abs(current_humidity - last_humidity)
-
         if humidity_jump >= 55:
             suspicious = True
             reasons.append("Impossible sudden humidity jump")
@@ -323,8 +310,6 @@ def analyze_sensor_behavior(device, behavior):
         else:
             repeat_count = 0
 
-    # Repetition alone is NOT enough because DHT11 may repeat naturally.
-    # It is only tracked for audit.
     if suspicious:
         return "Suspicious Behavior", "; ".join(reasons), 1, repeat_count
 
@@ -332,117 +317,281 @@ def analyze_sensor_behavior(device, behavior):
 
 
 def get_vulnerability_risks(devices):
-    attack_count = 0
-    anomaly_count = 0
-    isolated_count = 0
-    suspicious_count = 0
+    active_attack_type = "-"
+    has_attack = False
+    has_suspicious = False
+    has_isolated = False
 
     for device in devices:
         if device.get("attack_status") == "Possible Cyber Attack":
-            attack_count += 1
-        if device.get("anomaly_status") == "Anomalous":
-            anomaly_count += 1
-        if device.get("behavior_status") == "Suspicious Behavior":
-            suspicious_count += 1
+            has_attack = True
+            active_attack_type = device.get("attack_type") or "-"
+
+        if device.get("anomaly_status") == "Anomalous" or device.get("behavior_status") == "Suspicious Behavior":
+            has_suspicious = True
+
         if device.get("isolation_status") == "Isolated":
-            isolated_count += 1
-
-    if attack_count > 0:
-        mode = "attack"
-    elif anomaly_count > 0 or suspicious_count > 0:
-        mode = "suspicious"
-    elif isolated_count > 0:
-        mode = "isolated"
-    else:
-        mode = "normal"
-
-    def values(normal, suspicious, attack, isolated=None):
-        if mode == "attack":
-            return attack
-        if mode == "suspicious":
-            return suspicious
-        if mode == "isolated" and isolated:
-            return isolated
-        return normal
+            has_isolated = True
 
     vulnerabilities = [
         {
             "id": "V1",
             "vulnerability": "No device authentication",
             "threat": "Fake ESP32/sensor may send false readings",
-            "likelihood": values(2, 4, 5),
-            "impact": values(4, 5, 5),
             "recommendation": "Use API token or device secret for each sensor"
         },
         {
             "id": "V2",
             "vulnerability": "Unencrypted communication",
-            "threat": "Man-in-the-middle may modify readings",
-            "likelihood": values(2, 4, 5),
-            "impact": values(4, 5, 5),
+            "threat": "Traffic may be observed on the network",
             "recommendation": "Use HTTPS/TLS or MQTT over TLS"
         },
         {
             "id": "V3",
             "vulnerability": "No message integrity check",
             "threat": "Sensor data may be changed in transit",
-            "likelihood": values(2, 4, 5),
-            "impact": values(4, 5, 5),
             "recommendation": "Add HMAC/signature for every reading"
         },
         {
             "id": "V4",
             "vulnerability": "No replay protection",
             "threat": "Old valid readings may be resent",
-            "likelihood": values(2, 3, 5),
-            "impact": values(3, 4, 5),
             "recommendation": "Add timestamp, nonce, and last-seen validation"
         },
         {
             "id": "V5",
             "vulnerability": "No input validation",
             "threat": "Impossible values can affect decisions",
-            "likelihood": values(2, 4, 5),
-            "impact": values(3, 4, 5),
             "recommendation": "Validate ranges, sensor ID, and payload format"
         },
         {
             "id": "V6",
             "vulnerability": "No malware protection on gateway",
             "threat": "Malware on the gateway/laptop may manipulate sensor data",
-            "likelihood": values(2, 4, 5),
-            "impact": values(4, 5, 5),
             "recommendation": "Add endpoint protection and restrict execution permissions"
         },
         {
             "id": "V7",
             "vulnerability": "No rate limiting",
-            "threat": "DDoS/flooding may overwhelm the API with fake readings",
-            "likelihood": values(2, 4, 5),
-            "impact": values(3, 4, 5),
+            "threat": "Flooding may overwhelm the API with fake readings",
             "recommendation": "Add rate limiting and request throttling"
         },
         {
             "id": "V8",
             "vulnerability": "No SOC isolation response",
             "threat": "Compromised sensor may remain trusted",
-            "likelihood": values(1, 3, 5),
-            "impact": values(3, 4, 5),
             "recommendation": "Allow SOC to isolate suspicious sensors"
         },
         {
             "id": "V9",
             "vulnerability": "Isolated sensor detected",
             "threat": "Sensor removed from trusted monitoring",
-            "likelihood": values(1, 1, 2, isolated=3),
-            "impact": values(2, 2, 3, isolated=4),
             "recommendation": "Inspect and restore only after validation"
         }
     ]
 
+    normal_scores = {
+        "V1": (2, 3),
+        "V2": (2, 2),
+        "V3": (2, 3),
+        "V4": (2, 2),
+        "V5": (2, 3),
+        "V6": (2, 3),
+        "V7": (2, 2),
+        "V8": (1, 3),
+        "V9": (1, 2),
+    }
+
+    suspicious_scores = {
+        "V1": (3, 3),
+        "V2": (2, 2),
+        "V3": (3, 3),
+        "V4": (3, 3),
+        "V5": (3, 4),
+        "V6": (3, 3),
+        "V7": (3, 3),
+        "V8": (3, 4),
+        "V9": (1, 2),
+    }
+
+    isolated_scores = {
+        "V1": (2, 2),
+        "V2": (1, 2),
+        "V3": (2, 2),
+        "V4": (2, 2),
+        "V5": (2, 2),
+        "V6": (2, 2),
+        "V7": (1, 2),
+        "V8": (2, 3),
+        "V9": (4, 4),
+    }
+
+    attack_profiles = {
+        "Data Spoofing Attack": {
+            "related": ["V1", "V3", "V5"],
+            "scores": {
+                "V1": (5, 5),
+                "V2": (2, 2),
+                "V3": (4, 5),
+                "V4": (2, 2),
+                "V5": (5, 4),
+                "V6": (2, 3),
+                "V7": (2, 2),
+                "V8": (4, 4),
+                "V9": (1, 2),
+            }
+        },
+        "Man-in-the-Middle Observation": {
+            "related": ["V2"],
+            "scores": {
+                "V1": (2, 3),
+                "V2": (4, 2),
+                "V3": (2, 3),
+                "V4": (2, 2),
+                "V5": (2, 3),
+                "V6": (2, 3),
+                "V7": (2, 2),
+                "V8": (3, 3),
+                "V9": (1, 2),
+            }
+        },
+        "Man-in-the-Middle Modification": {
+            "related": ["V2", "V3"],
+            "scores": {
+                "V1": (3, 3),
+                "V2": (5, 4),
+                "V3": (5, 5),
+                "V4": (3, 3),
+                "V5": (3, 3),
+                "V6": (2, 3),
+                "V7": (2, 2),
+                "V8": (4, 4),
+                "V9": (1, 2),
+            }
+        },
+        "Replay Attack": {
+            "related": ["V4"],
+            "scores": {
+                "V1": (3, 3),
+                "V2": (2, 2),
+                "V3": (3, 3),
+                "V4": (5, 5),
+                "V5": (2, 3),
+                "V6": (2, 3),
+                "V7": (2, 2),
+                "V8": (4, 4),
+                "V9": (1, 2),
+            }
+        },
+        "DDoS / Flooding Attempt": {
+            "related": ["V7"],
+            "scores": {
+                "V1": (2, 2),
+                "V2": (1, 2),
+                "V3": (2, 2),
+                "V4": (2, 2),
+                "V5": (3, 3),
+                "V6": (2, 2),
+                "V7": (5, 5),
+                "V8": (4, 4),
+                "V9": (1, 2),
+            }
+        },
+        "Malware Data Manipulation": {
+            "related": ["V6", "V3", "V5"],
+            "scores": {
+                "V1": (3, 3),
+                "V2": (2, 2),
+                "V3": (4, 5),
+                "V4": (2, 2),
+                "V5": (4, 4),
+                "V6": (5, 5),
+                "V7": (2, 2),
+                "V8": (4, 4),
+                "V9": (1, 2),
+            }
+        },
+        "Sensor Identity Spoofing": {
+            "related": ["V1"],
+            "scores": {
+                "V1": (5, 5),
+                "V2": (2, 2),
+                "V3": (3, 4),
+                "V4": (3, 3),
+                "V5": (4, 4),
+                "V6": (2, 3),
+                "V7": (2, 2),
+                "V8": (4, 4),
+                "V9": (1, 2),
+            }
+        },
+        "Unauthorized Sensor Spoofing": {
+            "related": ["V1"],
+            "scores": {
+                "V1": (5, 5),
+                "V2": (2, 2),
+                "V3": (3, 4),
+                "V4": (2, 2),
+                "V5": (4, 4),
+                "V6": (2, 3),
+                "V7": (2, 2),
+                "V8": (4, 4),
+                "V9": (1, 2),
+            }
+        },
+        "Impossible Sensor Payload": {
+            "related": ["V5"],
+            "scores": {
+                "V1": (3, 3),
+                "V2": (1, 2),
+                "V3": (2, 3),
+                "V4": (2, 2),
+                "V5": (5, 5),
+                "V6": (2, 3),
+                "V7": (2, 2),
+                "V8": (4, 4),
+                "V9": (1, 2),
+            }
+        },
+    }
+
+    if has_attack:
+        profile = attack_profiles.get(active_attack_type)
+        if profile is None:
+            profile = {
+                "related": ["V1", "V3", "V5"],
+                "scores": suspicious_scores
+            }
+
+        selected_scores = profile["scores"]
+        related_ids = set(profile["related"])
+        matrix_mode = "attack"
+
+    elif has_isolated:
+        selected_scores = isolated_scores
+        related_ids = {"V9"}
+        matrix_mode = "isolated"
+
+    elif has_suspicious:
+        selected_scores = suspicious_scores
+        related_ids = {"V5", "V8"}
+        matrix_mode = "suspicious"
+
+    else:
+        selected_scores = normal_scores
+        related_ids = set()
+        matrix_mode = "normal"
+
     for item in vulnerabilities:
-        score = item["likelihood"] * item["impact"]
+        likelihood, impact = selected_scores.get(item["id"], (2, 2))
+        score = likelihood * impact
+
+        item["likelihood"] = likelihood
+        item["impact"] = impact
         item["score"] = score
+        item["related"] = item["id"] in related_ids
+        item["matrix_mode"] = matrix_mode
+        item["active_attack_type"] = active_attack_type
 
         if score <= 4:
             item["risk_level"] = "Low"
@@ -459,8 +608,19 @@ def get_vulnerability_risks(devices):
 def get_vulnerability_percentage(vulnerability_risks):
     if not vulnerability_risks:
         return 0
-    avg_score = sum(risk["score"] for risk in vulnerability_risks) / len(vulnerability_risks)
-    return min(100, int((avg_score / 25) * 100))
+
+    related = [risk for risk in vulnerability_risks if risk.get("related")]
+
+    if related:
+        related_scores = [risk["score"] for risk in related]
+        max_related_score = max(related_scores)
+        avg_related_score = sum(related_scores) / len(related_scores)
+        weighted_score = (0.70 * max_related_score) + (0.30 * avg_related_score)
+    else:
+        all_scores = [risk["score"] for risk in vulnerability_risks]
+        weighted_score = sum(all_scores) / len(all_scores)
+
+    return min(100, round((weighted_score / 25) * 100))
 
 
 def get_security_status(attack_status, anomaly_status, isolation_status):
@@ -512,7 +672,6 @@ def process_device_reading(device_index, behavior, simulated_attack=False, attac
 
     device = devices[device_index]
 
-    # If isolated, the real sensor should not overwrite SOC state.
     if device.get("isolation_status") == "Isolated" and not simulated_attack:
         return False
 
@@ -521,7 +680,6 @@ def process_device_reading(device_index, behavior, simulated_attack=False, attac
 
     behavior_status, behavior_reason, behavior_anomaly_flag, repeat_count = analyze_sensor_behavior(device, behavior)
 
-    # If already under attack, keep cyber state until SOC isolates/restores.
     already_under_attack = device.get("attack_status") == "Possible Cyber Attack"
 
     if simulated_attack or already_under_attack:
@@ -539,9 +697,19 @@ def process_device_reading(device_index, behavior, simulated_attack=False, attac
         anomaly_flag
     )
 
-    temp_devices = devices.copy()
+    temp_devices = [dict(d) for d in devices]
     temp_devices[device_index]["anomaly_status"] = anomaly_status
     temp_devices[device_index]["behavior_status"] = "Suspicious Behavior" if simulated_attack or already_under_attack else behavior_status
+
+    if simulated_attack:
+        temp_devices[device_index]["attack_status"] = "Possible Cyber Attack"
+        temp_devices[device_index]["attack_type"] = attack_type
+    elif already_under_attack:
+        temp_devices[device_index]["attack_status"] = "Possible Cyber Attack"
+        temp_devices[device_index]["attack_type"] = device.get("attack_type") or "Active Cyber Incident"
+    else:
+        temp_devices[device_index]["attack_status"] = "Normal Operation"
+        temp_devices[device_index]["attack_type"] = "-"
 
     vulnerability_risks = get_vulnerability_risks(temp_devices)
     vulnerability_percentage = get_vulnerability_percentage(vulnerability_risks)
@@ -556,8 +724,6 @@ def process_device_reading(device_index, behavior, simulated_attack=False, attac
     if simulated_attack:
         attack_status = "Possible Cyber Attack"
     elif already_under_attack:
-        attack_status = "Possible Cyber Attack"
-    elif anomaly_flag == 1 and vulnerability_percentage >= 60:
         attack_status = "Possible Cyber Attack"
     elif status == "Critical":
         attack_status = "Environmental Failure"
@@ -585,14 +751,29 @@ def process_device_reading(device_index, behavior, simulated_attack=False, attac
         final_attack_type = "-"
         final_attack_reason = "-"
 
+    if attack_status == "Possible Cyber Attack":
+        final_risk_score = vulnerability_percentage
+
+        if final_risk_score >= 80:
+            final_risk_level = "Critical"
+        elif final_risk_score >= 60:
+            final_risk_level = "High"
+        elif final_risk_score >= 30:
+            final_risk_level = "Medium"
+        else:
+            final_risk_level = "Low"
+    else:
+        final_risk_score = risk_score
+        final_risk_level = risk_level
+
     updated_data = {
         "temperature_c": behavior["temp_c"],
         "humidity": behavior["humidity"],
         "object_temperature": behavior["object_temp"],
         "cooling_status": "Normal" if behavior["nw_cooling"] == 0 else "Failure",
         "status": status,
-        "risk_score": risk_score,
-        "risk_level": risk_level,
+        "risk_score": final_risk_score,
+        "risk_level": final_risk_level,
         "action": action,
         "environment_reason": environment_reason,
         "ml_prediction": ml_prediction,
@@ -635,7 +816,7 @@ def generate_attack_reading(current_device):
 
     attack_type = random.choice([
         "Data Spoofing Attack",
-        "Man-in-the-Middle Modification",
+        "Man-in-the-Middle Observation",
         "Replay Attack",
         "DDoS / Flooding Attempt",
         "Malware Data Manipulation",
@@ -648,11 +829,11 @@ def generate_attack_reading(current_device):
         object_temp = round(temp_c + random.uniform(18, 30), 2)
         reason = "Fake abnormal sensor values were injected into the system"
 
-    elif attack_type == "Man-in-the-Middle Modification":
-        temp_c = round(random.uniform(-5, 5), 2)
-        humidity = round(random.uniform(90, 99), 2)
-        object_temp = round(random.uniform(35, 50), 2)
-        reason = "Readings were modified in transit and became inconsistent"
+    elif attack_type == "Man-in-the-Middle Observation":
+        temp_c = round(previous_temp, 2)
+        humidity = round(previous_humidity, 2)
+        object_temp = round(previous_temp, 2)
+        reason = "Network traffic was observed without directly changing the sensor reading"
 
     elif attack_type == "Replay Attack":
         temp_c = previous_temp
@@ -757,12 +938,15 @@ def soc_dashboard():
 
     devices = load_devices()
     vulnerability_risks = get_vulnerability_risks(devices)
+    vulnerability_percentage = get_vulnerability_percentage(vulnerability_risks)
     stats = get_dashboard_stats(devices)
+    stats["cyber_risk"] = vulnerability_percentage
 
     return render_template(
         "soc_dashboard.html",
         devices=devices,
         vulnerability_risks=vulnerability_risks,
+        vulnerability_percentage=vulnerability_percentage,
         stats=stats
     )
 
