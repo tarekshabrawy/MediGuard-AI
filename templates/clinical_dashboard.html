@@ -2,17 +2,25 @@
 <html>
 <head>
     <title>Doctor Dashboard - MediGuard AI</title>
-    <meta http-equiv="refresh" content="5">
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
+<div class="dashboard-bg">
+    <div class="bg-grid"></div>
+    <div class="dash-glow dash-glow-one"></div>
+    <div class="dash-glow dash-glow-two"></div>
+</div>
+
 <div class="app-layout">
 
-    <aside class="sidebar">
+    <aside class="sidebar doctor-sidebar">
         <div class="side-logo">
             <div class="logo-dot">✦</div>
-            <h2>MediGuard</h2>
+            <div>
+                <h2>MediGuard</h2>
+                <span>Doctor Console</span>
+            </div>
         </div>
 
         <nav>
@@ -29,10 +37,15 @@
 
     <main class="main-content">
 
-        <div class="topbar">
+        <div class="topbar page-enter">
             <div>
+                <span class="page-kicker">Clinical Monitoring</span>
                 <h1>Doctor Monitoring Dashboard</h1>
-                <p>Real ESP32 sensor monitoring for room temperature and humidity.</p>
+                <p>Real ESP32 sensor monitoring for medical storage room temperature and humidity.</p>
+
+                <button onclick="enableAlertSound()" class="btn-alert-sound">
+                    Enable Alert Sound
+                </button>
             </div>
 
             <div class="top-actions">
@@ -41,14 +54,33 @@
         </div>
 
         <section class="stats-grid">
-            <div class="stat-card"><span>Total Devices</span><h2>{{ stats.total }}</h2></div>
-            <div class="stat-card success"><span>Normal</span><h2>{{ stats.normal }}</h2></div>
-            <div class="stat-card warning"><span>Warnings</span><h2>{{ stats.warning }}</h2></div>
-            <div class="stat-card danger"><span>Critical</span><h2>{{ stats.critical }}</h2></div>
-            <div class="stat-card"><span>Average Risk</span><h2>{{ stats.avg_risk }}%</h2></div>
+            <div class="stat-card">
+                <span>Total Devices</span>
+                <h2 id="statTotal">{{ stats.total }}</h2>
+            </div>
+
+            <div class="stat-card success">
+                <span>Normal</span>
+                <h2 id="statNormal">{{ stats.normal }}</h2>
+            </div>
+
+            <div class="stat-card warning">
+                <span>Warnings</span>
+                <h2 id="statWarning">{{ stats.warning }}</h2>
+            </div>
+
+            <div class="stat-card danger">
+                <span>Critical</span>
+                <h2 id="statCritical">{{ stats.critical }}</h2>
+            </div>
+
+            <div class="stat-card">
+                <span>Average Risk</span>
+                <h2 id="statAvgRisk">{{ stats.avg_risk }}%</h2>
+            </div>
         </section>
 
-        <section class="panel">
+        <section class="panel animated-panel">
             <div class="panel-head">
                 <div>
                     <h2>Room Environment Monitoring</h2>
@@ -58,61 +90,65 @@
 
             <div class="table-wrap">
                 <table>
-                    <tr>
-                        <th>Device</th>
-                        <th>Location</th>
-                        <th>Temp °C</th>
-                        <th>Humidity</th>
-                        <th>Status</th>
-                        <th>Risk</th>
-                        <th>Medical Action</th>
-                        <th>Reason</th>
-                        <th>Isolation</th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Device</th>
+                            <th>Location</th>
+                            <th>Temp °C</th>
+                            <th>Humidity</th>
+                            <th>Status</th>
+                            <th>Risk</th>
+                            <th>Medical Action</th>
+                            <th>Reason</th>
+                            <th>Isolation</th>
+                        </tr>
+                    </thead>
 
-                    {% for device in devices %}
-                    <tr>
-                        <td>{{ device.device_name }}</td>
-                        <td>{{ device.location }}</td>
-                        <td>{{ device.temperature_c }}</td>
-                        <td>{{ device.humidity }}</td>
+                    <tbody id="clinicalDevicesBody">
+                        {% for device in devices %}
+                        <tr>
+                            <td>{{ device.device_name }}</td>
+                            <td>{{ device.location }}</td>
+                            <td>{{ device.temperature_c }}</td>
+                            <td>{{ device.humidity }}</td>
 
-                        <td>
-                            {% if device.status == "Normal" %}
-                                <span class="badge green">Normal</span>
-                            {% elif device.status == "Warning" %}
-                                <span class="badge yellow">Warning</span>
-                            {% elif device.status == "Critical" %}
-                                <span class="badge red">Critical</span>
-                            {% else %}
-                                <span class="badge gray">No Data</span>
-                            {% endif %}
-                        </td>
+                            <td>
+                                {% if device.status == "Normal" %}
+                                    <span class="badge green">Normal</span>
+                                {% elif device.status == "Warning" %}
+                                    <span class="badge yellow">Warning</span>
+                                {% elif device.status == "Critical" %}
+                                    <span class="badge red">Critical</span>
+                                {% else %}
+                                    <span class="badge gray">No Data</span>
+                                {% endif %}
+                            </td>
 
-                        <td>
-                            {% if device.risk_level == "Low" %}
-                                <span class="badge green">{{ device.risk_score }}%</span>
-                            {% elif device.risk_level == "Medium" %}
-                                <span class="badge yellow">{{ device.risk_score }}%</span>
-                            {% elif device.risk_level == "High" %}
-                                <span class="badge red">{{ device.risk_score }}%</span>
-                            {% else %}
-                                <span class="badge gray">0%</span>
-                            {% endif %}
-                        </td>
+                            <td>
+                                {% if device.risk_level == "Low" %}
+                                    <span class="badge green">{{ device.risk_score }}%</span>
+                                {% elif device.risk_level == "Medium" %}
+                                    <span class="badge yellow">{{ device.risk_score }}%</span>
+                                {% elif device.risk_level == "High" %}
+                                    <span class="badge red">{{ device.risk_score }}%</span>
+                                {% else %}
+                                    <span class="badge gray">0%</span>
+                                {% endif %}
+                            </td>
 
-                        <td>{{ device.action }}</td>
-                        <td>{{ device.environment_reason }}</td>
+                            <td>{{ device.action }}</td>
+                            <td>{{ device.environment_reason }}</td>
 
-                        <td>
-                            {% if device.isolation_status == "Isolated" %}
-                                <span class="badge red">Isolated by SOC</span>
-                            {% else %}
-                                <span class="badge green">Active</span>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
+                            <td>
+                                {% if device.isolation_status == "Isolated" %}
+                                    <span class="badge red">Isolated by SOC</span>
+                                {% else %}
+                                    <span class="badge green">Active</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </section>
@@ -123,6 +159,275 @@
 
     </main>
 </div>
+
+<div id="alertPopup" class="alert-popup hidden">
+    <div class="alert-icon" id="alertIcon">⚠️</div>
+    <div>
+        <h3 id="alertTitle">Alert</h3>
+        <p id="alertMessage">System alert detected.</p>
+    </div>
+</div>
+
+<script>
+let soundEnabled = localStorage.getItem("alertSoundEnabled") === "true";
+let criticalAlarmInterval = null;
+let devicesData = {{ devices|tojson }};
+
+function badge(text, type) {
+    return `<span class="badge ${type}">${text}</span>`;
+}
+
+function statusBadge(status) {
+    if (status === "Normal") return badge("Normal", "green");
+    if (status === "Warning") return badge("Warning", "yellow");
+    if (status === "Critical") return badge("Critical", "red");
+    return badge("No Data", "gray");
+}
+
+function riskBadge(level, score) {
+    if (level === "Low") return badge(`${score}%`, "green");
+    if (level === "Medium") return badge(`${score}%`, "yellow");
+    if (level === "High") return badge(`${score}%`, "red");
+    return badge("0%", "gray");
+}
+
+function isolationBadge(status) {
+    if (status === "Isolated") return badge("Isolated by SOC", "red");
+    return badge("Active", "green");
+}
+
+function renderClinicalDevices(devices) {
+    const tbody = document.getElementById("clinicalDevicesBody");
+
+    tbody.innerHTML = devices.map(device => `
+        <tr>
+            <td>${device.device_name || "-"}</td>
+            <td>${device.location || "-"}</td>
+            <td>${device.temperature_c ?? "-"}</td>
+            <td>${device.humidity ?? "-"}</td>
+            <td>${statusBadge(device.status)}</td>
+            <td>${riskBadge(device.risk_level, device.risk_score)}</td>
+            <td>${device.action || "-"}</td>
+            <td>${device.environment_reason || "-"}</td>
+            <td>${isolationBadge(device.isolation_status)}</td>
+        </tr>
+    `).join("");
+}
+
+function updateClinicalStats(stats) {
+    document.getElementById("statTotal").innerText = stats.total;
+    document.getElementById("statNormal").innerText = stats.normal;
+    document.getElementById("statWarning").innerText = stats.warning;
+    document.getElementById("statCritical").innerText = stats.critical;
+    document.getElementById("statAvgRisk").innerText = `${stats.avg_risk}%`;
+}
+
+async function fetchClinicalLiveData() {
+    try {
+        const response = await fetch("/api/clinical_live", { cache: "no-store" });
+        const data = await response.json();
+
+        if (!data.success) return;
+
+        devicesData = data.devices;
+        updateClinicalStats(data.stats);
+        renderClinicalDevices(data.devices);
+        checkDashboardAlert();
+
+    } catch (error) {
+        console.log("Clinical live update error:", error);
+    }
+}
+
+function enableAlertSound() {
+    soundEnabled = true;
+    localStorage.setItem("alertSoundEnabled", "true");
+    localStorage.setItem("lastClinicalAlertState", "normal");
+
+    playBeep(600, 150, 0.25);
+    alert("Alert sound enabled");
+}
+
+function playBeep(frequency, duration, volume) {
+    if (!soundEnabled) return;
+
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.frequency.value = frequency;
+    oscillator.type = "square";
+
+    gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + duration / 1000
+    );
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + duration / 1000);
+}
+
+function playEnvironmentWarningSound() {
+    playBeep(650, 250, 0.3);
+    setTimeout(() => playBeep(650, 250, 0.3), 450);
+}
+
+function playEnvironmentCriticalSound() {
+    playBeep(800, 300, 0.65);
+    setTimeout(() => playBeep(1000, 300, 0.65), 350);
+    setTimeout(() => playBeep(800, 300, 0.65), 700);
+    setTimeout(() => playBeep(1000, 500, 0.75), 1050);
+}
+
+function playAvailabilityCriticalSound() {
+    playBeep(450, 350, 0.85);
+    setTimeout(() => playBeep(950, 350, 0.85), 350);
+    setTimeout(() => playBeep(450, 350, 0.85), 700);
+    setTimeout(() => playBeep(1200, 500, 1.0), 1100);
+}
+
+function startCriticalAlarm(alarmType) {
+    if (criticalAlarmInterval !== null) return;
+
+    if (alarmType === "availability") {
+        playAvailabilityCriticalSound();
+        criticalAlarmInterval = setInterval(playAvailabilityCriticalSound, 2300);
+    } else {
+        playEnvironmentCriticalSound();
+        criticalAlarmInterval = setInterval(playEnvironmentCriticalSound, 2300);
+    }
+}
+
+function stopCriticalAlarm() {
+    if (criticalAlarmInterval !== null) {
+        clearInterval(criticalAlarmInterval);
+        criticalAlarmInterval = null;
+    }
+}
+
+function showAlertPopup(type, title, message) {
+    const popup = document.getElementById("alertPopup");
+    const icon = document.getElementById("alertIcon");
+    const alertTitle = document.getElementById("alertTitle");
+    const alertMessage = document.getElementById("alertMessage");
+
+    if (!popup) return;
+
+    popup.classList.remove(
+        "hidden",
+        "env-warning-alert",
+        "env-critical-alert",
+        "cyber-warning-alert",
+        "cyber-critical-alert",
+        "availability-alert"
+    );
+
+    if (type === "env-warning") {
+        popup.classList.add("env-warning-alert");
+        icon.innerText = "🌡️";
+    }
+    else if (type === "env-critical") {
+        popup.classList.add("env-critical-alert");
+        icon.innerText = "🔥";
+    }
+    else if (type === "availability") {
+        popup.classList.add("availability-alert");
+        icon.innerText = "📡";
+    }
+
+    alertTitle.innerText = title;
+    alertMessage.innerText = message;
+    popup.style.display = "flex";
+}
+
+function hideAlertPopup() {
+    const popup = document.getElementById("alertPopup");
+    if (!popup) return;
+
+    popup.classList.add("hidden");
+    popup.style.display = "none";
+}
+
+function checkDashboardAlert() {
+    const lastAlert = localStorage.getItem("lastClinicalAlertState");
+
+    const hasAvailabilityCritical = devicesData.some(device =>
+        device.attack_status === "Sensor Disconnected" ||
+        device.security_status === "Sensor Disconnected" ||
+        device.behavior_status === "Sensor Disconnected"
+    );
+
+    const hasAvailabilityWarning = devicesData.some(device =>
+        device.attack_status === "Availability Warning" ||
+        device.security_status === "Availability Warning" ||
+        device.behavior_status === "Availability Warning"
+    );
+
+    const hasEnvironmentCritical = devicesData.some(device =>
+        device.status === "Critical" &&
+        device.attack_status !== "Sensor Disconnected" &&
+        device.attack_status !== "Possible Cyber Attack"
+    );
+
+    const hasEnvironmentWarning = devicesData.some(device =>
+        device.status === "Warning" &&
+        device.attack_status !== "Availability Warning" &&
+        device.attack_status !== "Sensor Disconnected"
+    );
+
+    if (hasAvailabilityCritical) {
+        startCriticalAlarm("availability");
+        showAlertPopup(
+            "availability",
+            "Sensor Disconnected",
+            "Critical availability failure: the ESP32 stopped sending live readings for more than 40 seconds."
+        );
+        localStorage.setItem("lastClinicalAlertState", "availability-critical");
+    }
+    else if (hasEnvironmentCritical) {
+        startCriticalAlarm("environment");
+        showAlertPopup(
+            "env-critical",
+            "Environmental Critical Alert",
+            "A dangerous temperature or humidity condition has been detected."
+        );
+        localStorage.setItem("lastClinicalAlertState", "environment-critical");
+    }
+    else {
+        stopCriticalAlarm();
+
+        if (hasAvailabilityWarning && lastAlert !== "availability-warning") {
+            playEnvironmentWarningSound();
+            showAlertPopup(
+                "availability",
+                "Sensor Availability Warning",
+                "The ESP32 sensor is delayed. Check Wi-Fi, power, or sensor connection."
+            );
+            localStorage.setItem("lastClinicalAlertState", "availability-warning");
+        }
+        else if (hasEnvironmentWarning && lastAlert !== "environment-warning") {
+            playEnvironmentWarningSound();
+            showAlertPopup(
+                "env-warning",
+                "Environmental Warning",
+                "Temperature or humidity is outside the normal range."
+            );
+            localStorage.setItem("lastClinicalAlertState", "environment-warning");
+        }
+        else if (!hasAvailabilityWarning && !hasEnvironmentWarning) {
+            hideAlertPopup();
+            localStorage.setItem("lastClinicalAlertState", "normal");
+        }
+    }
+}
+
+fetchClinicalLiveData();
+setInterval(fetchClinicalLiveData, 1000);
+</script>
 
 </body>
 </html>
