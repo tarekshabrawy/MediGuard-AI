@@ -1,40 +1,106 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>MediGuard AI Logs</title>
+    <title>System Logs - MediGuard AI</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+
+<div class="dashboard-bg">
+    <div class="bg-grid"></div>
+    <div class="dash-glow dash-glow-one"></div>
+    <div class="dash-glow dash-glow-two"></div>
+</div>
 
 <div class="app-layout">
 
     <aside class="sidebar">
         <div class="side-logo">
             <div class="logo-dot">✦</div>
-            <h2>MediGuard</h2>
+            <div>
+                <h2>MediGuard</h2>
+                <span>Event History</span>
+            </div>
         </div>
 
         <nav>
-            <a href="/dashboard">Dashboard</a>
-            <a href="/add_device">Add Sensor</a>
+            {% if session.role == "doctor" %}
+                <a href="/clinical">Doctor Dashboard</a>
+            {% elif session.role == "soc" %}
+                <a href="/soc">SOC Dashboard</a>
+            {% endif %}
+
             <a href="/logs" class="active">Logs</a>
-            <a href="/">Welcome</a>
+            <a href="/logout">Logout</a>
         </nav>
+
+        <div class="side-note">
+            <span>Logged in as</span>
+            <b>
+                {% if session.role == "doctor" %}
+                    Doctor
+                {% elif session.role == "soc" %}
+                    SOC Team
+                {% else %}
+                    User
+                {% endif %}
+            </b>
+        </div>
     </aside>
 
     <main class="main-content">
-        <div class="topbar">
+
+        <div class="topbar page-enter">
             <div>
+                <span class="page-kicker">System Evidence</span>
                 <h1>Monitoring Logs</h1>
-                <p>Sensor readings, AI results, risk decisions, and attack/failure outcomes.</p>
+                <p>Sensor readings, AI decisions, environmental alerts, and cyber detection history.</p>
             </div>
 
             <div class="top-actions">
-                <a href="/dashboard" class="btn-secondary">Back to Dashboard</a>
+                {% if session.role == "doctor" %}
+                    <a href="/clinical" class="btn-secondary">Back to Doctor Dashboard</a>
+                {% elif session.role == "soc" %}
+                    <a href="/soc" class="btn-secondary">Back to SOC Dashboard</a>
+                {% else %}
+                    <a href="/" class="btn-secondary">Back</a>
+                {% endif %}
             </div>
         </div>
 
-        <section class="panel">
+        <section class="stats-grid">
+            <div class="stat-card">
+                <span>Total Log Records</span>
+                <h2>{{ logs|length }}</h2>
+            </div>
+
+            <div class="stat-card warning">
+                <span>Monitoring History</span>
+                <h2>AI</h2>
+            </div>
+
+            <div class="stat-card danger">
+                <span>Security Events</span>
+                <h2>SOC</h2>
+            </div>
+
+            <div class="stat-card success">
+                <span>Status</span>
+                <h2>Saved</h2>
+            </div>
+        </section>
+
+        <section class="panel animated-panel">
+            <div class="panel-head">
+                <div>
+                    <h2>System Event History</h2>
+                    <p>
+                        This table stores sensor readings, AI outputs, risk scores,
+                        recommended actions, and attack or failure decisions.
+                    </p>
+                </div>
+            </div>
+
             <div class="table-wrap">
                 <table>
                     <tr>
@@ -42,11 +108,9 @@
                         <th>Device</th>
                         <th>Type</th>
                         <th>Location</th>
-                        <th>Storage</th>
                         <th>Temp</th>
                         <th>Humidity</th>
-                        <th>Cooling</th>
-                        <th>ML</th>
+                        <th>ML Prediction</th>
                         <th>Anomaly</th>
                         <th>Risk</th>
                         <th>Level</th>
@@ -60,21 +124,79 @@
                         <td>{{ log.device_name }}</td>
                         <td>{{ log.device_type }}</td>
                         <td>{{ log.location }}</td>
-                        <td>{{ log.storage_type }}</td>
                         <td>{{ log.temperature_c }}</td>
                         <td>{{ log.humidity }}</td>
-                        <td>{{ log.cooling_status }}</td>
-                        <td>{{ log.ml_prediction }}</td>
-                        <td>{{ log.anomaly_status }}</td>
+
+                        <td>
+                            {% if log.ml_prediction == "1" or log.ml_prediction == 1 %}
+                                <span class="badge red">Risky</span>
+                            {% elif log.ml_prediction == "0" or log.ml_prediction == 0 %}
+                                <span class="badge green">Normal</span>
+                            {% else %}
+                                <span class="badge gray">-</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if log.anomaly_status == "Anomalous" %}
+                                <span class="badge red">Anomalous</span>
+                            {% elif log.anomaly_status == "Normal Pattern" %}
+                                <span class="badge green">Normal</span>
+                            {% else %}
+                                <span class="badge gray">-</span>
+                            {% endif %}
+                        </td>
+
                         <td>{{ log.risk_score }}%</td>
-                        <td>{{ log.risk_level }}</td>
+
+                        <td>
+                            {% if log.risk_level == "High" or log.risk_level == "Critical" %}
+                                <span class="badge red">{{ log.risk_level }}</span>
+                            {% elif log.risk_level == "Medium" %}
+                                <span class="badge yellow">{{ log.risk_level }}</span>
+                            {% elif log.risk_level == "Low" %}
+                                <span class="badge green">{{ log.risk_level }}</span>
+                            {% else %}
+                                <span class="badge gray">-</span>
+                            {% endif %}
+                        </td>
+
                         <td>{{ log.action }}</td>
-                        <td>{{ log.attack_status }}</td>
+
+                        <td>
+                            {% if log.attack_status == "Possible Cyber Attack" %}
+                                <span class="badge red">Cyber Attack</span>
+                            {% elif log.attack_status == "Environmental Failure" %}
+                                <span class="badge yellow">Environmental Failure</span>
+                            {% elif log.attack_status == "Environmental Warning" %}
+                                <span class="badge yellow">Environmental Warning</span>
+                            {% elif log.attack_status == "Sensor Disconnected" %}
+                                <span class="badge red">Sensor Disconnected</span>
+                            {% elif log.attack_status == "Availability Warning" %}
+                                <span class="badge yellow">Availability Warning</span>
+                            {% elif log.attack_status == "Normal Operation" %}
+                                <span class="badge green">Normal Operation</span>
+                            {% else %}
+                                <span class="badge gray">-</span>
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </table>
+
+                {% if logs|length == 0 %}
+                <div class="empty">
+                    <h3>No logs recorded yet</h3>
+                    <p>Once the ESP32 starts sending readings, system logs will appear here.</p>
+                </div>
+                {% endif %}
             </div>
         </section>
+
+        <div class="note">
+            Logs help review sensor readings, AI decisions, environmental incidents, and cybersecurity events after the demo.
+        </div>
+
     </main>
 </div>
 

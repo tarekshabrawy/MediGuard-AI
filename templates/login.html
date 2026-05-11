@@ -6,37 +6,57 @@
 </head>
 <body class="welcome-body">
 
-<div class="welcome-shell">
+<div class="presentation-bg">
+    <div class="bg-grid"></div>
     <div class="glow glow-one"></div>
     <div class="glow glow-two"></div>
+    <div class="glow glow-three"></div>
+</div>
 
-    <div class="form-card">
-        <div class="form-badge">🔐</div>
-        <h1>System Login</h1>
-        <p>Login as Doctor or SOC Team.</p>
+<div class="welcome-shell">
+
+    <div class="login-card presentation-enter">
+
+        <div class="login-header">
+            <div class="form-badge animated-lock">🔐</div>
+            <span class="system-label">Secure Access Portal</span>
+            <h1>System Login</h1>
+            <p>Choose your role and access the monitoring environment.</p>
+        </div>
 
         {% if error %}
-            <div class="error-box">{{ error }}</div>
+            <div class="error-box animated-error">{{ error }}</div>
         {% endif %}
 
-        <form method="POST">
+        <form method="POST" class="login-form">
+
             <label>Username</label>
-            <input type="text" name="username"  required>
+            <div class="input-wrap">
+                <span>👤</span>
+                <input type="text" name="username" required>
+            </div>
 
             <label>Password</label>
-            <input type="password" name="password" required>
+            <div class="input-wrap">
+                <span>🔑</span>
+                <input type="password" name="password" required>
+            </div>
 
             <div class="form-actions">
-                <button class="btn-primary" type="submit">Login</button>
-                <a class="btn-secondary" href="/">Back</a>
+                <button class="btn-primary premium-login-btn" type="submit">
+                    Login
+                </button>
+
+                <a class="btn-secondary" href="/">
+                    Back
+                </a>
             </div>
         </form>
 
-        <div class="login-hint">
-            Doctor: <b>doctor / 123</b><br>
-            SOC: <b>soc / 123</b>
-        </div>
+        
+
     </div>
+
 </div>
 
 </body>

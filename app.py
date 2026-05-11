@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, url_for, session
+from flask import Flask, render_template, redirect, request, url_for, session, jsonify
 import joblib
 import csv
 import os
@@ -14,6 +14,10 @@ attack_model = joblib.load("attack_model.pkl")
 
 DEVICES_FILE = "data/devices.csv"
 LOG_FILE = "logs.csv"
+
+# Trusted ESP32 identity
+TRUSTED_SENSOR_ID = "ESP32_ROOM_1"
+TRUSTED_SENSOR_TOKEN = "MEDIGUARD_SENSOR_SECRET_123"
 
 
 def require_login(role=None):
@@ -34,7 +38,7 @@ def get_fieldnames():
         "security_status", "isolation_status",
         "behavior_status", "behavior_reason",
         "attack_type", "attack_reason",
-        "last_temperature", "last_humidity", "repeat_count"
+        "last_temperature", "last_humidity", "repeat_count", "last_seen"
     ]
 
 
@@ -66,7 +70,8 @@ def create_default_sensor():
         "attack_reason": "-",
         "last_temperature": "",
         "last_humidity": "",
-        "repeat_count": 0
+        "repeat_count": 0,
+        "last_seen": ""
     }
 
     with open(DEVICES_FILE, "w", newline="") as file:
@@ -137,7 +142,8 @@ def load_devices():
                 "attack_reason": row.get("attack_reason") or "-",
                 "last_temperature": row.get("last_temperature") or "",
                 "last_humidity": row.get("last_humidity") or "",
-                "repeat_count": int(row.get("repeat_count") or 0)
+                "repeat_count": int(row.get("repeat_count") or 0),
+                "last_seen": row.get("last_seen") or ""
             })
 
     return devices
@@ -162,6 +168,70 @@ def update_device_readings(device_index, updated_data):
         devices[device_index][key] = value
 
     save_devices(devices)
+
+
+def check_sensor_availability(devices):
+    updated = False
+    now = datetime.now()
+
+    for device in devices:
+        isolation_status = device.get("isolation_status", "Active")
+
+        if isolation_status == "Isolated":
+            continue
+
+        last_seen = device.get("last_seen", "")
+
+        if not last_seen:
+            continue
+
+        try:
+            last_seen_time = datetime.strptime(last_seen, "%Y-%m-%d %H:%M:%S")
+        except:
+            continue
+
+        seconds_offline = (now - last_seen_time).total_seconds()
+
+        if seconds_offline >= 40:
+            device["status"] = "Critical"
+            device["risk_score"] = 85
+            device["risk_level"] = "High"
+            device["action"] = "Check ESP32 power, Wi-Fi, and sensor wiring immediately"
+            device["environment_reason"] = "No sensor readings received for more than 40 seconds"
+
+            device["anomaly_status"] = "Anomalous"
+            device["attack_status"] = "Sensor Disconnected"
+            device["security_status"] = "Sensor Disconnected"
+            device["behavior_status"] = "Sensor Disconnected"
+            device["behavior_reason"] = "The ESP32 stopped sending live readings for a critical timeout period"
+
+            device["attack_type"] = "Sensor Availability Failure"
+            device["attack_reason"] = "Sensor may be disconnected, powered off, Wi-Fi lost, or under availability attack"
+
+            updated = True
+
+        elif seconds_offline >= 15:
+            device["status"] = "Warning"
+            device["risk_score"] = 55
+            device["risk_level"] = "Medium"
+            device["action"] = "Check ESP32 connection"
+            device["environment_reason"] = "No sensor readings received for more than 15 seconds"
+
+            device["anomaly_status"] = "Anomalous"
+            device["attack_status"] = "Availability Warning"
+            device["security_status"] = "Availability Warning"
+            device["behavior_status"] = "Availability Warning"
+            device["behavior_reason"] = "Sensor heartbeat delay detected"
+
+            device["attack_type"] = "Sensor Availability Warning"
+            device["attack_reason"] = "The sensor stopped sending readings within the expected time window"
+
+            updated = True
+
+    if updated:
+        save_devices(devices)
+
+    return devices
 
 
 def get_dashboard_stats(devices):
@@ -290,15 +360,15 @@ def analyze_sensor_behavior(device, behavior):
 
     if last_temp is not None:
         temp_jump = abs(current_temp - last_temp)
-        if temp_jump >= 20:
+        if temp_jump >= 35:
             suspicious = True
-            reasons.append("Impossible sudden temperature jump")
+            reasons.append("Physically impossible sudden temperature jump")
 
     if last_humidity is not None:
         humidity_jump = abs(current_humidity - last_humidity)
-        if humidity_jump >= 55:
+        if humidity_jump >= 70:
             suspicious = True
-            reasons.append("Impossible sudden humidity jump")
+            reasons.append("Physically impossible sudden humidity jump")
 
     if abs(object_temp - current_temp) >= 18:
         suspicious = True
@@ -327,263 +397,70 @@ def get_vulnerability_risks(devices):
             has_attack = True
             active_attack_type = device.get("attack_type") or "-"
 
-        if device.get("anomaly_status") == "Anomalous" or device.get("behavior_status") == "Suspicious Behavior":
+        if device.get("anomaly_status") == "Anomalous" or device.get("behavior_status") in ["Suspicious Behavior", "Sensor Offline"]:
             has_suspicious = True
 
         if device.get("isolation_status") == "Isolated":
             has_isolated = True
 
+        if device.get("attack_type") == "Sensor Availability Failure":
+            active_attack_type = "Sensor Availability Failure"
+
     vulnerabilities = [
-        {
-            "id": "V1",
-            "vulnerability": "No device authentication",
-            "threat": "Fake ESP32/sensor may send false readings",
-            "recommendation": "Use API token or device secret for each sensor"
-        },
-        {
-            "id": "V2",
-            "vulnerability": "Unencrypted communication",
-            "threat": "Traffic may be observed on the network",
-            "recommendation": "Use HTTPS/TLS or MQTT over TLS"
-        },
-        {
-            "id": "V3",
-            "vulnerability": "No message integrity check",
-            "threat": "Sensor data may be changed in transit",
-            "recommendation": "Add HMAC/signature for every reading"
-        },
-        {
-            "id": "V4",
-            "vulnerability": "No replay protection",
-            "threat": "Old valid readings may be resent",
-            "recommendation": "Add timestamp, nonce, and last-seen validation"
-        },
-        {
-            "id": "V5",
-            "vulnerability": "No input validation",
-            "threat": "Impossible values can affect decisions",
-            "recommendation": "Validate ranges, sensor ID, and payload format"
-        },
-        {
-            "id": "V6",
-            "vulnerability": "No malware protection on gateway",
-            "threat": "Malware on the gateway/laptop may manipulate sensor data",
-            "recommendation": "Add endpoint protection and restrict execution permissions"
-        },
-        {
-            "id": "V7",
-            "vulnerability": "No rate limiting",
-            "threat": "Flooding may overwhelm the API with fake readings",
-            "recommendation": "Add rate limiting and request throttling"
-        },
-        {
-            "id": "V8",
-            "vulnerability": "No SOC isolation response",
-            "threat": "Compromised sensor may remain trusted",
-            "recommendation": "Allow SOC to isolate suspicious sensors"
-        },
-        {
-            "id": "V9",
-            "vulnerability": "Isolated sensor detected",
-            "threat": "Sensor removed from trusted monitoring",
-            "recommendation": "Inspect and restore only after validation"
-        }
+        {"id": "V1", "vulnerability": "No device authentication", "threat": "Fake ESP32 or unauthorized laptop may send false readings", "recommendation": "Use API token or device secret for each sensor"},
+        {"id": "V2", "vulnerability": "Unencrypted communication", "threat": "Traffic may be observed on the network", "recommendation": "Use HTTPS/TLS or MQTT over TLS"},
+        {"id": "V3", "vulnerability": "No message integrity check", "threat": "Sensor data may be changed in transit", "recommendation": "Add HMAC/signature for every reading"},
+        {"id": "V4", "vulnerability": "No replay protection", "threat": "Old valid readings may be resent", "recommendation": "Add timestamp, nonce, and last-seen validation"},
+        {"id": "V5", "vulnerability": "No input validation", "threat": "Impossible values can affect decisions", "recommendation": "Validate ranges, sensor ID, token, and payload format"},
+        {"id": "V6", "vulnerability": "No malware protection on gateway", "threat": "Malware on the gateway/laptop may manipulate sensor data", "recommendation": "Add endpoint protection and restrict execution permissions"},
+        {"id": "V7", "vulnerability": "No rate limiting", "threat": "Flooding may overwhelm the API with fake readings", "recommendation": "Add rate limiting and request throttling"},
+        {"id": "V8", "vulnerability": "No SOC isolation response", "threat": "Compromised or unavailable sensor may remain trusted", "recommendation": "Allow SOC to isolate suspicious sensors"},
+        {"id": "V9", "vulnerability": "Isolated sensor detected", "threat": "Sensor removed from trusted monitoring", "recommendation": "Inspect and restore only after validation"},
+        {"id": "V10", "vulnerability": "No sensor availability monitoring", "threat": "Sensor disconnection, Wi-Fi loss, or availability attack may go unnoticed", "recommendation": "Track sensor heartbeat and last-seen timestamp"}
     ]
 
-    normal_scores = {
-        "V1": (2, 3),
-        "V2": (2, 2),
-        "V3": (2, 3),
-        "V4": (2, 2),
-        "V5": (2, 3),
-        "V6": (2, 3),
-        "V7": (2, 2),
-        "V8": (1, 3),
-        "V9": (1, 2),
-    }
-
-    suspicious_scores = {
-        "V1": (3, 3),
-        "V2": (2, 2),
-        "V3": (3, 3),
-        "V4": (3, 3),
-        "V5": (3, 4),
-        "V6": (3, 3),
-        "V7": (3, 3),
-        "V8": (3, 4),
-        "V9": (1, 2),
-    }
-
-    isolated_scores = {
-        "V1": (2, 2),
-        "V2": (1, 2),
-        "V3": (2, 2),
-        "V4": (2, 2),
-        "V5": (2, 2),
-        "V6": (2, 2),
-        "V7": (1, 2),
-        "V8": (2, 3),
-        "V9": (4, 4),
-    }
+    normal_scores = {"V1": (1, 2), "V2": (2, 2), "V3": (1, 2), "V4": (1, 2), "V5": (1, 2), "V6": (1, 3), "V7": (1, 2), "V8": (1, 2), "V9": (1, 1), "V10": (1, 2)}
+    suspicious_scores = {"V1": (3, 3), "V2": (2, 2), "V3": (3, 3), "V4": (3, 3), "V5": (3, 4), "V6": (3, 3), "V7": (3, 3), "V8": (3, 4), "V9": (1, 1), "V10": (3, 4)}
+    isolated_scores = {"V1": (2, 2), "V2": (1, 2), "V3": (2, 2), "V4": (2, 2), "V5": (2, 2), "V6": (2, 2), "V7": (1, 2), "V8": (2, 3), "V9": (4, 4), "V10": (3, 3)}
 
     attack_profiles = {
-        "Data Spoofing Attack": {
-            "related": ["V1", "V3", "V5"],
-            "scores": {
-                "V1": (5, 5),
-                "V2": (2, 2),
-                "V3": (4, 5),
-                "V4": (2, 2),
-                "V5": (5, 4),
-                "V6": (2, 3),
-                "V7": (2, 2),
-                "V8": (4, 4),
-                "V9": (1, 2),
-            }
-        },
-        "Man-in-the-Middle Observation": {
-            "related": ["V2"],
-            "scores": {
-                "V1": (2, 3),
-                "V2": (4, 2),
-                "V3": (2, 3),
-                "V4": (2, 2),
-                "V5": (2, 3),
-                "V6": (2, 3),
-                "V7": (2, 2),
-                "V8": (3, 3),
-                "V9": (1, 2),
-            }
-        },
-        "Man-in-the-Middle Modification": {
-            "related": ["V2", "V3"],
-            "scores": {
-                "V1": (3, 3),
-                "V2": (5, 4),
-                "V3": (5, 5),
-                "V4": (3, 3),
-                "V5": (3, 3),
-                "V6": (2, 3),
-                "V7": (2, 2),
-                "V8": (4, 4),
-                "V9": (1, 2),
-            }
-        },
-        "Replay Attack": {
-            "related": ["V4"],
-            "scores": {
-                "V1": (3, 3),
-                "V2": (2, 2),
-                "V3": (3, 3),
-                "V4": (5, 5),
-                "V5": (2, 3),
-                "V6": (2, 3),
-                "V7": (2, 2),
-                "V8": (4, 4),
-                "V9": (1, 2),
-            }
-        },
-        "DDoS / Flooding Attempt": {
-            "related": ["V7"],
-            "scores": {
-                "V1": (2, 2),
-                "V2": (1, 2),
-                "V3": (2, 2),
-                "V4": (2, 2),
-                "V5": (3, 3),
-                "V6": (2, 2),
-                "V7": (5, 5),
-                "V8": (4, 4),
-                "V9": (1, 2),
-            }
-        },
-        "Malware Data Manipulation": {
-            "related": ["V6", "V3", "V5"],
-            "scores": {
-                "V1": (3, 3),
-                "V2": (2, 2),
-                "V3": (4, 5),
-                "V4": (2, 2),
-                "V5": (4, 4),
-                "V6": (5, 5),
-                "V7": (2, 2),
-                "V8": (4, 4),
-                "V9": (1, 2),
-            }
-        },
-        "Sensor Identity Spoofing": {
-            "related": ["V1"],
-            "scores": {
-                "V1": (5, 5),
-                "V2": (2, 2),
-                "V3": (3, 4),
-                "V4": (3, 3),
-                "V5": (4, 4),
-                "V6": (2, 3),
-                "V7": (2, 2),
-                "V8": (4, 4),
-                "V9": (1, 2),
-            }
-        },
-        "Unauthorized Sensor Spoofing": {
-            "related": ["V1"],
-            "scores": {
-                "V1": (5, 5),
-                "V2": (2, 2),
-                "V3": (3, 4),
-                "V4": (2, 2),
-                "V5": (4, 4),
-                "V6": (2, 3),
-                "V7": (2, 2),
-                "V8": (4, 4),
-                "V9": (1, 2),
-            }
-        },
-        "Impossible Sensor Payload": {
-            "related": ["V5"],
-            "scores": {
-                "V1": (3, 3),
-                "V2": (1, 2),
-                "V3": (2, 3),
-                "V4": (2, 2),
-                "V5": (5, 5),
-                "V6": (2, 3),
-                "V7": (2, 2),
-                "V8": (4, 4),
-                "V9": (1, 2),
-            }
-        },
+        "Unauthorized Sensor Spoofing": {"related": ["V1"], "scores": {"V1": (5, 5), "V2": (2, 2), "V3": (3, 4), "V4": (2, 2), "V5": (4, 4), "V6": (2, 3), "V7": (2, 2), "V8": (4, 4), "V9": (1, 1), "V10": (2, 3)}},
+        "Sensor Identity Spoofing": {"related": ["V1"], "scores": {"V1": (5, 5), "V2": (2, 2), "V3": (3, 4), "V4": (3, 3), "V5": (4, 4), "V6": (2, 3), "V7": (2, 2), "V8": (4, 4), "V9": (1, 1), "V10": (2, 3)}},
+        "Impossible Sensor Payload": {"related": ["V5"], "scores": {"V1": (3, 3), "V2": (1, 2), "V3": (2, 3), "V4": (2, 2), "V5": (5, 5), "V6": (2, 3), "V7": (2, 2), "V8": (4, 4), "V9": (1, 1), "V10": (2, 3)}},
+        "Data Spoofing Attack": {"related": ["V1", "V3", "V5"], "scores": {"V1": (5, 5), "V2": (2, 2), "V3": (4, 5), "V4": (2, 2), "V5": (5, 4), "V6": (2, 3), "V7": (2, 2), "V8": (4, 4), "V9": (1, 1), "V10": (2, 3)}},
+        "Man-in-the-Middle Observation": {"related": ["V2"], "scores": {"V1": (2, 2), "V2": (4, 2), "V3": (2, 2), "V4": (2, 2), "V5": (2, 2), "V6": (2, 2), "V7": (1, 2), "V8": (3, 3), "V9": (1, 1), "V10": (2, 3)}},
+        "Man-in-the-Middle Modification": {"related": ["V2", "V3"], "scores": {"V1": (3, 3), "V2": (5, 4), "V3": (5, 5), "V4": (3, 3), "V5": (3, 3), "V6": (2, 3), "V7": (2, 2), "V8": (4, 4), "V9": (1, 1), "V10": (2, 3)}},
+        "Replay Attack": {"related": ["V4"], "scores": {"V1": (3, 3), "V2": (2, 2), "V3": (3, 3), "V4": (5, 5), "V5": (2, 3), "V6": (2, 3), "V7": (2, 2), "V8": (4, 4), "V9": (1, 1), "V10": (2, 3)}},
+        "DDoS / Flooding Attempt": {"related": ["V7"], "scores": {"V1": (2, 2), "V2": (1, 2), "V3": (2, 2), "V4": (2, 2), "V5": (3, 3), "V6": (2, 2), "V7": (5, 5), "V8": (4, 4), "V9": (1, 1), "V10": (3, 4)}},
+        "Malware Data Manipulation": {"related": ["V6", "V3", "V5"], "scores": {"V1": (3, 3), "V2": (2, 2), "V3": (4, 5), "V4": (2, 2), "V5": (4, 4), "V6": (5, 5), "V7": (2, 2), "V8": (4, 4), "V9": (1, 1), "V10": (2, 3)}},
+        "Sensor Availability Failure": {"related": ["V10", "V8"], "scores": {"V1": (2, 2), "V2": (1, 2), "V3": (2, 2), "V4": (2, 2), "V5": (2, 2), "V6": (2, 3), "V7": (3, 4), "V8": (4, 4), "V9": (1, 1), "V10": (5, 5)}}
     }
 
-    if has_attack:
-        profile = attack_profiles.get(active_attack_type)
-        if profile is None:
-            profile = {
-                "related": ["V1", "V3", "V5"],
-                "scores": suspicious_scores
-            }
-
+    if active_attack_type == "Sensor Availability Failure":
+        profile = attack_profiles["Sensor Availability Failure"]
+        selected_scores = profile["scores"]
+        related_ids = set(profile["related"])
+        matrix_mode = "availability"
+    elif has_attack:
+        profile = attack_profiles.get(active_attack_type, {"related": ["V1", "V3", "V5"], "scores": suspicious_scores})
         selected_scores = profile["scores"]
         related_ids = set(profile["related"])
         matrix_mode = "attack"
-
     elif has_isolated:
         selected_scores = isolated_scores
         related_ids = {"V9"}
         matrix_mode = "isolated"
-
     elif has_suspicious:
         selected_scores = suspicious_scores
-        related_ids = {"V5", "V8"}
+        related_ids = {"V5", "V8", "V10"}
         matrix_mode = "suspicious"
-
     else:
         selected_scores = normal_scores
         related_ids = set()
         matrix_mode = "normal"
 
     for item in vulnerabilities:
-        likelihood, impact = selected_scores.get(item["id"], (2, 2))
+        likelihood, impact = selected_scores.get(item["id"], (1, 2))
         score = likelihood * impact
 
         item["likelihood"] = likelihood
@@ -623,14 +500,62 @@ def get_vulnerability_percentage(vulnerability_risks):
     return min(100, round((weighted_score / 25) * 100))
 
 
+def get_risk_level_from_percentage(percentage):
+    if percentage >= 80:
+        return "Critical"
+    elif percentage >= 60:
+        return "High"
+    elif percentage >= 30:
+        return "Medium"
+    else:
+        return "Low"
+
+
 def get_security_status(attack_status, anomaly_status, isolation_status):
     if isolation_status == "Isolated":
         return "Isolated"
     if attack_status == "Possible Cyber Attack":
         return "Under Attack"
+    if attack_status in ["Sensor Disconnected", "Availability Warning"]:
+        return "Sensor Offline"
     if anomaly_status == "Anomalous":
         return "Suspicious"
     return "Secure"
+
+
+def trigger_external_attack(device_index, attack_type, attack_reason):
+    devices = load_devices()
+
+    if device_index < 0 or device_index >= len(devices):
+        return False
+
+    temp_devices = [dict(d) for d in devices]
+    temp_devices[device_index]["attack_status"] = "Possible Cyber Attack"
+    temp_devices[device_index]["security_status"] = "Under Attack"
+    temp_devices[device_index]["anomaly_status"] = "Anomalous"
+    temp_devices[device_index]["behavior_status"] = "Suspicious Behavior"
+    temp_devices[device_index]["attack_type"] = attack_type
+    temp_devices[device_index]["attack_reason"] = attack_reason
+
+    vulnerability_risks = get_vulnerability_risks(temp_devices)
+    vulnerability_percentage = get_vulnerability_percentage(vulnerability_risks)
+    risk_level = get_risk_level_from_percentage(vulnerability_percentage)
+
+    updated_data = {
+        "attack_status": "Possible Cyber Attack",
+        "security_status": "Under Attack",
+        "anomaly_status": "Anomalous",
+        "behavior_status": "Suspicious Behavior",
+        "behavior_reason": attack_reason,
+        "attack_type": attack_type,
+        "attack_reason": attack_reason,
+        "risk_score": vulnerability_percentage,
+        "risk_level": risk_level,
+        "action": "SOC Investigation Required"
+    }
+
+    update_device_readings(device_index, updated_data)
+    return True
 
 
 def save_log(device, behavior, ml_prediction, anomaly_status, risk_score, risk_level, action, attack_status):
@@ -691,10 +616,8 @@ def process_device_reading(device_index, behavior, simulated_attack=False, attac
 
     anomaly_status = "Anomalous" if anomaly_flag else "Normal Pattern"
 
-    status, risk_level, action, risk_score, environment_reason = calculate_environmental_result(
-        behavior,
-        ml_prediction,
-        anomaly_flag
+    status, risk_level, action, environmental_risk_score, environment_reason = calculate_environmental_result(
+        behavior, ml_prediction, anomaly_flag
     )
 
     temp_devices = [dict(d) for d in devices]
@@ -715,7 +638,7 @@ def process_device_reading(device_index, behavior, simulated_attack=False, attac
     vulnerability_percentage = get_vulnerability_percentage(vulnerability_risks)
 
     attack_ai_decision = get_attack_model_decision(
-        risk_score,
+        environmental_risk_score,
         vulnerability_percentage,
         anomaly_flag,
         ml_prediction
@@ -753,17 +676,9 @@ def process_device_reading(device_index, behavior, simulated_attack=False, attac
 
     if attack_status == "Possible Cyber Attack":
         final_risk_score = vulnerability_percentage
-
-        if final_risk_score >= 80:
-            final_risk_level = "Critical"
-        elif final_risk_score >= 60:
-            final_risk_level = "High"
-        elif final_risk_score >= 30:
-            final_risk_level = "Medium"
-        else:
-            final_risk_level = "Low"
+        final_risk_level = get_risk_level_from_percentage(final_risk_score)
     else:
-        final_risk_score = risk_score
+        final_risk_score = environmental_risk_score
         final_risk_level = risk_level
 
     updated_data = {
@@ -787,7 +702,8 @@ def process_device_reading(device_index, behavior, simulated_attack=False, attac
         "attack_reason": final_attack_reason,
         "last_temperature": behavior["temp_c"],
         "last_humidity": behavior["humidity"],
-        "repeat_count": repeat_count
+        "repeat_count": repeat_count,
+        "last_seen": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
 
     update_device_readings(device_index, updated_data)
@@ -797,8 +713,8 @@ def process_device_reading(device_index, behavior, simulated_attack=False, attac
         behavior,
         ml_prediction,
         anomaly_status,
-        risk_score,
-        risk_level,
+        final_risk_score,
+        final_risk_level,
         action,
         attack_status
     )
@@ -926,6 +842,7 @@ def clinical_dashboard():
         return redirect(url_for("login"))
 
     devices = load_devices()
+    devices = check_sensor_availability(devices)
     stats = get_dashboard_stats(devices)
 
     return render_template("clinical_dashboard.html", devices=devices, stats=stats)
@@ -937,6 +854,8 @@ def soc_dashboard():
         return redirect(url_for("login"))
 
     devices = load_devices()
+    devices = check_sensor_availability(devices)
+
     vulnerability_risks = get_vulnerability_risks(devices)
     vulnerability_percentage = get_vulnerability_percentage(vulnerability_risks)
     stats = get_dashboard_stats(devices)
@@ -949,6 +868,45 @@ def soc_dashboard():
         vulnerability_percentage=vulnerability_percentage,
         stats=stats
     )
+
+
+@app.route("/api/clinical_live")
+def clinical_live_data():
+    if not require_login("doctor"):
+        return jsonify({"success": False, "error": "Unauthorized"}), 401
+
+    devices = load_devices()
+    devices = check_sensor_availability(devices)
+    stats = get_dashboard_stats(devices)
+
+    return jsonify({
+        "success": True,
+        "devices": devices,
+        "stats": stats
+    })
+
+
+@app.route("/api/soc_live")
+def soc_live_data():
+    if not require_login("soc"):
+        return jsonify({"success": False, "error": "Unauthorized"}), 401
+
+    devices = load_devices()
+    devices = check_sensor_availability(devices)
+
+    vulnerability_risks = get_vulnerability_risks(devices)
+    vulnerability_percentage = get_vulnerability_percentage(vulnerability_risks)
+
+    stats = get_dashboard_stats(devices)
+    stats["cyber_risk"] = vulnerability_percentage
+
+    return jsonify({
+        "success": True,
+        "devices": devices,
+        "stats": stats,
+        "vulnerability_risks": vulnerability_risks,
+        "vulnerability_percentage": vulnerability_percentage
+    })
 
 
 @app.route("/simulate_attack/<int:device_index>")
@@ -1009,6 +967,9 @@ def restore_device(device_index):
         devices[device_index]["attack_type"] = "-"
         devices[device_index]["attack_reason"] = "-"
         devices[device_index]["action"] = "Sensor Restored by SOC"
+        devices[device_index]["risk_score"] = 0
+        devices[device_index]["risk_level"] = "Low"
+        devices[device_index]["last_seen"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     save_devices(devices)
 
@@ -1017,11 +978,83 @@ def restore_device(device_index):
 
 @app.route("/api/sensor_reading", methods=["POST"])
 def api_sensor_reading():
-    data = request.get_json()
+    data = request.get_json(silent=True)
+
+    if not data:
+        trigger_external_attack(
+            0,
+            "Invalid API Payload",
+            "A request reached the sensor API without valid JSON data"
+        )
+        return jsonify({
+            "success": False,
+            "message": "Invalid JSON payload",
+            "attack_detected": True
+        }), 400
 
     device_index = int(data.get("device_index", 0))
-    temp_c = float(data.get("temperature"))
-    humidity = float(data.get("humidity"))
+
+    sensor_id = data.get("sensor_id", "")
+    token = data.get("token", "")
+
+    if sensor_id != TRUSTED_SENSOR_ID or token != TRUSTED_SENSOR_TOKEN:
+        trigger_external_attack(
+            device_index,
+            "Unauthorized Sensor Spoofing",
+            "A device attempted to submit sensor readings without a valid sensor ID and token"
+        )
+
+        return jsonify({
+            "success": False,
+            "message": "Unauthorized sensor request detected",
+            "attack_detected": True,
+            "attack_type": "Unauthorized Sensor Spoofing"
+        }), 401
+
+    if "temperature" not in data or "humidity" not in data:
+        trigger_external_attack(
+            device_index,
+            "Malformed Sensor Request",
+            "A trusted sensor request was missing temperature or humidity fields"
+        )
+
+        return jsonify({
+            "success": False,
+            "message": "Missing temperature or humidity",
+            "attack_detected": True,
+            "attack_type": "Malformed Sensor Request"
+        }), 400
+
+    try:
+        temp_c = float(data.get("temperature"))
+        humidity = float(data.get("humidity"))
+    except:
+        trigger_external_attack(
+            device_index,
+            "Invalid Sensor Data Type",
+            "A request sent non-numeric temperature or humidity values"
+        )
+
+        return jsonify({
+            "success": False,
+            "message": "Temperature and humidity must be numeric",
+            "attack_detected": True,
+            "attack_type": "Invalid Sensor Data Type"
+        }), 400
+
+    if temp_c < -10 or temp_c > 80 or humidity < 0 or humidity > 100:
+        trigger_external_attack(
+            device_index,
+            "Impossible Sensor Payload",
+            "A request submitted physically impossible temperature or humidity values"
+        )
+
+        return jsonify({
+            "success": False,
+            "message": "Impossible sensor values detected",
+            "attack_detected": True,
+            "attack_type": "Impossible Sensor Payload"
+        }), 400
 
     temp_fh = round((temp_c * 9 / 5) + 32, 2)
 
@@ -1037,12 +1070,15 @@ def api_sensor_reading():
     success = process_device_reading(device_index, behavior, simulated_attack=False)
 
     if not success:
-        return {"success": False, "message": "Invalid or isolated device"}, 400
+        return jsonify({
+            "success": False,
+            "message": "Invalid or isolated device"
+        }), 400
 
     devices = load_devices()
     device = devices[device_index]
 
-    return {
+    return jsonify({
         "success": True,
         "temperature": device["temperature_c"],
         "humidity": device["humidity"],
@@ -1055,7 +1091,7 @@ def api_sensor_reading():
         "behavior_reason": device["behavior_reason"],
         "attack_type": device["attack_type"],
         "attack_reason": device["attack_reason"]
-    }
+    })
 
 
 @app.route("/logs")

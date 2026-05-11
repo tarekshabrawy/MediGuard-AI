@@ -2,17 +2,25 @@
 <html>
 <head>
     <title>SOC Dashboard - MediGuard AI</title>
-    <meta http-equiv="refresh" content="5">
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
+<div class="dashboard-bg">
+    <div class="bg-grid"></div>
+    <div class="dash-glow dash-glow-one"></div>
+    <div class="dash-glow dash-glow-red"></div>
+</div>
+
 <div class="app-layout">
 
-    <aside class="sidebar">
+    <aside class="sidebar soc-sidebar">
         <div class="side-logo">
             <div class="logo-dot">✦</div>
-            <h2>MediGuard</h2>
+            <div>
+                <h2>MediGuard</h2>
+                <span>SOC Console</span>
+            </div>
         </div>
 
         <nav>
@@ -29,10 +37,15 @@
 
     <main class="main-content">
 
-        <div class="topbar">
+        <div class="topbar page-enter">
             <div>
+                <span class="page-kicker cyber-kicker">Cybersecurity Operations</span>
                 <h1>SOC Security Dashboard</h1>
-                <p>Cybersecurity monitoring, attack simulation, vulnerability risk, and isolation response.</p>
+                <p>Attack detection, vulnerability matrix, sensor availability, and isolation response.</p>
+
+                <button onclick="enableAlertSound()" class="btn-alert-sound">
+                    Enable Alert Sound
+                </button>
             </div>
 
             <div class="top-actions">
@@ -41,14 +54,33 @@
         </div>
 
         <section class="stats-grid">
-            <div class="stat-card"><span>Total Devices</span><h2>{{ stats.total }}</h2></div>
-            <div class="stat-card warning"><span>Anomalies</span><h2>{{ stats.anomalies }}</h2></div>
-            <div class="stat-card danger"><span>Possible Attacks</span><h2>{{ stats.attacks }}</h2></div>
-            <div class="stat-card danger"><span>Isolated Devices</span><h2>{{ stats.isolated }}</h2></div>
-            <div class="stat-card"><span>Average Risk</span><h2>{{ stats.avg_risk }}%</h2></div>
+            <div class="stat-card">
+                <span>Total Devices</span>
+                <h2 id="socStatTotal">{{ stats.total }}</h2>
+            </div>
+
+            <div class="stat-card warning">
+                <span>Anomalies</span>
+                <h2 id="socStatAnomalies">{{ stats.anomalies }}</h2>
+            </div>
+
+            <div class="stat-card danger">
+                <span>Possible Attacks</span>
+                <h2 id="socStatAttacks">{{ stats.attacks }}</h2>
+            </div>
+
+            <div class="stat-card danger">
+                <span>Isolated Devices</span>
+                <h2 id="socStatIsolated">{{ stats.isolated }}</h2>
+            </div>
+
+            <div class="stat-card">
+                <span>Average Risk</span>
+                <h2 id="socStatAvgRisk">{{ stats.avg_risk }}%</h2>
+            </div>
         </section>
 
-        <section class="panel">
+        <section class="panel animated-panel">
             <div class="panel-head">
                 <div>
                     <h2>Cybersecurity Decision Center</h2>
@@ -61,179 +93,600 @@
 
             <div class="table-wrap">
                 <table>
-                    <tr>
-                        <th>Device</th>
-                        <th>Temp</th>
-                        <th>Humidity</th>
-                        <th>Environment</th>
-                        <th>Env Reason</th>
-                        <th>Anomaly</th>
-                        <th>Behavior</th>
-                        <th>Behavior Reason</th>
-                        <th>Attack Type</th>
-                        <th>Attack Reason</th>
-                        <th>Cyber Decision</th>
-                        <th>Security</th>
-                        <th>Isolation</th>
-                        <th>Attack Test</th>
-                        <th>SOC Response</th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Device</th>
+                            <th>Temp</th>
+                            <th>Humidity</th>
+                            <th>Environment</th>
+                            <th>Env Reason</th>
+                            <th>Anomaly</th>
+                            <th>Behavior</th>
+                            <th>Behavior Reason</th>
+                            <th>Attack Type</th>
+                            <th>Attack Reason</th>
+                            <th>Cyber Decision</th>
+                            <th>Security</th>
+                            <th>Isolation</th>
+                            <th>Attack Test</th>
+                            <th>SOC Response</th>
+                        </tr>
+                    </thead>
 
-                    {% for device in devices %}
-                    <tr>
-                        <td>{{ device.device_name }}</td>
-                        <td>{{ device.temperature_c }}</td>
-                        <td>{{ device.humidity }}</td>
+                    <tbody id="socDevicesBody">
+                        {% for device in devices %}
+                        <tr>
+                            <td>{{ device.device_name }}</td>
+                            <td>{{ device.temperature_c }}</td>
+                            <td>{{ device.humidity }}</td>
 
-                        <td>
-                            {% if device.status == "Normal" %}
-                                <span class="badge green">Normal</span>
-                            {% elif device.status == "Warning" %}
-                                <span class="badge yellow">Warning</span>
-                            {% elif device.status == "Critical" %}
-                                <span class="badge red">Critical</span>
-                            {% else %}
-                                <span class="badge gray">No Data</span>
-                            {% endif %}
-                        </td>
-
-                        <td>{{ device.environment_reason }}</td>
-
-                        <td>
-                            {% if device.anomaly_status == "Anomalous" %}
-                                <span class="badge red">Anomalous</span>
-                            {% elif device.anomaly_status == "Normal Pattern" %}
-                                <span class="badge green">Normal Pattern</span>
-                            {% else %}
-                                <span class="badge gray">-</span>
-                            {% endif %}
-                        </td>
-
-                        <td>
-                            {% if device.behavior_status == "Suspicious Behavior" %}
-                                <span class="badge red">Suspicious</span>
-                            {% elif device.behavior_status == "Normal Behavior" %}
-                                <span class="badge green">Normal</span>
-                            {% else %}
-                                <span class="badge gray">-</span>
-                            {% endif %}
-                        </td>
-
-                        <td>{{ device.behavior_reason }}</td>
-                        <td>{{ device.attack_type }}</td>
-                        <td>{{ device.attack_reason }}</td>
-
-                        <td>
-                            {% if device.attack_status == "Possible Cyber Attack" %}
-                                <span class="badge red">Possible Cyber Attack</span>
-                            {% elif device.attack_status == "Environmental Failure" %}
-                                <span class="badge yellow">Environmental Failure</span>
-                            {% elif device.attack_status == "Environmental Warning" %}
-                                <span class="badge yellow">Environmental Warning</span>
-                            {% elif device.attack_status == "Normal Operation" %}
-                                <span class="badge green">Normal Operation</span>
-                            {% else %}
-                                <span class="badge gray">-</span>
-                            {% endif %}
-                        </td>
-
-                        <td>
-                            {% if device.security_status == "Under Attack" %}
-                                <span class="badge red">Under Attack</span>
-                            {% elif device.security_status == "Suspicious" %}
-                                <span class="badge yellow">Suspicious</span>
-                            {% elif device.security_status == "Isolated" %}
-                                <span class="badge red">Isolated</span>
-                            {% else %}
-                                <span class="badge green">Secure</span>
-                            {% endif %}
-                        </td>
-
-                        <td>
-                            {% if device.isolation_status == "Isolated" %}
-                                <span class="badge red">Isolated</span>
-                            {% else %}
-                                <span class="badge green">Active</span>
-                            {% endif %}
-                        </td>
-
-                        <td>
-                            {% if device.isolation_status == "Isolated" %}
-                                <span class="badge gray">Disabled</span>
-                            {% else %}
-                                <a class="mini-btn critical" href="/simulate_attack/{{ loop.index0 }}">
-                                    Simulate Cyber Attack
-                                </a>
-                            {% endif %}
-                        </td>
-
-                        <td>
-                            <div class="control-buttons">
-                                {% if device.isolation_status == "Isolated" %}
-                                    <a class="mini-btn safe" href="/soc/restore/{{ loop.index0 }}">Restore</a>
+                            <td>
+                                {% if device.status == "Normal" %}
+                                    <span class="badge green">Normal</span>
+                                {% elif device.status == "Warning" %}
+                                    <span class="badge yellow">Warning</span>
+                                {% elif device.status == "Critical" %}
+                                    <span class="badge red">Critical</span>
                                 {% else %}
-                                    <a class="mini-btn critical" href="/soc/isolate/{{ loop.index0 }}">Isolate</a>
+                                    <span class="badge gray">No Data</span>
                                 {% endif %}
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
+                            </td>
+
+                            <td>{{ device.environment_reason }}</td>
+
+                            <td>
+                                {% if device.anomaly_status == "Anomalous" %}
+                                    <span class="badge red">Anomalous</span>
+                                {% elif device.anomaly_status == "Normal Pattern" %}
+                                    <span class="badge green">Normal Pattern</span>
+                                {% else %}
+                                    <span class="badge gray">-</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if device.behavior_status == "Suspicious Behavior" %}
+                                    <span class="badge red">Suspicious</span>
+                                {% elif device.behavior_status == "Sensor Disconnected" %}
+                                    <span class="badge red">Sensor Disconnected</span>
+                                {% elif device.behavior_status == "Availability Warning" %}
+                                    <span class="badge yellow">Availability Warning</span>
+                                {% elif device.behavior_status == "Sensor Offline" %}
+                                    <span class="badge red">Sensor Offline</span>
+                                {% elif device.behavior_status == "Normal Behavior" %}
+                                    <span class="badge green">Normal</span>
+                                {% else %}
+                                    <span class="badge gray">-</span>
+                                {% endif %}
+                            </td>
+
+                            <td>{{ device.behavior_reason }}</td>
+                            <td>{{ device.attack_type }}</td>
+                            <td>{{ device.attack_reason }}</td>
+
+                            <td>
+                                {% if device.attack_status == "Possible Cyber Attack" %}
+                                    <span class="badge red">Possible Cyber Attack</span>
+                                {% elif device.attack_status == "Sensor Disconnected" %}
+                                    <span class="badge red">Sensor Disconnected</span>
+                                {% elif device.attack_status == "Availability Warning" %}
+                                    <span class="badge yellow">Availability Warning</span>
+                                {% elif device.attack_status == "Environmental Failure" %}
+                                    <span class="badge yellow">Environmental Failure</span>
+                                {% elif device.attack_status == "Environmental Warning" %}
+                                    <span class="badge yellow">Environmental Warning</span>
+                                {% elif device.attack_status == "Normal Operation" %}
+                                    <span class="badge green">Normal Operation</span>
+                                {% else %}
+                                    <span class="badge gray">-</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if device.security_status == "Under Attack" %}
+                                    <span class="badge red">Under Attack</span>
+                                {% elif device.security_status == "Sensor Disconnected" %}
+                                    <span class="badge red">Sensor Disconnected</span>
+                                {% elif device.security_status == "Availability Warning" %}
+                                    <span class="badge yellow">Availability Warning</span>
+                                {% elif device.security_status == "Sensor Offline" %}
+                                    <span class="badge red">Sensor Offline</span>
+                                {% elif device.security_status == "Suspicious" %}
+                                    <span class="badge yellow">Suspicious</span>
+                                {% elif device.security_status == "Isolated" %}
+                                    <span class="badge red">Isolated</span>
+                                {% else %}
+                                    <span class="badge green">Secure</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if device.isolation_status == "Isolated" %}
+                                    <span class="badge red">Isolated</span>
+                                {% else %}
+                                    <span class="badge green">Active</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if device.isolation_status == "Isolated" %}
+                                    <span class="badge gray">Disabled</span>
+                                {% else %}
+                                    <a class="mini-btn critical" href="/simulate_attack/{{ loop.index0 }}">
+                                        Simulate Cyber Attack
+                                    </a>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <div class="control-buttons">
+                                    {% if device.isolation_status == "Isolated" %}
+                                        <a class="mini-btn safe" href="/soc/restore/{{ loop.index0 }}">Restore</a>
+                                    {% else %}
+                                        <a class="mini-btn critical" href="/soc/isolate/{{ loop.index0 }}">Isolate</a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </section>
 
-        <section class="panel">
+        <section class="panel animated-panel">
             <div class="panel-head">
                 <div>
                     <h2>Cybersecurity Vulnerability Risk Matrix</h2>
                     <p>
-                        The matrix focuses on authentication, encryption, integrity, replay protection,
-                        malware, DDoS, validation, and SOC response.
+                        Dynamic likelihood × impact assessment based on authentication, encryption,
+                        integrity, replay protection, DDoS, validation, and SOC response.
                     </p>
                 </div>
             </div>
 
             <div class="table-wrap">
                 <table>
-                    <tr>
-                        <th>ID</th>
-                        <th>Vulnerability</th>
-                        <th>Threat</th>
-                        <th>Likelihood</th>
-                        <th>Impact</th>
-                        <th>Score</th>
-                        <th>Risk</th>
-                        <th>Recommendation</th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Vulnerability</th>
+                            <th>Threat</th>
+                            <th>Likelihood</th>
+                            <th>Impact</th>
+                            <th>Score</th>
+                            <th>Risk</th>
+                            <th>Recommendation</th>
+                        </tr>
+                    </thead>
 
-                    {% for risk in vulnerability_risks %}
-                    <tr>
-                        <td>{{ risk.id }}</td>
-                        <td>{{ risk.vulnerability }}</td>
-                        <td>{{ risk.threat }}</td>
-                        <td>{{ risk.likelihood }}</td>
-                        <td>{{ risk.impact }}</td>
-                        <td>{{ risk.score }}</td>
-                        <td>
-                            {% if risk.risk_level == "Critical" %}
-                                <span class="badge red">Critical</span>
-                            {% elif risk.risk_level == "High" %}
-                                <span class="badge red">High</span>
-                            {% elif risk.risk_level == "Medium" %}
-                                <span class="badge yellow">Medium</span>
-                            {% else %}
-                                <span class="badge green">Low</span>
-                            {% endif %}
-                        </td>
-                        <td>{{ risk.recommendation }}</td>
-                    </tr>
-                    {% endfor %}
+                    <tbody id="vulnerabilityBody">
+                        {% for risk in vulnerability_risks %}
+                        <tr>
+                            <td>{{ risk.id }}</td>
+                            <td>{{ risk.vulnerability }}</td>
+                            <td>{{ risk.threat }}</td>
+                            <td>{{ risk.likelihood }}</td>
+                            <td>{{ risk.impact }}</td>
+                            <td>{{ risk.score }}</td>
+                            <td>
+                                {% if risk.risk_level == "Critical" %}
+                                    <span class="badge red">Critical</span>
+                                {% elif risk.risk_level == "High" %}
+                                    <span class="badge red">High</span>
+                                {% elif risk.risk_level == "Medium" %}
+                                    <span class="badge yellow">Medium</span>
+                                {% else %}
+                                    <span class="badge green">Low</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ risk.recommendation }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </section>
 
     </main>
 </div>
+
+<div id="alertPopup" class="alert-popup hidden">
+    <div class="alert-icon" id="alertIcon">⚠️</div>
+    <div>
+        <h3 id="alertTitle">Alert</h3>
+        <p id="alertMessage">System alert detected.</p>
+    </div>
+</div>
+
+<script>
+let soundEnabled = localStorage.getItem("alertSoundEnabled") === "true";
+let criticalAlarmInterval = null;
+let devicesData = {{ devices|tojson }};
+
+function badge(text, type) {
+    return `<span class="badge ${type}">${text}</span>`;
+}
+
+function statusBadge(status) {
+    if (status === "Normal") return badge("Normal", "green");
+    if (status === "Warning") return badge("Warning", "yellow");
+    if (status === "Critical") return badge("Critical", "red");
+    return badge("No Data", "gray");
+}
+
+function anomalyBadge(status) {
+    if (status === "Anomalous") return badge("Anomalous", "red");
+    if (status === "Normal Pattern") return badge("Normal Pattern", "green");
+    return badge("-", "gray");
+}
+
+function behaviorBadge(status) {
+    if (status === "Suspicious Behavior") return badge("Suspicious", "red");
+    if (status === "Sensor Disconnected") return badge("Sensor Disconnected", "red");
+    if (status === "Availability Warning") return badge("Availability Warning", "yellow");
+    if (status === "Sensor Offline") return badge("Sensor Offline", "red");
+    if (status === "Normal Behavior") return badge("Normal", "green");
+    return badge("-", "gray");
+}
+
+function attackDecisionBadge(status) {
+    if (status === "Possible Cyber Attack") return badge("Possible Cyber Attack", "red");
+    if (status === "Sensor Disconnected") return badge("Sensor Disconnected", "red");
+    if (status === "Availability Warning") return badge("Availability Warning", "yellow");
+    if (status === "Environmental Failure") return badge("Environmental Failure", "yellow");
+    if (status === "Environmental Warning") return badge("Environmental Warning", "yellow");
+    if (status === "Normal Operation") return badge("Normal Operation", "green");
+    return badge("-", "gray");
+}
+
+function securityBadge(status) {
+    if (status === "Under Attack") return badge("Under Attack", "red");
+    if (status === "Sensor Disconnected") return badge("Sensor Disconnected", "red");
+    if (status === "Availability Warning") return badge("Availability Warning", "yellow");
+    if (status === "Sensor Offline") return badge("Sensor Offline", "red");
+    if (status === "Suspicious") return badge("Suspicious", "yellow");
+    if (status === "Isolated") return badge("Isolated", "red");
+    return badge("Secure", "green");
+}
+
+function isolationBadge(status) {
+    if (status === "Isolated") return badge("Isolated", "red");
+    return badge("Active", "green");
+}
+
+function riskLevelBadge(level) {
+    if (level === "Critical") return badge("Critical", "red");
+    if (level === "High") return badge("High", "red");
+    if (level === "Medium") return badge("Medium", "yellow");
+    return badge("Low", "green");
+}
+
+function renderSocDevices(devices) {
+    const tbody = document.getElementById("socDevicesBody");
+
+    tbody.innerHTML = devices.map((device, index) => `
+        <tr>
+            <td>${device.device_name || "-"}</td>
+            <td>${device.temperature_c ?? "-"}</td>
+            <td>${device.humidity ?? "-"}</td>
+            <td>${statusBadge(device.status)}</td>
+            <td>${device.environment_reason || "-"}</td>
+            <td>${anomalyBadge(device.anomaly_status)}</td>
+            <td>${behaviorBadge(device.behavior_status)}</td>
+            <td>${device.behavior_reason || "-"}</td>
+            <td>${device.attack_type || "-"}</td>
+            <td>${device.attack_reason || "-"}</td>
+            <td>${attackDecisionBadge(device.attack_status)}</td>
+            <td>${securityBadge(device.security_status)}</td>
+            <td>${isolationBadge(device.isolation_status)}</td>
+            <td>
+                ${
+                    device.isolation_status === "Isolated"
+                    ? badge("Disabled", "gray")
+                    : `<a class="mini-btn critical" href="/simulate_attack/${index}">Simulate Cyber Attack</a>`
+                }
+            </td>
+            <td>
+                <div class="control-buttons">
+                    ${
+                        device.isolation_status === "Isolated"
+                        ? `<a class="mini-btn safe" href="/soc/restore/${index}">Restore</a>`
+                        : `<a class="mini-btn critical" href="/soc/isolate/${index}">Isolate</a>`
+                    }
+                </div>
+            </td>
+        </tr>
+    `).join("");
+}
+
+function renderVulnerabilityMatrix(risks) {
+    const tbody = document.getElementById("vulnerabilityBody");
+
+    tbody.innerHTML = risks.map(risk => `
+        <tr>
+            <td>${risk.id || "-"}</td>
+            <td>${risk.vulnerability || "-"}</td>
+            <td>${risk.threat || "-"}</td>
+            <td>${risk.likelihood ?? "-"}</td>
+            <td>${risk.impact ?? "-"}</td>
+            <td>${risk.score ?? "-"}</td>
+            <td>${riskLevelBadge(risk.risk_level)}</td>
+            <td>${risk.recommendation || "-"}</td>
+        </tr>
+    `).join("");
+}
+
+function updateSocStats(stats) {
+    document.getElementById("socStatTotal").innerText = stats.total;
+    document.getElementById("socStatAnomalies").innerText = stats.anomalies;
+    document.getElementById("socStatAttacks").innerText = stats.attacks;
+    document.getElementById("socStatIsolated").innerText = stats.isolated;
+    document.getElementById("socStatAvgRisk").innerText = `${stats.avg_risk}%`;
+}
+
+async function fetchSocLiveData() {
+    try {
+        const response = await fetch("/api/soc_live", { cache: "no-store" });
+        const data = await response.json();
+
+        if (!data.success) return;
+
+        devicesData = data.devices;
+        updateSocStats(data.stats);
+        renderSocDevices(data.devices);
+        renderVulnerabilityMatrix(data.vulnerability_risks);
+        checkDashboardAlert();
+
+    } catch (error) {
+        console.log("SOC live update error:", error);
+    }
+}
+
+function enableAlertSound() {
+    soundEnabled = true;
+    localStorage.setItem("alertSoundEnabled", "true");
+    localStorage.setItem("lastSocAlertState", "normal");
+
+    playBeep(600, 150, 0.25);
+    alert("Alert sound enabled");
+}
+
+function playBeep(frequency, duration, volume) {
+    if (!soundEnabled) return;
+
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.frequency.value = frequency;
+    oscillator.type = "square";
+
+    gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + duration / 1000
+    );
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + duration / 1000);
+}
+
+function playEnvironmentWarningSound() {
+    playBeep(650, 250, 0.3);
+    setTimeout(() => playBeep(650, 250, 0.3), 450);
+}
+
+function playEnvironmentCriticalSound() {
+    playBeep(800, 300, 0.65);
+    setTimeout(() => playBeep(1000, 300, 0.65), 350);
+    setTimeout(() => playBeep(800, 300, 0.65), 700);
+    setTimeout(() => playBeep(1000, 500, 0.75), 1050);
+}
+
+function playCyberWarningSound() {
+    playBeep(500, 200, 0.4);
+    setTimeout(() => playBeep(500, 200, 0.4), 300);
+    setTimeout(() => playBeep(750, 250, 0.45), 650);
+}
+
+function playCyberCriticalSound() {
+    playBeep(450, 350, 0.95);
+    setTimeout(() => playBeep(950, 350, 0.95), 350);
+    setTimeout(() => playBeep(450, 350, 0.95), 700);
+    setTimeout(() => playBeep(950, 350, 0.95), 1050);
+    setTimeout(() => playBeep(1200, 500, 1.0), 1450);
+}
+
+function playAvailabilityCriticalSound() {
+    playBeep(400, 400, 0.9);
+    setTimeout(() => playBeep(1000, 400, 0.9), 450);
+    setTimeout(() => playBeep(400, 400, 0.9), 900);
+    setTimeout(() => playBeep(1200, 550, 1.0), 1350);
+}
+
+function startCriticalAlarm(alarmType) {
+    if (criticalAlarmInterval !== null) return;
+
+    if (alarmType === "cyber") {
+        playCyberCriticalSound();
+        criticalAlarmInterval = setInterval(playCyberCriticalSound, 2400);
+    }
+    else if (alarmType === "availability") {
+        playAvailabilityCriticalSound();
+        criticalAlarmInterval = setInterval(playAvailabilityCriticalSound, 2400);
+    }
+    else {
+        playEnvironmentCriticalSound();
+        criticalAlarmInterval = setInterval(playEnvironmentCriticalSound, 2400);
+    }
+}
+
+function stopCriticalAlarm() {
+    if (criticalAlarmInterval !== null) {
+        clearInterval(criticalAlarmInterval);
+        criticalAlarmInterval = null;
+    }
+}
+
+function showAlertPopup(type, title, message) {
+    const popup = document.getElementById("alertPopup");
+    const icon = document.getElementById("alertIcon");
+    const alertTitle = document.getElementById("alertTitle");
+    const alertMessage = document.getElementById("alertMessage");
+
+    if (!popup) return;
+
+    popup.classList.remove(
+        "hidden",
+        "env-warning-alert",
+        "env-critical-alert",
+        "cyber-warning-alert",
+        "cyber-critical-alert",
+        "availability-alert"
+    );
+
+    if (type === "env-warning") {
+        popup.classList.add("env-warning-alert");
+        icon.innerText = "🌡️";
+    }
+    else if (type === "env-critical") {
+        popup.classList.add("env-critical-alert");
+        icon.innerText = "🔥";
+    }
+    else if (type === "cyber-warning") {
+        popup.classList.add("cyber-warning-alert");
+        icon.innerText = "⚠️";
+    }
+    else if (type === "cyber-critical") {
+        popup.classList.add("cyber-critical-alert");
+        icon.innerText = "🚨";
+    }
+    else if (type === "availability") {
+        popup.classList.add("availability-alert");
+        icon.innerText = "📡";
+    }
+
+    alertTitle.innerText = title;
+    alertMessage.innerText = message;
+    popup.style.display = "flex";
+}
+
+function hideAlertPopup() {
+    const popup = document.getElementById("alertPopup");
+    if (!popup) return;
+
+    popup.classList.add("hidden");
+    popup.style.display = "none";
+}
+
+function checkDashboardAlert() {
+    const lastAlert = localStorage.getItem("lastSocAlertState");
+
+    const hasCyberCritical = devicesData.some(device =>
+        device.attack_status === "Possible Cyber Attack" ||
+        device.security_status === "Under Attack" ||
+        device.attack_type === "Unauthorized Sensor Spoofing"
+    );
+
+    const hasAvailabilityCritical = devicesData.some(device =>
+        device.attack_status === "Sensor Disconnected" ||
+        device.security_status === "Sensor Disconnected" ||
+        device.behavior_status === "Sensor Disconnected"
+    );
+
+    const hasAvailabilityWarning = devicesData.some(device =>
+        device.attack_status === "Availability Warning" ||
+        device.security_status === "Availability Warning" ||
+        device.behavior_status === "Availability Warning"
+    );
+
+    const hasEnvironmentCritical = devicesData.some(device =>
+        device.status === "Critical" &&
+        device.attack_status !== "Sensor Disconnected" &&
+        device.attack_status !== "Possible Cyber Attack"
+    );
+
+    const hasCyberWarning = devicesData.some(device =>
+        device.security_status === "Suspicious" ||
+        device.behavior_status === "Suspicious Behavior"
+    );
+
+    const hasEnvironmentWarning = devicesData.some(device =>
+        device.status === "Warning" &&
+        device.attack_status !== "Availability Warning"
+    );
+
+    if (hasCyberCritical) {
+        startCriticalAlarm("cyber");
+        showAlertPopup(
+            "cyber-critical",
+            "Critical Cyber Attack Detected",
+            "An unauthorized or malicious request has been detected by the SOC system."
+        );
+        localStorage.setItem("lastSocAlertState", "cyber-critical");
+    }
+    else if (hasAvailabilityCritical) {
+        startCriticalAlarm("availability");
+        showAlertPopup(
+            "availability",
+            "Sensor Disconnected",
+            "Critical availability failure: the ESP32 stopped sending live readings for more than 40 seconds."
+        );
+        localStorage.setItem("lastSocAlertState", "availability-critical");
+    }
+    else if (hasEnvironmentCritical) {
+        startCriticalAlarm("environment");
+        showAlertPopup(
+            "env-critical",
+            "Environmental Critical Alert",
+            "A critical temperature or humidity condition has been detected."
+        );
+        localStorage.setItem("lastSocAlertState", "environment-critical");
+    }
+    else {
+        stopCriticalAlarm();
+
+        if (hasCyberWarning && lastAlert !== "cyber-warning") {
+            playCyberWarningSound();
+            showAlertPopup(
+                "cyber-warning",
+                "Cyber Warning Detected",
+                "Suspicious behavior has been detected. SOC review is recommended."
+            );
+            localStorage.setItem("lastSocAlertState", "cyber-warning");
+        }
+        else if (hasAvailabilityWarning && lastAlert !== "availability-warning") {
+            playEnvironmentWarningSound();
+            showAlertPopup(
+                "availability",
+                "Sensor Availability Warning",
+                "The ESP32 sensor is delayed. Check Wi-Fi, power, or sensor connection."
+            );
+            localStorage.setItem("lastSocAlertState", "availability-warning");
+        }
+        else if (hasEnvironmentWarning && lastAlert !== "environment-warning") {
+            playEnvironmentWarningSound();
+            showAlertPopup(
+                "env-warning",
+                "Environmental Warning",
+                "Temperature or humidity is outside the normal range."
+            );
+            localStorage.setItem("lastSocAlertState", "environment-warning");
+        }
+        else if (!hasCyberWarning && !hasAvailabilityWarning && !hasEnvironmentWarning) {
+            hideAlertPopup();
+            localStorage.setItem("lastSocAlertState", "normal");
+        }
+    }
+}
+
+fetchSocLiveData();
+setInterval(fetchSocLiveData, 1000);
+</script>
 
 </body>
 </html>
