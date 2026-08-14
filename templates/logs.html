@@ -103,34 +103,36 @@
 
             <div class="table-wrap">
                 <table>
-                    <tr>
-                        <th>Time</th>
-                        <th>Device</th>
-                        <th>Type</th>
-                        <th>Location</th>
-                        <th>Temp</th>
-                        <th>Humidity</th>
-                        <th>ML Prediction</th>
-                        <th>Anomaly</th>
-                        <th>Risk</th>
-                        <th>Level</th>
-                        <th>Action</th>
-                        <th>Attack Status</th>
-                    </tr>
+                        <tr>
+                            <th>Time</th>
+                            <th>Device</th>
+                            <th>Type</th>
+                            <th>Location</th>
+                            <th>Temp</th>
+                            <th>Humidity</th>
+                            <th>ML Prediction</th>
+                            <th>Anomaly</th>
+                            <th>Risk</th>
+                            <th>Level</th>
+                            <th>Action</th>
+                            <th>Attack/Failure</th>
+                        </tr>
 
                     {% for log in logs %}
                     <tr>
-                        <td>{{ log.time }}</td>
+                        <td>{{ log.timestamp }}</td>
                         <td>{{ log.device_name }}</td>
                         <td>{{ log.device_type }}</td>
                         <td>{{ log.location }}</td>
-                        <td>{{ log.temperature_c }}</td>
+                        <td>{{ log.temperature }}</td>
                         <td>{{ log.humidity }}</td>
 
                         <td>
-                            {% if log.ml_prediction == "1" or log.ml_prediction == 1 %}
-                                <span class="badge red">Risky</span>
-                            {% elif log.ml_prediction == "0" or log.ml_prediction == 0 %}
+                            {% if log.ml_prediction == "Critical" or log.ml_prediction == "possible_failure" or log.ml_prediction == "Possible Environmental Failure" %}
+                                <span class="badge red">Critical</span>
+                            {% elif log.ml_prediction == "Warning" or log.ml_prediction == "Cold-Storage Warning" %}
+                                <span class="badge yellow">Warning</span>
+                            {% elif log.ml_prediction == "Normal" %}
                                 <span class="badge green">Normal</span>
                             {% else %}
                                 <span class="badge gray">-</span>
@@ -166,10 +168,10 @@
                         <td>
                             {% if log.attack_status == "Possible Cyber Attack" %}
                                 <span class="badge red">Cyber Attack</span>
-                            {% elif log.attack_status == "Environmental Failure" %}
-                                <span class="badge yellow">Environmental Failure</span>
-                            {% elif log.attack_status == "Environmental Warning" %}
-                                <span class="badge yellow">Environmental Warning</span>
+                            {% elif log.attack_status == "Critical Cold-Storage Failure" or log.attack_status == "Possible Environmental Failure" %}
+                                <span class="badge red">Critical Cold-Storage Failure</span>
+                            {% elif log.attack_status == "Cold-Storage Warning" or log.attack_status == "Environmental Warning" %}
+                                <span class="badge yellow">Cold-Storage Warning</span>
                             {% elif log.attack_status == "Sensor Disconnected" %}
                                 <span class="badge red">Sensor Disconnected</span>
                             {% elif log.attack_status == "Availability Warning" %}

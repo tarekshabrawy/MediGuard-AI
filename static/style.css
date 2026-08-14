@@ -770,11 +770,23 @@ tr:hover td {
     border: 1px solid #fde68a;
 }
 
+.badge.orange {
+    background: #ffedd5;
+    color: #9a4d00;
+    border: 1px solid #fdba74;
+}
+
 .badge.red {
     background: #fee2e2;
     color: #991b1b;
     border: 1px solid #fecaca;
     animation: none;
+}
+
+.badge.purple {
+    background: #ede9fe;
+    color: #4c1d95;
+    border: 1px solid #c4b5fd;
 }
 
 .badge.gray {
@@ -937,10 +949,22 @@ body:has(.soc-sidebar) .badge.yellow {
     border: 1px solid rgba(245, 158, 11, 0.2);
 }
 
+body:has(.soc-sidebar) .badge.orange {
+    background: rgba(249, 115, 22, 0.14);
+    color: #fdba74;
+    border: 1px solid rgba(249, 115, 22, 0.22);
+}
+
 body:has(.soc-sidebar) .badge.red {
     background: rgba(239, 68, 68, 0.14);
     color: #f87171;
     border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+body:has(.soc-sidebar) .badge.purple {
+    background: rgba(99, 102, 241, 0.16);
+    color: #c4b5fd;
+    border: 1px solid rgba(139, 92, 246, 0.28);
 }
 
 body:has(.soc-sidebar) .badge.gray {

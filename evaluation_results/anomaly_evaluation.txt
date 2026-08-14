@@ -1,0 +1,22 @@
+Anomaly Detection Model Comparison
+                 model  accuracy  precision   recall       f1
+       IsolationForest  0.682008   0.154981 0.561034 0.242871
+RandomForestClassifier  0.996187   0.995966 0.961955 0.978665
+
+Selected model: RandomForestClassifier
+
+IsolationForest confusion matrix:
+[[195948  86355]
+ [ 12392  15838]]
+
+RandomForest confusion matrix:
+[[282193    110]
+ [  1074  27156]]
+
+Selected model metrics:
+Accuracy: 0.9962
+Precision: 0.9960
+Recall: 0.9620
+F1: 0.9787
+
+Explanation: Anomaly detection flags readings that differ from normal temporal patterns (sudden spikes, stuck values, impossible values, slow drifts, or noisy/manipulated readings).

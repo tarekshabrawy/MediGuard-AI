@@ -135,9 +135,11 @@
                         </td>
 
                         <td>
-                            {% if device.ml_prediction == "0" or device.ml_prediction == 0 %}
+                            {% if device.ml_prediction == "Normal" %}
                                 <span class="badge green">Normal</span>
-                            {% elif device.ml_prediction == "1" or device.ml_prediction == 1 %}
+                            {% elif device.ml_prediction == "Warning" or device.ml_prediction == "Cold-Storage Warning" %}
+                                <span class="badge yellow">Warning</span>
+                            {% elif device.ml_prediction == "Critical" or device.ml_prediction == "Possible Environmental Failure" %}
                                 <span class="badge red">Critical</span>
                             {% else %}
                                 <span class="badge gray">-</span>
@@ -157,9 +159,9 @@
                         <td>
                             {% if device.attack_status == "Possible Cyber Attack" %}
                                 <span class="badge red">Cyber Attack</span>
-                            {% elif device.attack_status == "Environmental Failure" %}
+                            {% elif device.attack_status == "Critical Cold-Storage Failure" or device.attack_status == "Possible Environmental Failure" %}
                                 <span class="badge yellow">Failure</span>
-                            {% elif device.attack_status == "Environmental Warning" %}
+                            {% elif device.attack_status == "Cold-Storage Warning" or device.attack_status == "Environmental Warning" %}
                                 <span class="badge yellow">Warning</span>
                             {% elif device.attack_status == "Suspicious Behavior" %}
                                 <span class="badge yellow">Suspicious</span>
@@ -196,8 +198,8 @@
         <section class="panel">
             <div class="panel-head">
                 <div>
-                    <h2>Cybersecurity Vulnerability Risk Matrix</h2>
-                    <p>Dynamic assessment based on the current condition of monitored sensors.</p>
+                    <h2>Cybersecurity Risk Assessment and Residual Risk Matrix</h2>
+                    <p>Real-world threat monitoring, implemented protections, and remaining residual risk after control deployment.</p>
                 </div>
             </div>
 
@@ -205,30 +207,32 @@
                 <table>
                     <tr>
                         <th>ID</th>
-                        <th>Vulnerability</th>
                         <th>Threat</th>
+                        <th>Implemented Control</th>
                         <th>Likelihood</th>
                         <th>Impact</th>
                         <th>Score</th>
-                        <th>Risk</th>
+                        <th>Risk %</th>
+                        <th>Residual Risk</th>
                         <th>Recommendation</th>
                     </tr>
 
                     {% for risk in vulnerability_risks %}
                     <tr>
                         <td>{{ risk.id }}</td>
-                        <td>{{ risk.vulnerability }}</td>
                         <td>{{ risk.threat }}</td>
+                        <td>{{ risk.implemented_control }}</td>
                         <td>{{ risk.likelihood }}</td>
                         <td>{{ risk.impact }}</td>
                         <td>{{ risk.score }}</td>
+                        <td>{{ risk.risk_percentage }}%</td>
                         <td>
-                            {% if risk.risk_level == "Critical" %}
-                                <span class="badge red">Critical</span>
-                            {% elif risk.risk_level == "High" %}
+                            {% if risk.residual_risk == "Critical" %}
+                                <span class="badge purple">Critical</span>
+                            {% elif risk.residual_risk == "High" %}
                                 <span class="badge red">High</span>
-                            {% elif risk.risk_level == "Medium" %}
-                                <span class="badge yellow">Medium</span>
+                            {% elif risk.residual_risk == "Medium" %}
+                                <span class="badge orange">Medium</span>
                             {% else %}
                                 <span class="badge green">Low</span>
                             {% endif %}
@@ -241,7 +245,7 @@
         </section>
 
         <div class="note">
-            Demo buttons are used for presentation only. In real deployment, readings come automatically from physical sensors.
+            The system monitors real sensor telemetry and external security activity for live clinical-device protection.
         </div>
 
     </main>
