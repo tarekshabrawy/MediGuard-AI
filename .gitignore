@@ -12,6 +12,7 @@ logs_secure_prototype.csv
 secure_logs.db
 secure_logs_backup*.db
 secure_logs_tampered_test.db
+nonce_store.db
 tamper_incidents.db
 
 data/15130001.zip

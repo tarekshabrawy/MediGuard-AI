@@ -9,6 +9,7 @@ import sqlite3
 import hashlib
 import hmac
 import time
+import math
 
 DEV_MODE = False
 
@@ -296,7 +297,9 @@ def get_fieldnames():
         "behavior_status", "behavior_reason",
         "attack_type", "attack_reason",
         "last_temperature", "last_humidity", "repeat_count", "last_seen",
-        "last_security_event_time", "last_valid_reading_time"
+        "last_security_event_time", "last_valid_reading_time",
+        "hardware_profile", "local_alert", "rtc_status", "sd_backup_status",
+        "dht22_temperature"
     ]
 
 
@@ -331,7 +334,12 @@ def create_default_sensor():
         "repeat_count": 0,
         "last_seen": "",
         "last_security_event_time": "",
-        "last_valid_reading_time": ""
+        "last_valid_reading_time": "",
+        "hardware_profile": "",
+        "local_alert": "",
+        "rtc_status": "",
+        "sd_backup_status": "",
+        "dht22_temperature": ""
     }
 
     with open(DEVICES_FILE, "w", newline="") as file:
@@ -405,7 +413,12 @@ def load_devices():
                 "repeat_count": int(row.get("repeat_count") or 0),
                 "last_seen": row.get("last_seen") or "",
                 "last_security_event_time": row.get("last_security_event_time") or "",
-                "last_valid_reading_time": row.get("last_valid_reading_time") or ""
+                "last_valid_reading_time": row.get("last_valid_reading_time") or "",
+                "hardware_profile": row.get("hardware_profile") or "",
+                "local_alert": row.get("local_alert") or "",
+                "rtc_status": row.get("rtc_status") or "",
+                "sd_backup_status": row.get("sd_backup_status") or "",
+                "dht22_temperature": row.get("dht22_temperature") or ""
             })
 
     return devices
@@ -1458,7 +1471,7 @@ def restore_device(device_index):
 def api_sensor_reading():
     data = request.get_json(silent=True)
 
-    if not data:
+    if not isinstance(data, dict):
         trigger_external_attack(
             0,
             "Malformed JSON",
@@ -1474,7 +1487,18 @@ def api_sensor_reading():
             "attack_detected": True
         }), 400
 
-    device_index = int(data.get("device_index", 0))
+    try:
+        device_index = int(data.get("device_index", 0))
+    except (TypeError, ValueError):
+        device_index = -1
+
+    if device_index < 0 or device_index >= len(load_devices()):
+        return jsonify({
+            "success": False,
+            "message": "Invalid device index",
+            "attack_detected": True,
+            "attack_type": "Invalid Device Index"
+        }), 400
 
     # Require HMAC authentication fields
     required_fields = ["sensor_id", "temperature", "humidity", "timestamp", "nonce", "signature"]
@@ -1484,7 +1508,7 @@ def api_sensor_reading():
             device_index,
             "Missing HMAC Signature",
             f"Missing fields: {', '.join(missing)}",
-            sensor_id=sensor_id if 'sensor_id' in data else None,
+            sensor_id=data.get("sensor_id"),
             temperature=data.get('temperature'),
             humidity=data.get('humidity'),
             http_code=400
@@ -1511,6 +1535,8 @@ def api_sensor_reading():
         temp_c = float(data.get("temperature"))
         humidity = float(data.get("humidity"))
         ts = int(data.get("timestamp"))
+        if not all(math.isfinite(value) for value in (temp_c, humidity)):
+            raise ValueError("non-finite sensor value")
     except Exception:
         trigger_external_attack(
             device_index,
@@ -1525,6 +1551,23 @@ def api_sensor_reading():
 
     nonce = str(data.get("nonce"))
     signature = str(data.get("signature"))
+
+    if temp_c < -10 or temp_c > 80 or humidity < 0 or humidity > 100:
+        trigger_external_attack(
+            device_index,
+            "Impossible Sensor Values",
+            "A request submitted physically impossible temperature or humidity values",
+            sensor_id=sensor_id,
+            temperature=temp_c,
+            humidity=humidity,
+            http_code=400
+        )
+        return jsonify({
+            "success": False,
+            "message": "Impossible sensor values detected",
+            "attack_detected": True,
+            "attack_type": "Impossible Sensor Values"
+        }), 400
 
     # Replay protection: reject timestamps older than 60s
     now = int(time.time())
@@ -1573,7 +1616,7 @@ def api_sensor_reading():
         )
         return jsonify({"success": False, "message": "Invalid sensor signature", "attack_detected": True, "attack_type": "Invalid HMAC Signature"}), 401
 
-    # Signature valid — store nonce and proceed
+    # Signature valid — store nonce and proceed.
     print("Valid HMAC reading accepted for sensor", sensor_id)
     store_nonce(sensor_id, nonce, ts)
     record_security_event(
@@ -1586,33 +1629,6 @@ def api_sensor_reading():
         recommended_action="Continue monitoring and maintain secure sensor authentication",
         http_code=200
     )
-
-    device = load_devices()[device_index]
-    device["last_valid_reading_time"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    device["last_security_event_time"] = ""
-    device["attack_status"] = "Normal Operation"
-    device["security_status"] = "Secure"
-    device["attack_type"] = "-"
-    device["attack_reason"] = "-"
-    save_devices(load_devices())
-
-    if temp_c < -10 or temp_c > 80 or humidity < 0 or humidity > 100:
-        trigger_external_attack(
-            device_index,
-            "Invalid Payload",
-            "A request submitted physically impossible temperature or humidity values",
-            sensor_id=sensor_id,
-            temperature=temp_c,
-            humidity=humidity,
-            http_code=400
-        )
-
-        return jsonify({
-            "success": False,
-            "message": "Impossible sensor values detected",
-            "attack_detected": True,
-            "attack_type": "Invalid Payload"
-        }), 400
 
     temp_fh = round((temp_c * 9 / 5) + 32, 2)
 
@@ -1635,10 +1651,18 @@ def api_sensor_reading():
 
     devices = load_devices()
     device = devices[device_index]
+    device.update({
+        "hardware_profile": str(data.get("hardware_profile") or ""),
+        "local_alert": str(data.get("local_alert") or ""),
+        "rtc_status": str(data.get("rtc_status") or ""),
+        "sd_backup_status": str(data.get("sd_backup_status") or ""),
+        "dht22_temperature": str(data.get("dht22_temperature") or "")
+    })
     device["last_valid_reading_time"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     device["last_security_event_time"] = ""
-    device["attack_status"] = "Normal Operation"
     device["security_status"] = "Secure"
+    device["attack_type"] = "-"
+    device["attack_reason"] = "-"
     save_devices(devices)
 
     return jsonify({
@@ -1653,7 +1677,12 @@ def api_sensor_reading():
         "behavior_status": device["behavior_status"],
         "behavior_reason": device["behavior_reason"],
         "attack_type": device["attack_type"],
-        "attack_reason": device["attack_reason"]
+        "attack_reason": device["attack_reason"],
+        "hardware_profile": device.get("hardware_profile", ""),
+        "local_alert": device.get("local_alert", ""),
+        "rtc_status": device.get("rtc_status", ""),
+        "sd_backup_status": device.get("sd_backup_status", ""),
+        "dht22_temperature": device.get("dht22_temperature", "")
     })
 
 
