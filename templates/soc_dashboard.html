@@ -26,6 +26,7 @@
         <nav>
             <a href="/soc" class="active">SOC Dashboard</a>
             <a href="/logs">Logs</a>
+            <a href="/verify_logs">Verify Secure Logs</a>
             <a href="/logout">Logout</a>
         </nav>
 
@@ -39,9 +40,9 @@
 
         <div class="topbar page-enter">
             <div>
-                <span class="page-kicker cyber-kicker">Cybersecurity Operations</span>
+                <span class="page-kicker cyber-kicker">External Threat Monitoring</span>
                 <h1>SOC Security Dashboard</h1>
-                <p>Attack detection, vulnerability matrix, sensor availability, and isolation response.</p>
+                <p>Real-time sensor authentication status, security events, incident response, and audit log verification.</p>
 
                 <button onclick="enableAlertSound()" class="btn-alert-sound">
                     Enable Alert Sound
@@ -65,7 +66,7 @@
             </div>
 
             <div class="stat-card danger">
-                <span>Possible Attacks</span>
+                <span>Security Events</span>
                 <h2 id="socStatAttacks">{{ stats.attacks }}</h2>
             </div>
 
@@ -83,10 +84,10 @@
         <section class="panel animated-panel">
             <div class="panel-head">
                 <div>
-                    <h2>Cybersecurity Decision Center</h2>
+                    <h2>Security Events</h2>
                     <p>
-                        Physical heating can cause environmental failure, while cyber incidents remain active
-                        until SOC isolates or restores the device.
+                        External monitoring of sensor behavior, security authentication, response status,
+                        and operational health for an implemented medical IoT prototype.
                     </p>
                 </div>
             </div>
@@ -106,10 +107,9 @@
                             <th>Attack Type</th>
                             <th>Attack Reason</th>
                             <th>Cyber Decision</th>
-                            <th>Security</th>
+                            <th>Sensor Authentication Status</th>
                             <th>Isolation</th>
-                            <th>Attack Test</th>
-                            <th>SOC Response</th>
+                            <th>Incident Response</th>
                         </tr>
                     </thead>
 
@@ -166,15 +166,15 @@
 
                             <td>
                                 {% if device.attack_status == "Possible Cyber Attack" %}
-                                    <span class="badge red">Possible Cyber Attack</span>
+                                    <span class="badge red">Security Event Detected</span>
                                 {% elif device.attack_status == "Sensor Disconnected" %}
                                     <span class="badge red">Sensor Disconnected</span>
                                 {% elif device.attack_status == "Availability Warning" %}
                                     <span class="badge yellow">Availability Warning</span>
-                                {% elif device.attack_status == "Environmental Failure" %}
-                                    <span class="badge yellow">Environmental Failure</span>
-                                {% elif device.attack_status == "Environmental Warning" %}
-                                    <span class="badge yellow">Environmental Warning</span>
+                                {% elif device.attack_status == "Critical Cold-Storage Failure" or device.attack_status == "Possible Environmental Failure" %}
+                                    <span class="badge red">Critical Cold-Storage Failure</span>
+                                {% elif device.attack_status == "Cold-Storage Warning" or device.attack_status == "Environmental Warning" %}
+                                    <span class="badge yellow">Cold-Storage Warning</span>
                                 {% elif device.attack_status == "Normal Operation" %}
                                     <span class="badge green">Normal Operation</span>
                                 {% else %}
@@ -184,7 +184,7 @@
 
                             <td>
                                 {% if device.security_status == "Under Attack" %}
-                                    <span class="badge red">Under Attack</span>
+                                    <span class="badge red">Security Event Detected</span>
                                 {% elif device.security_status == "Sensor Disconnected" %}
                                     <span class="badge red">Sensor Disconnected</span>
                                 {% elif device.security_status == "Availability Warning" %}
@@ -209,16 +209,6 @@
                             </td>
 
                             <td>
-                                {% if device.isolation_status == "Isolated" %}
-                                    <span class="badge gray">Disabled</span>
-                                {% else %}
-                                    <a class="mini-btn critical" href="/simulate_attack/{{ loop.index0 }}">
-                                        Simulate Cyber Attack
-                                    </a>
-                                {% endif %}
-                            </td>
-
-                            <td>
                                 <div class="control-buttons">
                                     {% if device.isolation_status == "Isolated" %}
                                         <a class="mini-btn safe" href="/soc/restore/{{ loop.index0 }}">Restore</a>
@@ -237,10 +227,10 @@
         <section class="panel animated-panel">
             <div class="panel-head">
                 <div>
-                    <h2>Cybersecurity Vulnerability Risk Matrix</h2>
+                    <h2>Cybersecurity Risk Assessment and Residual Risk Matrix</h2>
                     <p>
-                        Dynamic likelihood × impact assessment based on authentication, encryption,
-                        integrity, replay protection, DDoS, validation, and SOC response.
+                        Real-world threat monitoring, implemented controls, and residual risk after protection
+                        for the implemented medical IoT prototype.
                     </p>
                 </div>
             </div>
@@ -250,12 +240,17 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Vulnerability</th>
                             <th>Threat</th>
+                            <th>Implemented Control</th>
                             <th>Likelihood</th>
                             <th>Impact</th>
                             <th>Score</th>
-                            <th>Risk</th>
+                            <th>Risk %</th>
+                            <th>Residual Risk</th>
+                            <th>Live Status</th>
+                            <th>Last Result</th>
+                            <th>HTTP Code</th>
+                            <th>Last Seen</th>
                             <th>Recommendation</th>
                         </tr>
                     </thead>
@@ -264,22 +259,27 @@
                         {% for risk in vulnerability_risks %}
                         <tr>
                             <td>{{ risk.id }}</td>
-                            <td>{{ risk.vulnerability }}</td>
                             <td>{{ risk.threat }}</td>
+                            <td>{{ risk.implemented_control }}</td>
                             <td>{{ risk.likelihood }}</td>
                             <td>{{ risk.impact }}</td>
                             <td>{{ risk.score }}</td>
+                            <td>{{ risk.risk_percentage }}%</td>
                             <td>
-                                {% if risk.risk_level == "Critical" %}
-                                    <span class="badge red">Critical</span>
-                                {% elif risk.risk_level == "High" %}
+                                {% if risk.residual_risk == "Critical" %}
+                                    <span class="badge purple">Critical</span>
+                                {% elif risk.residual_risk == "High" %}
                                     <span class="badge red">High</span>
-                                {% elif risk.risk_level == "Medium" %}
-                                    <span class="badge yellow">Medium</span>
+                                {% elif risk.residual_risk == "Medium" %}
+                                    <span class="badge orange">Medium</span>
                                 {% else %}
                                     <span class="badge green">Low</span>
                                 {% endif %}
                             </td>
+                            <td>Inactive</td>
+                            <td>No recent event</td>
+                            <td>-</td>
+                            <td>-</td>
                             <td>{{ risk.recommendation }}</td>
                         </tr>
                         {% endfor %}
@@ -331,17 +331,17 @@ function behaviorBadge(status) {
 }
 
 function attackDecisionBadge(status) {
-    if (status === "Possible Cyber Attack") return badge("Possible Cyber Attack", "red");
+    if (status === "Possible Cyber Attack") return badge("Security Event Detected", "red");
     if (status === "Sensor Disconnected") return badge("Sensor Disconnected", "red");
     if (status === "Availability Warning") return badge("Availability Warning", "yellow");
-    if (status === "Environmental Failure") return badge("Environmental Failure", "yellow");
-    if (status === "Environmental Warning") return badge("Environmental Warning", "yellow");
+    if (status === "Critical Cold-Storage Failure" || status === "Possible Environmental Failure") return badge("Critical Cold-Storage Failure", "red");
+    if (status === "Cold-Storage Warning" || status === "Environmental Warning") return badge("Cold-Storage Warning", "yellow");
     if (status === "Normal Operation") return badge("Normal Operation", "green");
     return badge("-", "gray");
 }
 
 function securityBadge(status) {
-    if (status === "Under Attack") return badge("Under Attack", "red");
+    if (status === "Under Attack") return badge("Security Event Detected", "red");
     if (status === "Sensor Disconnected") return badge("Sensor Disconnected", "red");
     if (status === "Availability Warning") return badge("Availability Warning", "yellow");
     if (status === "Sensor Offline") return badge("Sensor Offline", "red");
@@ -356,9 +356,9 @@ function isolationBadge(status) {
 }
 
 function riskLevelBadge(level) {
-    if (level === "Critical") return badge("Critical", "red");
+    if (level === "Critical") return badge("Critical", "purple");
     if (level === "High") return badge("High", "red");
-    if (level === "Medium") return badge("Medium", "yellow");
+    if (level === "Medium") return badge("Medium", "orange");
     return badge("Low", "green");
 }
 
@@ -381,13 +381,6 @@ function renderSocDevices(devices) {
             <td>${securityBadge(device.security_status)}</td>
             <td>${isolationBadge(device.isolation_status)}</td>
             <td>
-                ${
-                    device.isolation_status === "Isolated"
-                    ? badge("Disabled", "gray")
-                    : `<a class="mini-btn critical" href="/simulate_attack/${index}">Simulate Cyber Attack</a>`
-                }
-            </td>
-            <td>
                 <div class="control-buttons">
                     ${
                         device.isolation_status === "Isolated"
@@ -400,21 +393,121 @@ function renderSocDevices(devices) {
     `).join("");
 }
 
+function getAttackRiskId(attackType) {
+    const type = String(attackType || "").trim();
+    if (!type) return null;
+
+    const normalized = type.toLowerCase();
+    const riskMap = [
+        { ids: ["unknown sensor id", "unauthorized sensor spoofing"], riskId: "V1" },
+        { ids: ["missing hmac signature", "invalid hmac signature", "malformed json"], riskId: "V2" },
+        { ids: ["replay nonce", "replay attack", "old timestamp"], riskId: "V3" },
+        { ids: ["message tampering", "signature mismatch"], riskId: "V4" },
+        { ids: ["invalid payload", "impossible sensor payload", "impossible values"], riskId: "V6" },
+        { ids: ["ai abnormal behavior", "abnormal sensor behavior"], riskId: "V7" },
+        { ids: ["secure log tampering detected"], riskId: "V8" },
+        { ids: ["tamper incident recorded"], riskId: "V9" },
+        { ids: ["sensor offline", "sensor availability failure", "sensor disconnected"], riskId: "V10" },
+        { ids: ["controlled api abuse", "api flooding", "ddos"], riskId: "V11" }
+    ];
+
+    for (const entry of riskMap) {
+        if (entry.ids.some(item => normalized.includes(item))) {
+            return entry.riskId;
+        }
+    }
+
+    if (normalized.includes("tamper")) return "V9";
+    if (normalized.includes("log")) return "V8";
+    if (normalized.includes("api")) return "V11";
+    if (normalized.includes("sensor") && normalized.includes("offline")) return "V10";
+    if (normalized.includes("anomal")) return "V7";
+
+    return null;
+}
+
+function getLastResultFromAttack(attackType) {
+    const type = String(attackType || "").trim();
+    if (!type) return "Detected";
+
+    if (type.toLowerCase().includes("invalid hmac") || type.toLowerCase().includes("missing hmac") || type.toLowerCase().includes("unknown sensor") || type.toLowerCase().includes("unauthorized")) {
+        return "Rejected";
+    }
+    if (type.toLowerCase().includes("replay") || type.toLowerCase().includes("old timestamp")) {
+        return "Blocked";
+    }
+    if (type.toLowerCase().includes("tamper") || type.toLowerCase().includes("signature mismatch")) {
+        return "Blocked";
+    }
+    if (type.toLowerCase().includes("offline") || type.toLowerCase().includes("sensor disconnected") || type.toLowerCase().includes("availability")) {
+        return "Detected";
+    }
+    if (type.toLowerCase().includes("payload") || type.toLowerCase().includes("api")) {
+        return "Blocked";
+    }
+    return "Detected";
+}
+
+function getHttpCodeFromAttack(attackType) {
+    const type = String(attackType || "").trim();
+    if (!type) return "-";
+
+    const normalized = type.toLowerCase();
+    if (normalized.includes("invalid payload") || normalized.includes("malformed json") || normalized.includes("impossible")) return "400";
+    if (normalized.includes("hmac") || normalized.includes("sensor id") || normalized.includes("replay") || normalized.includes("old timestamp") || normalized.includes("tamper") || normalized.includes("signature")) return "401";
+    if (normalized.includes("api") || normalized.includes("ddos") || normalized.includes("abuse")) return "409";
+    if (normalized.includes("offline") || normalized.includes("disconnected") || normalized.includes("availability")) return "503";
+    return "-";
+}
+
+function getMatrixStateForDevices(devices) {
+    const activeDevice = devices.find(device => isRecentSecurityEvent(device));
+
+    if (!activeDevice) {
+        return {
+            activeRiskId: null,
+            liveStatus: "Inactive",
+            lastResult: "No recent event",
+            httpCode: "-",
+            lastSeen: "-"
+        };
+    }
+
+    return {
+        activeRiskId: getAttackRiskId(activeDevice.attack_type),
+        liveStatus: "Active",
+        lastResult: getLastResultFromAttack(activeDevice.attack_type),
+        httpCode: getHttpCodeFromAttack(activeDevice.attack_type),
+        lastSeen: activeDevice.last_security_event_time ? new Date(activeDevice.last_security_event_time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }) : "-"
+    };
+}
+
 function renderVulnerabilityMatrix(risks) {
     const tbody = document.getElementById("vulnerabilityBody");
+    const matrixState = getMatrixStateForDevices(devicesData || []);
 
-    tbody.innerHTML = risks.map(risk => `
-        <tr>
-            <td>${risk.id || "-"}</td>
-            <td>${risk.vulnerability || "-"}</td>
-            <td>${risk.threat || "-"}</td>
-            <td>${risk.likelihood ?? "-"}</td>
-            <td>${risk.impact ?? "-"}</td>
-            <td>${risk.score ?? "-"}</td>
-            <td>${riskLevelBadge(risk.risk_level)}</td>
-            <td>${risk.recommendation || "-"}</td>
-        </tr>
-    `).join("");
+    tbody.innerHTML = risks.map(risk => {
+        const isActive = matrixState.activeRiskId && risk.id === matrixState.activeRiskId;
+        const rowStyle = isActive ? "background: rgba(255, 94, 94, 0.12); box-shadow: inset 0 0 0 1px rgba(255, 94, 94, 0.45);" : "";
+
+        return `
+            <tr style="${rowStyle}">
+                <td>${risk.id || "-"}</td>
+                <td>${risk.threat || "-"}</td>
+                <td>${risk.implemented_control || "-"}</td>
+                <td>${risk.likelihood ?? "-"}</td>
+                <td>${risk.impact ?? "-"}</td>
+                <td>${risk.score ?? "-"}</td>
+                <td>${risk.risk_percentage ?? "-"}%</td>
+                <td>${riskLevelBadge(risk.residual_risk || risk.risk_level)}</td>
+                <td>${isActive ? "Active" : "Inactive"}</td>
+                <td>${isActive ? matrixState.lastResult : "No recent event"}</td>
+                <td>${isActive ? matrixState.httpCode : "-"}</td>
+                <td>${isActive ? matrixState.lastSeen : "-"}</td>
+                <td>${risk.recommendation || "-"}</td>
+            </tr>
+        `;
+    }).join("");
 }
 
 function updateSocStats(stats) {
@@ -583,14 +676,20 @@ function hideAlertPopup() {
     popup.style.display = "none";
 }
 
+function isRecentSecurityEvent(device) {
+    if (!device || !device.last_security_event_time) return false;
+
+    const timestamp = new Date(device.last_security_event_time);
+    if (Number.isNaN(timestamp.getTime())) return false;
+
+    const secondsAgo = (Date.now() - timestamp.getTime()) / 1000;
+    return secondsAgo <= 60;
+}
+
 function checkDashboardAlert() {
     const lastAlert = localStorage.getItem("lastSocAlertState");
 
-    const hasCyberCritical = devicesData.some(device =>
-        device.attack_status === "Possible Cyber Attack" ||
-        device.security_status === "Under Attack" ||
-        device.attack_type === "Unauthorized Sensor Spoofing"
-    );
+    const hasRecentExternalSecurityEvent = devicesData.some(device => isRecentSecurityEvent(device));
 
     const hasAvailabilityCritical = devicesData.some(device =>
         device.attack_status === "Sensor Disconnected" ||
@@ -620,11 +719,11 @@ function checkDashboardAlert() {
         device.attack_status !== "Availability Warning"
     );
 
-    if (hasCyberCritical) {
+    if (hasRecentExternalSecurityEvent) {
         startCriticalAlarm("cyber");
         showAlertPopup(
             "cyber-critical",
-            "Critical Cyber Attack Detected",
+            "Security Event Detected",
             "An unauthorized or malicious request has been detected by the SOC system."
         );
         localStorage.setItem("lastSocAlertState", "cyber-critical");
@@ -642,8 +741,8 @@ function checkDashboardAlert() {
         startCriticalAlarm("environment");
         showAlertPopup(
             "env-critical",
-            "Environmental Critical Alert",
-            "A critical temperature or humidity condition has been detected."
+            "Critical Cold-Storage Alert",
+            "A critical cold-storage temperature or humidity condition has been detected."
         );
         localStorage.setItem("lastSocAlertState", "environment-critical");
     }
@@ -654,8 +753,8 @@ function checkDashboardAlert() {
             playCyberWarningSound();
             showAlertPopup(
                 "cyber-warning",
-                "Cyber Warning Detected",
-                "Suspicious behavior has been detected. SOC review is recommended."
+                "Security Event Detected",
+                "No active security events detected."
             );
             localStorage.setItem("lastSocAlertState", "cyber-warning");
         }
@@ -672,13 +771,17 @@ function checkDashboardAlert() {
             playEnvironmentWarningSound();
             showAlertPopup(
                 "env-warning",
-                "Environmental Warning",
-                "Temperature or humidity is outside the normal range."
+                "Cold-Storage Warning",
+                "Temperature or humidity is slightly outside the cold-storage target range."
             );
             localStorage.setItem("lastSocAlertState", "environment-warning");
         }
-        else if (!hasCyberWarning && !hasAvailabilityWarning && !hasEnvironmentWarning) {
-            hideAlertPopup();
+        else if (!hasRecentExternalSecurityEvent && !hasCyberWarning && !hasAvailabilityWarning && !hasEnvironmentWarning) {
+            showAlertPopup(
+                "cyber-warning",
+                "Security Event Detected",
+                "No active security events detected"
+            );
             localStorage.setItem("lastSocAlertState", "normal");
         }
     }
