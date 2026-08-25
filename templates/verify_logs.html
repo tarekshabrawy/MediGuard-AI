@@ -4,35 +4,16 @@
     <title>Secure Audit Log Verification - MediGuard AI</title>
     <link rel="stylesheet" href="/static/style.css">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <style>
-        /* Reuse SOC dashboard theme: dark navy, glass cards, rounded corners */
-        body { background: linear-gradient(180deg,#071027 0%, #041322 100%); color: #e6f3f1; font-family: Inter, system-ui, Arial, sans-serif; }
-        .verify-page { min-height:100vh; }
-        .verify-main { padding:28px; }
-        .page-kicker { color:#7bd1ff; }
-        .panel-head h2 { margin:0; }
-        .metrics-grid { display:flex; gap:14px; margin-top:14px; flex-wrap:wrap }
-        .metric-card { background: rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03); padding:14px; border-radius:8px; min-width:160px }
-        .metric-card h3 { margin:0; font-size:20px }
-        .metric-card p { margin:6px 0 0 0; color:#cfeee6 }
-        .status-alert { padding:16px; border-radius:8px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center }
-        .status-valid { background: linear-gradient(90deg,#083b12,#07501a); border:1px solid rgba(0,200,120,0.14); color:#dbffe0 }
-        .status-tampered { background: linear-gradient(90deg,#4a150f,#7b1f12); border:1px solid rgba(255,90,60,0.14); color:#ffe8e5 }
-        .details-table { width:100%; border-collapse:collapse; margin-top:10px }
-        .details-table th, .details-table td { text-align:left; padding:10px 12px; border-bottom:1px solid rgba(255,255,255,0.03) }
-        .section { margin-top:18px }
-        .btn-row { margin-top:12px }
-        .btn-primary { background:#0aa3ff; color:#022; padding:8px 12px; border-radius:6px; text-decoration:none; font-weight:600 }
-        .btn-ghost { background:transparent; border:1px solid rgba(255,255,255,0.06); color:#e6f3f1; padding:8px 12px; border-radius:6px; text-decoration:none }
-        .soc-layout { display:flex; }
-        .main-content { flex:1 }
-        @media (max-width:900px){ .metrics-grid{flex-direction:column} }
-    </style>
 </head>
 <body>
 
-<div class="soc-layout">
-    <!-- Sidebar copied from SOC Dashboard for consistent layout -->
+<div class="dashboard-bg">
+    <div class="bg-grid"></div>
+    <div class="dash-glow dash-glow-one"></div>
+    <div class="dash-glow dash-glow-red"></div>
+</div>
+
+<div class="app-layout">
     <aside class="sidebar soc-sidebar">
         <div class="side-logo">
             <div class="logo-dot">✦</div>
@@ -67,15 +48,23 @@
             </div>
         </div>
 
-        <div class="verify-main">
+            <div class="verify-main">
 
-            {% if status == 'Valid' %}
+            {% if checked == 0 %}
+                <div class="status-alert status-valid">
+                    <div>
+                        <h2>VALID</h2>
+                        <p>VALID — no secure audit entries have been written yet.</p>
+                    </div>
+                    <div class="status-mark">OK</div>
+                </div>
+            {% elif status == 'Valid' %}
                 <div class="status-alert status-valid">
                     <div>
                         <h2 style="margin:0">Secure Logs Status: VALID</h2>
                         <p style="margin:6px 0 0 0;">No tampering detected.</p>
                     </div>
-                    <div style="font-size:28px">✅</div>
+                    <div class="status-mark">OK</div>
                 </div>
             {% else %}
                 <div class="status-alert status-tampered">
@@ -83,38 +72,38 @@
                         <h2 style="margin:0">Secure Logs Status: TAMPERED</h2>
                         <p style="margin:6px 0 0 0;">Audit log integrity violation detected.</p>
                     </div>
-                    <div style="font-size:28px">⚠️</div>
+                    <div class="status-mark">!</div>
                 </div>
             {% endif %}
 
             <div class="metrics-grid">
-                <div class="metric-card card">
+                <div class="metric-card">
                     <h3>Checked Logs</h3>
                     <p>{{ checked }}</p>
                 </div>
 
-                <div class="metric-card card">
+                <div class="metric-card">
                     <h3>Status</h3>
                     <p>{{ status }}</p>
                 </div>
 
-                <div class="metric-card card">
+                <div class="metric-card">
                     <h3>First Tampered Log ID</h3>
                     <p>{% if first_tampered %}{{ first_tampered }}{% else %}-{% endif %}</p>
                 </div>
 
-                <div class="metric-card card">
+                <div class="metric-card">
                     <h3>Hash Algorithm</h3>
                     <p>{{ hash_algorithm }}</p>
                 </div>
 
-                <div class="metric-card card">
+                <div class="metric-card">
                     <h3>Last Verification Time</h3>
                     <p>{{ verification_time }}</p>
                 </div>
             </div>
 
-            <div class="section card">
+            <div class="section panel">
                 <h2>Secure Audit Log Details</h2>
                 <table class="details-table">
                     <tr><th>Property</th><th>Value</th></tr>
@@ -125,7 +114,7 @@
                 </table>
             </div>
 
-            <div class="section card">
+            <div class="section panel">
                 <h2>Recent Tamper Incidents</h2>
                 <div class="table-wrap">
                     <table>
@@ -157,7 +146,7 @@
 
             <div class="btn-row">
                 <a class="btn-primary" href="/soc">Back to SOC Dashboard</a>
-                <a class="btn-ghost" href="/logs">View Normal Logs</a>
+                <a class="btn-secondary" href="/logs">View Normal Logs</a>
             </div>
 
         </div>

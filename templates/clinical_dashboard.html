@@ -100,6 +100,10 @@
                             <th>Risk</th>
                             <th>Medical Action</th>
                             <th>Reason</th>
+                            <th>Hardware Profile</th>
+                            <th>Local Alert</th>
+                            <th>RTC</th>
+                            <th>Offline Backup</th>
                             <th>Isolation</th>
                         </tr>
                     </thead>
@@ -138,6 +142,10 @@
 
                             <td>{{ device.action }}</td>
                             <td>{{ device.environment_reason }}</td>
+                            <td>{{ device.hardware_profile or "Not reported" }}</td>
+                            <td>{{ device.local_alert or "Not reported" }}</td>
+                            <td>{{ device.rtc_status or "Not reported" }}</td>
+                            <td>{{ device.sd_backup_status or "Not reported" }}</td>
 
                             <td>
                                 {% if device.isolation_status == "Isolated" %}
@@ -209,6 +217,10 @@ function renderClinicalDevices(devices) {
             <td>${riskBadge(device.risk_level, device.risk_score)}</td>
             <td>${device.action || "-"}</td>
             <td>${device.environment_reason || "-"}</td>
+            <td>${device.hardware_profile || "Not reported"}</td>
+            <td>${device.local_alert || "Not reported"}</td>
+            <td>${device.rtc_status || "Not reported"}</td>
+            <td>${device.sd_backup_status || "Not reported"}</td>
             <td>${isolationBadge(device.isolation_status)}</td>
         </tr>
     `).join("");

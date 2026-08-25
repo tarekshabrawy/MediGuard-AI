@@ -108,6 +108,10 @@
                             <th>Attack Reason</th>
                             <th>Cyber Decision</th>
                             <th>Sensor Authentication Status</th>
+                            <th>Hardware Profile</th>
+                            <th>Local Alert</th>
+                            <th>RTC</th>
+                            <th>Offline Backup</th>
                             <th>Isolation</th>
                             <th>Incident Response</th>
                         </tr>
@@ -199,6 +203,11 @@
                                     <span class="badge green">Secure</span>
                                 {% endif %}
                             </td>
+
+                            <td>{{ device.hardware_profile or "Not reported" }}</td>
+                            <td>{{ device.local_alert or "Not reported" }}</td>
+                            <td>{{ device.rtc_status or "Not reported" }}</td>
+                            <td>{{ device.sd_backup_status or "Not reported" }}</td>
 
                             <td>
                                 {% if device.isolation_status == "Isolated" %}
@@ -293,10 +302,11 @@
 
 <div id="alertPopup" class="alert-popup hidden">
     <div class="alert-icon" id="alertIcon">⚠️</div>
-    <div>
+    <div class="alert-copy">
         <h3 id="alertTitle">Alert</h3>
         <p id="alertMessage">System alert detected.</p>
     </div>
+    <button type="button" class="alert-dismiss" onclick="hideAlertPopup()" aria-label="Dismiss alert">×</button>
 </div>
 
 <script>
@@ -379,6 +389,10 @@ function renderSocDevices(devices) {
             <td>${device.attack_reason || "-"}</td>
             <td>${attackDecisionBadge(device.attack_status)}</td>
             <td>${securityBadge(device.security_status)}</td>
+            <td>${device.hardware_profile || "Not reported"}</td>
+            <td>${device.local_alert || "Not reported"}</td>
+            <td>${device.rtc_status || "Not reported"}</td>
+            <td>${device.sd_backup_status || "Not reported"}</td>
             <td>${isolationBadge(device.isolation_status)}</td>
             <td>
                 <div class="control-buttons">
@@ -666,6 +680,8 @@ function showAlertPopup(type, title, message) {
     alertTitle.innerText = title;
     alertMessage.innerText = message;
     popup.style.display = "flex";
+    window.clearTimeout(window.alertHideTimer);
+    window.alertHideTimer = window.setTimeout(hideAlertPopup, 7000);
 }
 
 function hideAlertPopup() {
@@ -709,22 +725,21 @@ function checkDashboardAlert() {
         device.attack_status !== "Possible Cyber Attack"
     );
 
-    const hasCyberWarning = devicesData.some(device =>
-        device.security_status === "Suspicious" ||
-        device.behavior_status === "Suspicious Behavior"
-    );
-
     const hasEnvironmentWarning = devicesData.some(device =>
         device.status === "Warning" &&
         device.attack_status !== "Availability Warning"
     );
 
     if (hasRecentExternalSecurityEvent) {
+        const activeDevice = devicesData.find(device => isRecentSecurityEvent(device));
+        const eventType = activeDevice && activeDevice.attack_type && activeDevice.attack_type !== "-"
+            ? ` Event type: ${activeDevice.attack_type}.`
+            : " Review the latest rejected or blocked request in the logs.";
         startCriticalAlarm("cyber");
         showAlertPopup(
             "cyber-critical",
             "Security Event Detected",
-            "An unauthorized or malicious request has been detected by the SOC system."
+            `A cybersecurity event is active.${eventType}`
         );
         localStorage.setItem("lastSocAlertState", "cyber-critical");
     }
@@ -749,16 +764,7 @@ function checkDashboardAlert() {
     else {
         stopCriticalAlarm();
 
-        if (hasCyberWarning && lastAlert !== "cyber-warning") {
-            playCyberWarningSound();
-            showAlertPopup(
-                "cyber-warning",
-                "Security Event Detected",
-                "No active security events detected."
-            );
-            localStorage.setItem("lastSocAlertState", "cyber-warning");
-        }
-        else if (hasAvailabilityWarning && lastAlert !== "availability-warning") {
+        if (hasAvailabilityWarning && lastAlert !== "availability-warning") {
             playEnvironmentWarningSound();
             showAlertPopup(
                 "availability",
@@ -776,12 +782,8 @@ function checkDashboardAlert() {
             );
             localStorage.setItem("lastSocAlertState", "environment-warning");
         }
-        else if (!hasRecentExternalSecurityEvent && !hasCyberWarning && !hasAvailabilityWarning && !hasEnvironmentWarning) {
-            showAlertPopup(
-                "cyber-warning",
-                "Security Event Detected",
-                "No active security events detected"
-            );
+        else if (!hasRecentExternalSecurityEvent && !hasAvailabilityWarning && !hasEnvironmentWarning) {
+            hideAlertPopup();
             localStorage.setItem("lastSocAlertState", "normal");
         }
     }
