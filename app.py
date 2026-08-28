@@ -1084,7 +1084,10 @@ def process_device_reading(device_index, behavior, simulated_attack=False, attac
 
     behavior_status, behavior_reason, behavior_anomaly_flag, repeat_count = analyze_sensor_behavior(device, behavior)
 
-    already_under_attack = device.get("attack_status") == "Possible Cyber Attack"
+    already_under_attack = (
+        device.get("attack_status") in ["Possible Cyber Attack", "Security Event Detected"]
+        and is_recent_security_event(device)
+    )
 
     if simulated_attack or already_under_attack:
         anomaly_flag = 1
@@ -1137,7 +1140,6 @@ def process_device_reading(device_index, behavior, simulated_attack=False, attac
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     if not simulated_attack and not already_under_attack and attack_status == "Normal Operation":
         temp_devices[device_index]["last_valid_reading_time"] = current_time
-        temp_devices[device_index]["last_security_event_time"] = ""
 
     isolation_status = device.get("isolation_status") or "Active"
     security_status = get_security_status(attack_status, anomaly_status, isolation_status)
@@ -1189,7 +1191,7 @@ def process_device_reading(device_index, behavior, simulated_attack=False, attac
         "repeat_count": repeat_count,
         "last_seen": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "last_valid_reading_time": current_time,
-        "last_security_event_time": "" if (not simulated_attack and not already_under_attack and attack_status == "Normal Operation") else device.get("last_security_event_time", "")
+        "last_security_event_time": device.get("last_security_event_time", "")
     }
 
     update_device_readings(device_index, updated_data)
@@ -1396,6 +1398,38 @@ def soc_live_data():
         "stats": stats,
         "vulnerability_risks": vulnerability_risks,
         "vulnerability_percentage": vulnerability_percentage
+    })
+
+
+@app.route("/api/hardware_status")
+def hardware_status():
+    """Return the compact, read-only status contract used by the ESP32."""
+    devices = load_devices()
+    devices = refresh_security_event_state(devices)
+    if not devices:
+        return jsonify({"success": False, "error": "No sensor configured"}), 503
+
+    device = devices[0]
+    active_cyber_alert = (
+        is_recent_security_event(device)
+        and device.get("security_status") in ["Under Attack", "Isolated"]
+    )
+    security_status = "Security Event" if active_cyber_alert else "Secure"
+    environment_status = device.get("status") or "Normal"
+    if environment_status not in ["Normal", "Warning", "Critical"]:
+        environment_status = "Normal"
+
+    return jsonify({
+        "success": True,
+        "active_cyber_alert": active_cyber_alert,
+        "security_status": security_status,
+        "attack_type": device.get("attack_type") or "-",
+        "attack_reason": device.get("attack_reason") or "-",
+        "risk_score": int(device.get("risk_score") or 0),
+        "risk_level": device.get("risk_level") or "-",
+        "environment_status": environment_status,
+        "recommended_action": device.get("action") or "-",
+        "last_security_event_time": device.get("last_security_event_time") or ""
     })
 
 
@@ -1659,10 +1693,11 @@ def api_sensor_reading():
         "dht22_temperature": str(data.get("dht22_temperature") or "")
     })
     device["last_valid_reading_time"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    device["last_security_event_time"] = ""
-    device["security_status"] = "Secure"
-    device["attack_type"] = "-"
-    device["attack_reason"] = "-"
+    if not is_recent_security_event(device):
+        device["last_security_event_time"] = ""
+        device["security_status"] = "Secure"
+        device["attack_type"] = "-"
+        device["attack_reason"] = "-"
     save_devices(devices)
 
     return jsonify({
