@@ -1,0 +1,30 @@
+MediGuard AI - local login details (generated 2026-11-22)
+This file is ignored by git. Do not share it or put it in the paper.
+
+Doctor dashboard:  username: doctor   password: 6vWzHb16Kfz47R
+SOC dashboard:     username: soc      password: yjTiGNMUgIts4h
+
+To choose your own passwords later, run:  python tools/make_secrets.py
+
+------------------------------------------------------------------
+STEP 1 - Replace EVERYTHING in MediGuard-AI-fresh\.env with these lines:
+------------------------------------------------------------------
+MEDIGUARD_HMAC_SECRET=2885be73c96ccaa5f22b8230c88852d0f017ae0fa7dc918de339d0040b0c1dda
+MEDIGUARD_FLASK_SECRET_KEY=d0dc1c4f8ea2f220ce31ba618c0502b9ea1c0f5c35b5122c49314f7467ac36d6
+MEDIGUARD_DOCTOR_PASSWORD_HASH='pbkdf2:sha256:1000000$gowX4WADwsXXOKys$722e4c91c3d2a978f823854673b8c4cd3870df0b881f4f4459b2ba12824d0597'
+MEDIGUARD_SOC_PASSWORD_HASH='pbkdf2:sha256:1000000$6e7DQQ2Zp4gRXAw4$49a065a191a8422e4c575a4df2c54106d8f807c3794afed3fabfb1b48d196646'
+# Keep 0 whenever the server is reachable from the network (local tests and VPN)
+MEDIGUARD_DEBUG=0
+
+------------------------------------------------------------------
+STEP 2 - Create "MediGuard Attack Test\.env" with these lines:
+------------------------------------------------------------------
+MEDIGUARD_HMAC_SECRET=2885be73c96ccaa5f22b8230c88852d0f017ae0fa7dc918de339d0040b0c1dda
+# Local network test (server LAN IP from the ESP32 firmware):
+MEDIGUARD_API_URL=http://192.168.100.23:5000/api/sensor_reading
+# VPN test: comment the line above and use the server's VPN IP instead, e.g.
+# MEDIGUARD_API_URL=http://<SERVER-VPN-IP>:5000/api/sensor_reading
+
+------------------------------------------------------------------
+After both are pasted you can delete the two STEP sections from this file.
+The ESP32 secrets.h already has the new secret - just re-flash the ESP32.

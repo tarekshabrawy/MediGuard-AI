@@ -95,6 +95,16 @@ python app.py
 
 Open `http://127.0.0.1:5000`, then use the Doctor or SOC role from the login page.
 
+## Local setup for secrets
+
+1. Copy `.env.example` to `.env`.
+2. Set `MEDIGUARD_HMAC_SECRET` to the same shared secret used by the ESP32 firmware.
+3. Set `MEDIGUARD_FLASK_SECRET_KEY` for Flask session security.
+4. Create `secrets.h` from `secrets.example.h` in the ESP32 firmware folder.
+5. Use the same HMAC secret in Flask and ESP32.
+6. Never commit `.env` or `secrets.h`.
+7. Never publish the real secret in a paper or public repository.
+
 ## Testing Notes
 
 The sensor API accepts JSON at `POST /api/sensor_reading`. The HMAC message remains:
@@ -103,7 +113,7 @@ The sensor API accepts JSON at `POST /api/sensor_reading`. The HMAC message rema
 sensor_id|temperature|humidity|timestamp|nonce
 ```
 
-Temperature and humidity must be formatted to two decimals in the HMAC message. The shared secret used by the current local prototype is `MEDIGUARD_SENSOR_SECRET_123`.
+Temperature and humidity must be formatted to two decimals in the HMAC message. The shared secret must be provided via `MEDIGUARD_HMAC_SECRET` in `.env` on the Flask side and `MEDIGUARD_HMAC_SECRET` in `secrets.h` on the ESP32 side.
 
 Example controlled local API security test script payload:
 

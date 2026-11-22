@@ -1,5 +1,6 @@
-from flask import Flask, render_template, redirect, request, url_for, session, jsonify
+from flask import Flask, render_template, redirect, request, url_for, session, jsonify, Response
 import joblib
+import json
 import csv
 import os
 import random
@@ -10,11 +11,63 @@ import hashlib
 import hmac
 import time
 import math
+from dotenv import load_dotenv
+from werkzeug.security import check_password_hash
+import secrets
+
+load_dotenv()
 
 DEV_MODE = False
 
 app = Flask(__name__)
-app.secret_key = "mediguard_demo_secret_key"
+
+SHARED_SECRET = os.getenv("MEDIGUARD_HMAC_SECRET")
+if not SHARED_SECRET:
+    raise RuntimeError(
+        "MEDIGUARD_HMAC_SECRET environment variable is not configured"
+    )
+
+flask_secret = os.getenv("MEDIGUARD_FLASK_SECRET_KEY")
+if not flask_secret:
+    raise RuntimeError(
+        "MEDIGUARD_FLASK_SECRET_KEY environment variable is not configured"
+    )
+
+app.secret_key = flask_secret
+app.config.update(SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE="Lax")
+
+# Dashboard login credentials come from .env as password hashes (never plain text).
+# Generate them with: python tools/make_secrets.py
+USER_PASSWORD_HASHES = {
+    "doctor": os.getenv("MEDIGUARD_DOCTOR_PASSWORD_HASH"),
+    "soc": os.getenv("MEDIGUARD_SOC_PASSWORD_HASH"),
+}
+for _role, _hash in USER_PASSWORD_HASHES.items():
+    if not _hash:
+        raise RuntimeError(
+            f"MEDIGUARD_{_role.upper()}_PASSWORD_HASH environment variable is not configured"
+        )
+
+# Flask debug mode must stay off when the server is reachable from the network.
+DEBUG_MODE = os.getenv("MEDIGUARD_DEBUG", "0") == "1"
+
+
+def get_csrf_token():
+    """Per-session token that protects state-changing SOC actions (CSRF)."""
+    if "csrf_token" not in session:
+        session["csrf_token"] = secrets.token_hex(32)
+    return session["csrf_token"]
+
+
+def csrf_is_valid():
+    sent = request.form.get("csrf_token", "")
+    expected = session.get("csrf_token", "")
+    return bool(expected) and hmac.compare_digest(sent, expected)
+
+
+@app.context_processor
+def inject_csrf_token():
+    return {"csrf_token": get_csrf_token}
 
 condition_model = joblib.load("condition_model.pkl")
 anomaly_model = joblib.load("anomaly_model.pkl")
@@ -35,8 +88,27 @@ LOG_HEADER = [
 
 TAMPER_DB = "tamper_incidents.db"
 NONCE_DB = "nonce_store.db"
-SHARED_SECRET = "MEDIGUARD_SENSOR_SECRET_123"
+DEVICE_EVENTS_DB = "device_events.db"
+DEVICE_EVENT_HISTORY_LIMIT = 1000
 SECURITY_EVENT_ACTIVE_SECONDS = 60
+
+LAST_API_TRANSACTION = {
+    "endpoint": "POST /api/sensor_reading",
+    "device": "ESP32_ROOM_1",
+    "http_status": None,
+    "authentication": "UNKNOWN",
+    "nonce": "UNKNOWN",
+    "timestamp": "UNKNOWN",
+    "response_time_ms": None,
+    "last_seen": "",
+    "last_update": "",
+    "payload": {},
+    "raw_request": {},
+    "packets_received": 0
+}
+
+LAST_SENSOR_RESPONSE = {}
+CONSOLE_PACKET_COUNT = 0
 
 
 def init_nonce_db():
@@ -70,6 +142,238 @@ def store_nonce(sensor_id, nonce, ts):
         conn.close()
     except Exception:
         pass
+
+
+
+def init_device_event_db():
+    conn = sqlite3.connect(DEVICE_EVENTS_DB)
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS device_events (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        timestamp TEXT,
+        sensor_id TEXT,
+        category TEXT,
+        level TEXT,
+        message TEXT,
+        source TEXT,
+        http_code INTEGER
+    )''')
+    conn.commit()
+    conn.close()
+
+
+
+def trim_device_events(limit=DEVICE_EVENT_HISTORY_LIMIT):
+    conn = sqlite3.connect(DEVICE_EVENTS_DB)
+    c = conn.cursor()
+    c.execute('SELECT id FROM device_events ORDER BY id ASC')
+    rows = c.fetchall()
+    if len(rows) <= limit:
+        conn.close()
+        return
+
+    delete_ids = [row[0] for row in rows[:len(rows) - limit]]
+    placeholders = ','.join('?' for _ in delete_ids)
+    c.execute(f'DELETE FROM device_events WHERE id IN ({placeholders})', delete_ids)
+    conn.commit()
+    conn.close()
+
+
+
+def record_device_event(sensor_id, category, level, message, http_code=None, source="FLASK"):
+    try:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        conn = sqlite3.connect(DEVICE_EVENTS_DB)
+        c = conn.cursor()
+        c.execute(
+            'INSERT INTO device_events (timestamp, sensor_id, category, level, message, source, http_code) VALUES (?,?,?,?,?,?,?)',
+            (timestamp, sensor_id or TRUSTED_SENSOR_ID, category or "SYSTEM", level or "INFO", message or "", source, http_code)
+        )
+        conn.commit()
+        conn.close()
+        trim_device_events()
+    except Exception:
+        pass
+
+
+
+def get_recent_device_events(limit=200):
+    try:
+        conn = sqlite3.connect(DEVICE_EVENTS_DB)
+        c = conn.cursor()
+        c.execute('SELECT id, timestamp, sensor_id, category, level, message, source, http_code FROM device_events ORDER BY id DESC LIMIT ?', (int(limit),))
+        rows = c.fetchall()
+        conn.close()
+        return [
+            {
+                "id": row[0],
+                "timestamp": row[1],
+                "sensor_id": row[2],
+                "category": row[3],
+                "level": row[4],
+                "message": row[5],
+                "source": row[6],
+                "http_code": row[7]
+            }
+            for row in rows
+        ][::-1]
+    except Exception:
+        return []
+
+
+
+def sanitize_request_payload(payload):
+    if not isinstance(payload, dict):
+        return {}
+
+    safe_payload = {}
+    for key, value in payload.items():
+        if key in {"signature", "private_key", "secret", "flask_secret", "wifi_password", "password"}:
+            safe_payload[key] = "present" if key == "signature" else "[redacted]"
+        else:
+            safe_payload[key] = value
+
+    return safe_payload
+
+
+def get_device_console_live_state(last_seen):
+    if not last_seen:
+        return {
+            "state": "OFFLINE",
+            "message": "No live read received"
+        }
+
+    try:
+        last_seen_time = datetime.strptime(last_seen, "%Y-%m-%d %H:%M:%S")
+    except Exception:
+        return {
+            "state": "OFFLINE",
+            "message": "No live read received"
+        }
+
+    age_seconds = (datetime.now() - last_seen_time).total_seconds()
+
+    if age_seconds <= 7:
+        return {
+            "state": "LIVE",
+            "message": "Reading stream active"
+        }
+
+    if age_seconds <= 15:
+        return {
+            "state": "STALE",
+            "message": "Reading interval missed"
+        }
+
+    return {
+        "state": "OFFLINE",
+        "message": "Communication timeout exceeded"
+    }
+
+
+def update_last_api_transaction(payload=None, http_status=None, authentication="UNKNOWN", nonce_status="UNKNOWN", timestamp_status="UNKNOWN", response_time_ms=None):
+    global LAST_API_TRANSACTION, LAST_SENSOR_RESPONSE, CONSOLE_PACKET_COUNT
+
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    safe_payload = sanitize_request_payload(payload)
+
+    if http_status is not None and http_status >= 400:
+        LAST_SENSOR_RESPONSE = {
+            "success": False,
+            "message": "Request rejected by Flask backend",
+            "attack_detected": True,
+            "attack_type": authentication or "Security Event"
+        }
+    elif http_status is not None and http_status < 400:
+        LAST_SENSOR_RESPONSE = LAST_SENSOR_RESPONSE or {}
+
+    LAST_API_TRANSACTION = {
+        "endpoint": "POST /api/sensor_reading",
+        "device": TRUSTED_SENSOR_ID,
+        "http_status": http_status,
+        "authentication": authentication,
+        "nonce": nonce_status,
+        "timestamp": timestamp_status,
+        "response_time_ms": response_time_ms,
+        "last_seen": now,
+        "last_update": now,
+        "payload": safe_payload,
+        "raw_request": safe_payload,
+        "packets_received": CONSOLE_PACKET_COUNT
+    }
+
+
+
+def get_device_console_state():
+    devices = load_devices()
+    devices = check_sensor_availability(devices)
+    devices = refresh_security_event_state(devices)
+    save_devices(devices)
+
+    device = devices[0] if devices else {}
+    sensor_id = device.get("device_name") or TRUSTED_SENSOR_ID
+    online = is_device_online(device)
+    live_console_state = get_device_console_live_state(device.get("last_seen") or LAST_API_TRANSACTION.get("last_seen") or "")
+
+    telemetry = {
+        "device": sensor_id,
+        "temperature": device.get("temperature_c") or "-",
+        "humidity": device.get("humidity") or "-",
+        "dht22_temperature": device.get("dht22_temperature") or "-",
+        "environment_state": device.get("status") or "No Data",
+        "local_alert": device.get("local_alert") or "-",
+        "rtc_status": device.get("rtc_status") or "TIME_FAIL",
+        "sd_backup_status": device.get("sd_backup_status") or "SD_MISSING",
+        "hardware_profile": device.get("hardware_profile") or "enhanced_v2",
+    }
+
+    security_state = "SECURE"
+    if device.get("security_status") in ["Under Attack", "Isolated", "Sensor Disconnected", "Availability Warning"]:
+        security_state = "CYBER ALERT"
+
+    backend_state = "CONNECTED" if live_console_state["state"] != "OFFLINE" else "OFFLINE"
+
+    state = {
+        "device_name": sensor_id,
+        "online": online,
+        "device_state": "ONLINE" if online else "OFFLINE",
+        "environment": (device.get("status") or "No Data").upper(),
+        "security": security_state,
+        "backend": backend_state,
+        "data_stream_state": live_console_state["state"],
+        "live_state": live_console_state["state"],
+        "last_seen": device.get("last_seen") or "",
+        "last_update": LAST_API_TRANSACTION.get("last_update") or device.get("last_seen") or "",
+        "packets_received": CONSOLE_PACKET_COUNT,
+        "time_source": device.get("rtc_status") or "TIME_FAIL",
+        "hardware_profile": device.get("hardware_profile") or "enhanced_v2",
+        "telemetry": telemetry,
+        "events": get_recent_device_events(200),
+        "last_api_transaction": {
+            **LAST_API_TRANSACTION,
+            "packets_received": CONSOLE_PACKET_COUNT,
+            "last_update": LAST_API_TRANSACTION.get("last_update") or device.get("last_seen") or ""
+        },
+        "raw_request": sanitize_request_payload(LAST_API_TRANSACTION.get("payload") or {}),
+        "raw_response": LAST_SENSOR_RESPONSE,
+        "success": True
+    }
+
+    return state
+
+
+
+def is_device_online(device):
+    last_seen = (device or {}).get("last_seen") or ""
+    if not last_seen:
+        return False
+
+    try:
+        last_seen_time = datetime.strptime(last_seen, "%Y-%m-%d %H:%M:%S")
+    except Exception:
+        return False
+
+    return (datetime.now() - last_seen_time).total_seconds() <= 40
 
 
 
@@ -272,10 +576,11 @@ def verify_secure_logs():
 init_secure_db()
 init_tamper_db()
 init_nonce_db()
+init_device_event_db()
 
 # Trusted ESP32 identity
 TRUSTED_SENSOR_ID = "ESP32_ROOM_1"
-TRUSTED_SENSOR_TOKEN = "MEDIGUARD_SENSOR_SECRET_123"
+TRUSTED_SENSOR_TOKEN = SHARED_SECRET
 
 
 def require_login(role=None):
@@ -573,6 +878,21 @@ def get_dashboard_stats(devices):
     isolated = sum(1 for d in devices if d.get("isolation_status") == "Isolated")
     avg_risk = round(sum(int(d.get("risk_score") or 0) for d in devices) / total, 1) if total else 0
 
+    if critical:
+        environment_state = "CRITICAL"
+    elif warning:
+        environment_state = "WARNING"
+    else:
+        environment_state = "NORMAL"
+
+    live_cyber_state = "SECURE"
+    has_warning = any(d.get("security_status") in ["Suspicious", "Availability Warning"] for d in devices)
+    has_alert = any(d.get("security_status") in ["Under Attack", "Isolated", "Sensor Disconnected"] for d in devices)
+    if has_alert:
+        live_cyber_state = "CYBER ALERT"
+    elif has_warning:
+        live_cyber_state = "WARNING"
+
     return {
         "total": total,
         "normal": normal,
@@ -581,7 +901,9 @@ def get_dashboard_stats(devices):
         "anomalies": anomalies,
         "attacks": attacks,
         "isolated": isolated,
-        "avg_risk": avg_risk
+        "avg_risk": avg_risk,
+        "environment_state": environment_state,
+        "live_cyber_state": live_cyber_state
     }
 
 
@@ -854,8 +1176,161 @@ def get_vulnerability_risks(devices):
         item["related"] = False
         item["matrix_mode"] = "residual_risk"
         item["active_attack_type"] = "-"
+        item["live_status"] = "INACTIVE"
+        item["last_result"] = "No recent event"
+        item["detection_count"] = 0
+        item["http_code"] = "-"
+        item["last_seen"] = "-"
+        item["detection_latency"] = "-"
+        item["test_result"] = "NOT TESTED"
 
     return risk_rows
+
+
+def risk_id_from_attack_type(attack_type):
+    if not attack_type or attack_type == "-":
+        return None
+
+    normalized = str(attack_type).strip().lower()
+    risk_patterns = {
+        "V1": ["unknown sensor id", "unauthorized sensor spoofing"],
+        "V2": ["missing hmac signature", "invalid hmac signature", "malformed json", "missing device event signature", "invalid device event signature"],
+        "V3": ["replay nonce", "replay attack", "old timestamp", "stale timestamp"],
+        "V4": ["message tampering", "signature mismatch", "tampered authenticated payload", "tamper incident"],
+        "V5": ["unencrypted communication"],
+        "V6": ["impossible sensor values", "invalid payload", "impossible sensor payload"],
+        "V7": ["abnormal sensor behavior", "suspicious behavior", "anomalous"],
+        "V8": ["manual log modification", "log tampering", "tampered secure log"],
+        "V9": ["tamper incident recorded", "tamper incident loss", "message tampering"],
+        "V10": ["sensor offline", "sensor availability failure", "sensor disconnected", "availability warning", "sensor availability warning"],
+        "V11": ["api flooding", "ddos", "flooding attempt", "controlled api abuse", "api abuse"],
+        "V12": ["gateway or laptop compromise", "gateway compromise", "laptop compromise", "malware"],
+        "V13": ["soc response delay", "incident response delay"]
+    }
+
+    for risk_id, patterns in risk_patterns.items():
+        if any(pattern in normalized for pattern in patterns):
+            return risk_id
+
+    return None
+
+
+def risk_live_result_text(risk_id):
+    labels = {
+        "V1": "Unauthorized sensor rejected",
+        "V2": "Invalid signature rejected",
+        "V3": "Replay detected and rejected",
+        "V4": "Tampered payload blocked",
+        "V5": "Transport confidentiality review required",
+        "V6": "Impossible values rejected",
+        "V7": "Abnormal behavior flagged",
+        "V8": "Log tampering detected",
+        "V9": "Tamper incident recorded",
+        "V10": "Device communication lost",
+        "V11": "Excessive invalid requests blocked",
+        "V12": "Gateway compromise review required",
+        "V13": "SOC response delay recorded"
+    }
+    return labels.get(risk_id, "Security event recorded")
+
+
+def get_risk_event_history():
+    history = []
+
+    if not os.path.exists(LOG_FILE):
+        return history
+
+    try:
+        with open(LOG_FILE, newline="") as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                event_type = (row.get("event_type") or row.get("attack_status") or "").strip()
+                if not event_type or event_type in ["-", ""]:
+                    continue
+                history.append({
+                    "timestamp": row.get("timestamp") or "-",
+                    "event_type": event_type,
+                    "http_code": row.get("http_code") or "-",
+                    "attack_status": row.get("attack_status") or "-"
+                })
+    except Exception:
+        return []
+
+    return history
+
+
+def get_risk_event_matches(risk_id, history):
+    risk_patterns = {
+        "V1": ["unknown sensor id", "unauthorized sensor spoofing"],
+        "V2": ["missing hmac signature", "invalid hmac signature", "malformed json", "missing device event signature", "invalid device event signature"],
+        "V3": ["replay nonce", "replay attack", "old timestamp", "stale timestamp"],
+        "V4": ["message tampering", "signature mismatch", "tampered authenticated payload", "tamper incident"],
+        "V5": ["unencrypted communication"],
+        "V6": ["impossible sensor values", "invalid payload", "impossible sensor payload"],
+        "V7": ["abnormal sensor behavior", "suspicious behavior", "anomalous"] ,
+        "V8": ["manual log modification", "log tampering", "tampered secure log"],
+        "V9": ["tamper incident recorded", "tamper incident loss", "message tampering"],
+        "V10": ["sensor offline", "sensor availability failure", "sensor disconnected", "availability warning", "sensor availability warning"],
+        "V11": ["api flooding", "ddos", "flooding attempt", "controlled api abuse", "api abuse"],
+        "V12": ["gateway or laptop compromise", "gateway compromise", "laptop compromise", "malware"],
+        "V13": ["soc response delay", "incident response delay"]
+    }
+
+    patterns = risk_patterns.get(risk_id, [])
+    matches = []
+
+    for entry in history:
+        event_name = (entry.get("event_type") or "").lower()
+        if any(pattern in event_name for pattern in patterns):
+            matches.append(entry)
+
+    return matches
+
+
+def enrich_vulnerability_risks(vulnerability_risks, devices):
+    if not vulnerability_risks:
+        return vulnerability_risks
+
+    current_device = devices[0] if devices else {}
+    current_risk_id = risk_id_from_attack_type(current_device.get("attack_type"))
+    history = get_risk_event_history()
+    recent_active = is_recent_security_event(current_device)
+
+    for risk in vulnerability_risks:
+        matches = get_risk_event_matches(risk["id"], history)
+        latest_match = matches[-1] if matches else None
+
+        if current_risk_id == risk["id"] and recent_active:
+            live_status = "ACTIVE"
+            last_result = current_device.get("attack_reason") or risk_live_result_text(risk["id"])
+            http_code = latest_match.get("http_code") if latest_match else "-"
+            last_seen = current_device.get("last_security_event_time") or latest_match.get("timestamp") if latest_match else "-"
+            detection_latency = LAST_API_TRANSACTION.get("response_time_ms") if LAST_API_TRANSACTION.get("response_time_ms") is not None else "-"
+            test_result = "NOT TESTED"
+        elif matches:
+            live_status = "RESOLVED"
+            last_result = risk_live_result_text(risk["id"])
+            http_code = latest_match.get("http_code") if latest_match else "-"
+            last_seen = latest_match.get("timestamp") if latest_match else "-"
+            detection_latency = "-"
+            test_result = "NOT TESTED"
+        else:
+            live_status = "INACTIVE"
+            last_result = "No recent event"
+            http_code = "-"
+            last_seen = "-"
+            detection_latency = "-"
+            test_result = "NOT TESTED"
+
+        risk["live_status"] = live_status
+        risk["last_result"] = last_result
+        risk["detection_count"] = len(matches)
+        risk["http_code"] = http_code
+        risk["last_seen"] = last_seen
+        risk["detection_latency"] = detection_latency
+        risk["test_result"] = test_result
+
+    return vulnerability_risks
 
 
 def get_vulnerability_percentage(vulnerability_risks):
@@ -1292,14 +1767,13 @@ def login():
         username = request.form.get("username", "").lower().strip()
         password = request.form.get("password", "")
 
-        if username == "doctor" and password == "123":
-            session["role"] = "doctor"
-            session["username"] = "doctor"
-            return redirect(url_for("clinical_dashboard"))
-
-        if username == "soc" and password == "123":
-            session["role"] = "soc"
-            session["username"] = "soc"
+        stored_hash = USER_PASSWORD_HASHES.get(username)
+        if stored_hash and check_password_hash(stored_hash, password):
+            session.clear()
+            session["role"] = username
+            session["username"] = username
+            if username == "doctor":
+                return redirect(url_for("clinical_dashboard"))
             return redirect(url_for("soc_dashboard"))
 
         error = "Invalid username or password"
@@ -1346,10 +1820,13 @@ def soc_dashboard():
     devices = refresh_security_event_state(devices)
     save_devices(devices)
 
-    vulnerability_risks = get_vulnerability_risks(devices)
+    vulnerability_risks = enrich_vulnerability_risks(get_vulnerability_risks(devices), devices)
     vulnerability_percentage = get_vulnerability_percentage(vulnerability_risks)
     stats = get_dashboard_stats(devices)
     stats["cyber_risk"] = vulnerability_percentage
+    stats["avg_risk"] = vulnerability_percentage
+    stats["environment_state"] = stats.get("environment_state", "NORMAL")
+    stats["live_cyber_state"] = stats.get("live_cyber_state", "SECURE")
 
     return render_template(
         "soc_dashboard.html",
@@ -1386,11 +1863,14 @@ def soc_live_data():
     devices = refresh_security_event_state(devices)
     save_devices(devices)
 
-    vulnerability_risks = get_vulnerability_risks(devices)
+    vulnerability_risks = enrich_vulnerability_risks(get_vulnerability_risks(devices), devices)
     vulnerability_percentage = get_vulnerability_percentage(vulnerability_risks)
 
     stats = get_dashboard_stats(devices)
     stats["cyber_risk"] = vulnerability_percentage
+    stats["avg_risk"] = vulnerability_percentage
+    stats["environment_state"] = stats.get("environment_state", "NORMAL")
+    stats["live_cyber_state"] = stats.get("live_cyber_state", "SECURE")
 
     return jsonify({
         "success": True,
@@ -1457,10 +1937,12 @@ if DEV_MODE:
         return redirect(url_for("soc_dashboard"))
 
 
-@app.route("/soc/isolate/<int:device_index>")
+@app.route("/soc/isolate/<int:device_index>", methods=["POST"])
 def isolate_device(device_index):
     if not require_login("soc"):
         return redirect(url_for("login"))
+    if not csrf_is_valid():
+        return "Invalid or missing CSRF token", 400
 
     devices = load_devices()
 
@@ -1475,10 +1957,12 @@ def isolate_device(device_index):
     return redirect(url_for("soc_dashboard"))
 
 
-@app.route("/soc/restore/<int:device_index>")
+@app.route("/soc/restore/<int:device_index>", methods=["POST"])
 def restore_device(device_index):
     if not require_login("soc"):
         return redirect(url_for("login"))
+    if not csrf_is_valid():
+        return "Invalid or missing CSRF token", 400
 
     devices = load_devices()
 
@@ -1501,11 +1985,97 @@ def restore_device(device_index):
     return redirect(url_for("soc_dashboard"))
 
 
-@app.route("/api/sensor_reading", methods=["POST"])
-def api_sensor_reading():
+@app.route("/api/device_event", methods=["POST"])
+def api_device_event():
     data = request.get_json(silent=True)
 
     if not isinstance(data, dict):
+        return jsonify({"success": False, "message": "Invalid JSON payload", "attack_detected": True}), 400
+
+    sensor_id = str(data.get("sensor_id") or "")
+    category = str(data.get("category") or "SYSTEM").upper()
+    level = str(data.get("level") or "INFO").upper()
+    message = str(data.get("message") or "")
+    timestamp = data.get("timestamp")
+
+    allowed_categories = {"SENSOR", "ENVIRONMENT", "HARDWARE", "NETWORK", "SYSTEM", "SECURITY", "STORAGE", "API"}
+    allowed_levels = {"INFO", "WARNING", "ERROR", "CRITICAL"}
+
+    if not sensor_id or category not in allowed_categories or level not in allowed_levels or len(message) > 300:
+        return jsonify({"success": False, "message": "Malformed device event payload", "attack_detected": True, "attack_type": "Malformed Device Event"}), 400
+
+    if sensor_id != TRUSTED_SENSOR_ID:
+        return jsonify({"success": False, "message": "Unauthorized sensor_id", "attack_detected": True, "attack_type": "Unknown Sensor ID"}), 401
+
+    try:
+        ts = int(timestamp)
+    except Exception:
+        return jsonify({"success": False, "message": "Invalid device event timestamp", "attack_detected": True, "attack_type": "Invalid Timestamp"}), 400
+
+    if abs(int(time.time()) - ts) > 120:
+        return jsonify({"success": False, "message": "Stale device event timestamp", "attack_detected": True, "attack_type": "Stale Timestamp"}), 401
+
+    # Device-originated event authentication is intentionally separate from the sensor-reading HMAC.
+    # The existing /api/sensor_reading HMAC canonical format remains unchanged.
+    signature = str(data.get("signature") or "")
+    if not signature:
+        return jsonify({"success": False, "message": "Missing device event signature", "attack_detected": True, "attack_type": "Missing Device Event Signature"}), 401
+
+    device_event_msg = f"{sensor_id}|{category}|{level}|{message}|{ts}"
+    expected_sig = hmac.new(SHARED_SECRET.encode('utf-8'), device_event_msg.encode('utf-8'), hashlib.sha256).hexdigest()
+    if not hmac.compare_digest(expected_sig, signature):
+        return jsonify({"success": False, "message": "Invalid device event signature", "attack_detected": True, "attack_type": "Invalid Device Event Signature"}), 401
+
+    record_device_event(sensor_id, category, level, message, http_code=200, source="ESP32")
+
+    return jsonify({"success": True, "message": "Device event accepted", "sensor_id": sensor_id, "category": category, "level": level}), 200
+
+
+@app.route("/api/device_console_state")
+def api_device_console_state():
+    if not require_login("soc"):
+        return jsonify({"success": False, "error": "Unauthorized"}), 401
+
+    return jsonify(get_device_console_state())
+
+
+@app.route("/api/device_events/stream")
+def api_device_events_stream():
+    if not require_login("soc"):
+        return jsonify({"success": False, "error": "Unauthorized"}), 401
+
+    def generate():
+        while True:
+            state = get_device_console_state()
+            yield f"data: {json.dumps(state)}\n\n"
+            time.sleep(2)
+
+    return Response(generate(), mimetype="text/event-stream")
+
+
+@app.route("/device-console")
+def device_console():
+    if not require_login("soc"):
+        return redirect(url_for("login"))
+
+    state = get_device_console_state()
+    return render_template("device_console.html", state=state)
+
+
+@app.route("/api/sensor_reading", methods=["POST"])
+def api_sensor_reading():
+    start_time = time.perf_counter()
+    data = request.get_json(silent=True)
+
+    if not isinstance(data, dict):
+        update_last_api_transaction(
+            payload={},
+            http_status=400,
+            authentication="INVALID JSON",
+            nonce_status="MISSING",
+            timestamp_status="INVALID",
+            response_time_ms=int((time.perf_counter() - start_time) * 1000)
+        )
         trigger_external_attack(
             0,
             "Malformed JSON",
@@ -1527,6 +2097,14 @@ def api_sensor_reading():
         device_index = -1
 
     if device_index < 0 or device_index >= len(load_devices()):
+        update_last_api_transaction(
+            payload=data,
+            http_status=400,
+            authentication="INVALID DEVICE INDEX",
+            nonce_status=str(data.get("nonce") or "MISSING"),
+            timestamp_status="UNKNOWN",
+            response_time_ms=int((time.perf_counter() - start_time) * 1000)
+        )
         return jsonify({
             "success": False,
             "message": "Invalid device index",
@@ -1538,6 +2116,14 @@ def api_sensor_reading():
     required_fields = ["sensor_id", "temperature", "humidity", "timestamp", "nonce", "signature"]
     missing = [f for f in required_fields if f not in data]
     if missing:
+        update_last_api_transaction(
+            payload=data,
+            http_status=400,
+            authentication="MISSING FIELDS",
+            nonce_status="MISSING" if "nonce" not in data else "PRESENT",
+            timestamp_status="MISSING" if "timestamp" not in data else "PRESENT",
+            response_time_ms=int((time.perf_counter() - start_time) * 1000)
+        )
         trigger_external_attack(
             device_index,
             "Missing HMAC Signature",
@@ -1553,6 +2139,14 @@ def api_sensor_reading():
 
     # Optionally verify sensor identity is known
     if sensor_id != TRUSTED_SENSOR_ID:
+        update_last_api_transaction(
+            payload=data,
+            http_status=401,
+            authentication="UNAUTHORIZED SENSOR ID",
+            nonce_status=str(data.get("nonce") or "MISSING"),
+            timestamp_status="UNKNOWN",
+            response_time_ms=int((time.perf_counter() - start_time) * 1000)
+        )
         trigger_external_attack(
             device_index,
             "Unknown Sensor ID",
@@ -1572,6 +2166,14 @@ def api_sensor_reading():
         if not all(math.isfinite(value) for value in (temp_c, humidity)):
             raise ValueError("non-finite sensor value")
     except Exception:
+        update_last_api_transaction(
+            payload=data,
+            http_status=400,
+            authentication="INVALID PAYLOAD",
+            nonce_status=str(data.get("nonce") or "MISSING"),
+            timestamp_status="INVALID",
+            response_time_ms=int((time.perf_counter() - start_time) * 1000)
+        )
         trigger_external_attack(
             device_index,
             "Invalid Payload",
@@ -1587,6 +2189,14 @@ def api_sensor_reading():
     signature = str(data.get("signature"))
 
     if temp_c < -10 or temp_c > 80 or humidity < 0 or humidity > 100:
+        update_last_api_transaction(
+            payload=data,
+            http_status=400,
+            authentication="IMPOSSIBLE VALUES",
+            nonce_status=str(data.get("nonce") or "MISSING"),
+            timestamp_status="VALID",
+            response_time_ms=int((time.perf_counter() - start_time) * 1000)
+        )
         trigger_external_attack(
             device_index,
             "Impossible Sensor Values",
@@ -1607,6 +2217,14 @@ def api_sensor_reading():
     now = int(time.time())
     if abs(now - ts) > 60:
         print("Old timestamp rejected", ts, "now", now)
+        update_last_api_transaction(
+            payload=data,
+            http_status=401,
+            authentication="STALE TIMESTAMP",
+            nonce_status=str(data.get("nonce") or "MISSING"),
+            timestamp_status="STALE",
+            response_time_ms=int((time.perf_counter() - start_time) * 1000)
+        )
         trigger_external_attack(
             device_index,
             "Old Timestamp",
@@ -1621,6 +2239,14 @@ def api_sensor_reading():
     # Replay protection: reject reused nonce
     if nonce_exists(sensor_id, nonce):
         print("Replay nonce rejected for sensor", sensor_id, nonce)
+        update_last_api_transaction(
+            payload=data,
+            http_status=401,
+            authentication="REPLAY NONCE",
+            nonce_status="REPLAY",
+            timestamp_status="VALID",
+            response_time_ms=int((time.perf_counter() - start_time) * 1000)
+        )
         trigger_external_attack(
             device_index,
             "Replay Nonce",
@@ -1639,6 +2265,14 @@ def api_sensor_reading():
 
     if not hmac.compare_digest(expected_sig, signature):
         print("Invalid HMAC signature rejected", "expected", expected_sig, "received", signature)
+        update_last_api_transaction(
+            payload=data,
+            http_status=401,
+            authentication="INVALID HMAC",
+            nonce_status="PRESENT",
+            timestamp_status="VALID",
+            response_time_ms=int((time.perf_counter() - start_time) * 1000)
+        )
         trigger_external_attack(
             device_index,
             "Invalid HMAC Signature",
@@ -1663,6 +2297,9 @@ def api_sensor_reading():
         recommended_action="Continue monitoring and maintain secure sensor authentication",
         http_code=200
     )
+
+    global CONSOLE_PACKET_COUNT
+    CONSOLE_PACKET_COUNT += 1
 
     temp_fh = round((temp_c * 9 / 5) + 32, 2)
 
@@ -1700,7 +2337,7 @@ def api_sensor_reading():
         device["attack_reason"] = "-"
     save_devices(devices)
 
-    return jsonify({
+    response_payload = {
         "success": True,
         "temperature": device["temperature_c"],
         "humidity": device["humidity"],
@@ -1718,7 +2355,31 @@ def api_sensor_reading():
         "rtc_status": device.get("rtc_status", ""),
         "sd_backup_status": device.get("sd_backup_status", ""),
         "dht22_temperature": device.get("dht22_temperature", "")
-    })
+    }
+
+    dht22_temp = float(data.get('dht22_temperature') or 0)
+    record_device_event(
+        sensor_id,
+        "SYSTEM",
+        "INFO",
+        f"Telemetry accepted | DS18B20 {format(temp_c, '.2f')} C | DHT22 {format(dht22_temp, '.2f')} C | Humidity {format(humidity, '.2f')}% | Environment {device.get('status', 'No Data')} | HMAC VALID",
+        http_code=200,
+        source="FLASK"
+    )
+
+    update_last_api_transaction(
+        payload=data,
+        http_status=200,
+        authentication="HMAC VALID",
+        nonce_status="PRESENT / VALID",
+        timestamp_status="VALID",
+        response_time_ms=int((time.perf_counter() - start_time) * 1000)
+    )
+    LAST_SENSOR_RESPONSE = response_payload
+    LAST_API_TRANSACTION["packets_received"] = CONSOLE_PACKET_COUNT
+    LAST_API_TRANSACTION["last_update"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    return jsonify(response_payload)
 
 
 @app.route("/logs")
@@ -1762,4 +2423,4 @@ def verify_logs():
 
 if __name__ == "__main__":
     ensure_single_sensor()
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=DEBUG_MODE)

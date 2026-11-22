@@ -3,6 +3,7 @@
 <head>
     <title>SOC Dashboard - MediGuard AI</title>
     <link rel="stylesheet" href="/static/style.css">
+<style>button.mini-btn{border:none;cursor:pointer;font:inherit;}</style>
 </head>
 <body>
 
@@ -25,6 +26,7 @@
 
         <nav>
             <a href="/soc" class="active">SOC Dashboard</a>
+            <a href="/device-console">Device Console</a>
             <a href="/logs">Logs</a>
             <a href="/verify_logs">Verify Secure Logs</a>
             <a href="/logout">Logout</a>
@@ -60,6 +62,21 @@
                 <h2 id="socStatTotal">{{ stats.total }}</h2>
             </div>
 
+            <div class="stat-card">
+                <span>Environment State</span>
+                <h2 id="socStatEnvironment">{{ stats.environment_state }}</h2>
+            </div>
+
+            <div class="stat-card">
+                <span>Live Cyber State</span>
+                <h2 id="socStatCyberState">{{ stats.live_cyber_state }}</h2>
+            </div>
+
+            <div class="stat-card">
+                <span>Residual Cyber Risk</span>
+                <h2 id="socStatCyberRisk">{{ stats.cyber_risk }}%</h2>
+            </div>
+
             <div class="stat-card warning">
                 <span>Anomalies</span>
                 <h2 id="socStatAnomalies">{{ stats.anomalies }}</h2>
@@ -73,11 +90,6 @@
             <div class="stat-card danger">
                 <span>Isolated Devices</span>
                 <h2 id="socStatIsolated">{{ stats.isolated }}</h2>
-            </div>
-
-            <div class="stat-card">
-                <span>Average Risk</span>
-                <h2 id="socStatAvgRisk">{{ stats.avg_risk }}%</h2>
             </div>
         </section>
 
@@ -106,7 +118,7 @@
                             <th>Behavior Reason</th>
                             <th>Attack Type</th>
                             <th>Attack Reason</th>
-                            <th>Cyber Decision</th>
+                            <th>System Decision</th>
                             <th>Sensor Authentication Status</th>
                             <th>Hardware Profile</th>
                             <th>Local Alert</th>
@@ -220,9 +232,9 @@
                             <td>
                                 <div class="control-buttons">
                                     {% if device.isolation_status == "Isolated" %}
-                                        <a class="mini-btn safe" href="/soc/restore/{{ loop.index0 }}">Restore</a>
+                                        <form method="POST" action="/soc/restore/{{ loop.index0 }}" style="display:inline"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit" class="mini-btn safe">Restore</button></form>
                                     {% else %}
-                                        <a class="mini-btn critical" href="/soc/isolate/{{ loop.index0 }}">Isolate</a>
+                                        <form method="POST" action="/soc/isolate/{{ loop.index0 }}" style="display:inline"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit" class="mini-btn critical">Isolate</button></form>
                                     {% endif %}
                                 </div>
                             </td>
@@ -238,18 +250,36 @@
                 <div>
                     <h2>Cybersecurity Risk Assessment and Residual Risk Matrix</h2>
                     <p>
-                        Real-world threat monitoring, implemented controls, and residual risk after protection
-                        for the implemented medical IoT prototype.
+                        Static assessment fields describe the risk itself. Live monitoring columns show the current operational state of each vulnerability during real system activity.
                     </p>
+                    <p>
+                        Environmental state is tracked separately from cybersecurity state, so critical temperature conditions do not automatically make cyber rows active.
+                    </p>
+                </div>
+            </div>
+
+            <div class="matrix-toolbar">
+                <div class="matrix-filter-group" id="riskMatrixFilters">
+                    <button class="matrix-filter active" data-filter="all" type="button">All</button>
+                    <button class="matrix-filter" data-filter="active" type="button">Active</button>
+                    <button class="matrix-filter" data-filter="resolved" type="button">Resolved</button>
+                    <button class="matrix-filter" data-filter="inactive" type="button">Inactive</button>
+                    <button class="matrix-filter" data-filter="high" type="button">High Risk</button>
+                    <button class="matrix-filter" data-filter="untested" type="button">Not Tested</button>
+                    <button class="matrix-filter" data-filter="failed" type="button">Failed Tests</button>
                 </div>
             </div>
 
             <div class="table-wrap">
                 <table>
                     <thead>
+                        <tr class="matrix-group-header">
+                            <th colspan="8">STATIC RISK ASSESSMENT</th>
+                            <th colspan="8">LIVE MONITORING</th>
+                        </tr>
                         <tr>
                             <th>ID</th>
-                            <th>Threat</th>
+                            <th>Threat / Vulnerability</th>
                             <th>Implemented Control</th>
                             <th>Likelihood</th>
                             <th>Impact</th>
@@ -258,8 +288,11 @@
                             <th>Residual Risk</th>
                             <th>Live Status</th>
                             <th>Last Result</th>
+                            <th>Detection Count</th>
                             <th>HTTP Code</th>
                             <th>Last Seen</th>
+                            <th>Detection Latency</th>
+                            <th>Test Result</th>
                             <th>Recommendation</th>
                         </tr>
                     </thead>
@@ -285,10 +318,13 @@
                                     <span class="badge green">Low</span>
                                 {% endif %}
                             </td>
-                            <td>Inactive</td>
+                            <td><span class="badge gray">INACTIVE</span></td>
                             <td>No recent event</td>
+                            <td>0</td>
                             <td>-</td>
                             <td>-</td>
+                            <td>-</td>
+                            <td><span class="badge gray">NOT TESTED</span></td>
                             <td>{{ risk.recommendation }}</td>
                         </tr>
                         {% endfor %}
@@ -398,8 +434,8 @@ function renderSocDevices(devices) {
                 <div class="control-buttons">
                     ${
                         device.isolation_status === "Isolated"
-                        ? `<a class="mini-btn safe" href="/soc/restore/${index}">Restore</a>`
-                        : `<a class="mini-btn critical" href="/soc/isolate/${index}">Isolate</a>`
+                        ? `<form method="POST" action="/soc/restore/${index}" style="display:inline"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit" class="mini-btn safe">Restore</button></form>`
+                        : `<form method="POST" action="/soc/isolate/${index}" style="display:inline"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit" class="mini-btn critical">Isolate</button></form>`
                     }
                 </div>
             </td>
@@ -496,13 +532,30 @@ function getMatrixStateForDevices(devices) {
     };
 }
 
+function liveStatusBadge(status) {
+    if (status === "ACTIVE") return badge("ACTIVE", "red");
+    if (status === "RESOLVED") return badge("RESOLVED", "green");
+    return badge("INACTIVE", "gray");
+}
+
+function testResultBadge(status) {
+    if (status === "PASS") return badge("PASS", "green");
+    if (status === "FAIL") return badge("FAIL", "red");
+    return badge("NOT TESTED", "gray");
+}
+
 function renderVulnerabilityMatrix(risks) {
     const tbody = document.getElementById("vulnerabilityBody");
-    const matrixState = getMatrixStateForDevices(devicesData || []);
 
     tbody.innerHTML = risks.map(risk => {
-        const isActive = matrixState.activeRiskId && risk.id === matrixState.activeRiskId;
-        const rowStyle = isActive ? "background: rgba(255, 94, 94, 0.12); box-shadow: inset 0 0 0 1px rgba(255, 94, 94, 0.45);" : "";
+        const liveStatus = (risk.live_status || "INACTIVE").toUpperCase();
+        const isActive = liveStatus === "ACTIVE";
+        const isResolved = liveStatus === "RESOLVED";
+        const rowStyle = isActive
+            ? "background: rgba(255, 94, 94, 0.12); box-shadow: inset 0 0 0 1px rgba(255, 94, 94, 0.45);"
+            : isResolved
+                ? "background: rgba(34, 197, 94, 0.08); box-shadow: inset 0 0 0 1px rgba(34, 197, 94, 0.32);"
+                : "";
 
         return `
             <tr style="${rowStyle}">
@@ -514,22 +567,63 @@ function renderVulnerabilityMatrix(risks) {
                 <td>${risk.score ?? "-"}</td>
                 <td>${risk.risk_percentage ?? "-"}%</td>
                 <td>${riskLevelBadge(risk.residual_risk || risk.risk_level)}</td>
-                <td>${isActive ? "Active" : "Inactive"}</td>
-                <td>${isActive ? matrixState.lastResult : "No recent event"}</td>
-                <td>${isActive ? matrixState.httpCode : "-"}</td>
-                <td>${isActive ? matrixState.lastSeen : "-"}</td>
+                <td>${liveStatusBadge(liveStatus)}</td>
+                <td>${risk.last_result || "No recent event"}</td>
+                <td>${risk.detection_count ?? 0}</td>
+                <td>${risk.http_code || "-"}</td>
+                <td>${risk.last_seen || "-"}</td>
+                <td>${risk.detection_latency || "-"}</td>
+                <td>${testResultBadge(risk.test_result || "NOT TESTED")}</td>
                 <td>${risk.recommendation || "-"}</td>
             </tr>
         `;
     }).join("");
 }
 
+function setupMatrixFilters() {
+    const filterButtons = document.querySelectorAll(".matrix-filter");
+    const matrixBody = document.getElementById("vulnerabilityBody");
+
+    if (!filterButtons.length || !matrixBody) return;
+
+    if (matrixBody.dataset.filtersBound === "true") return;
+
+    filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const filter = button.dataset.filter;
+            filterButtons.forEach(btn => btn.classList.toggle("active", btn === button));
+
+            const rows = [...matrixBody.querySelectorAll("tr")];
+            rows.forEach(row => {
+                const liveStatus = (row.children[8]?.textContent || "").trim().toUpperCase();
+                const riskBadge = (row.children[7]?.textContent || "").trim().toUpperCase();
+                const testStatus = (row.children[14]?.textContent || "").trim().toUpperCase();
+
+                let showRow = true;
+
+                if (filter === "active") showRow = liveStatus === "ACTIVE";
+                if (filter === "resolved") showRow = liveStatus === "RESOLVED";
+                if (filter === "inactive") showRow = liveStatus === "INACTIVE";
+                if (filter === "high") showRow = ["CRITICAL", "HIGH"].includes(riskBadge);
+                if (filter === "untested") showRow = testStatus === "NOT TESTED";
+                if (filter === "failed") showRow = testStatus === "FAIL";
+
+                row.style.display = showRow ? "" : "none";
+            });
+        });
+    });
+
+    matrixBody.dataset.filtersBound = "true";
+}
+
 function updateSocStats(stats) {
     document.getElementById("socStatTotal").innerText = stats.total;
+    document.getElementById("socStatEnvironment").innerText = stats.environment_state || "NORMAL";
+    document.getElementById("socStatCyberState").innerText = stats.live_cyber_state || "SECURE";
+    document.getElementById("socStatCyberRisk").innerText = `${stats.cyber_risk || stats.avg_risk || 0}%`;
     document.getElementById("socStatAnomalies").innerText = stats.anomalies;
     document.getElementById("socStatAttacks").innerText = stats.attacks;
     document.getElementById("socStatIsolated").innerText = stats.isolated;
-    document.getElementById("socStatAvgRisk").innerText = `${stats.avg_risk}%`;
 }
 
 async function fetchSocLiveData() {
@@ -543,6 +637,7 @@ async function fetchSocLiveData() {
         updateSocStats(data.stats);
         renderSocDevices(data.devices);
         renderVulnerabilityMatrix(data.vulnerability_risks);
+        setupMatrixFilters();
         checkDashboardAlert();
 
     } catch (error) {
@@ -791,6 +886,7 @@ function checkDashboardAlert() {
 
 fetchSocLiveData();
 setInterval(fetchSocLiveData, 1000);
+setupMatrixFilters();
 </script>
 
 </body>

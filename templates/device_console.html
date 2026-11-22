@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Device Console - MediGuard AI</title>
+    <link rel="stylesheet" href="/static/style.css?v=20260912-1">
+</head>
+<body>
+
+<div class="dashboard-bg">
+    <div class="bg-grid"></div>
+    <div class="dash-glow dash-glow-one"></div>
+    <div class="dash-glow dash-glow-red"></div>
+</div>
+
+<div class="app-layout">
+
+    <aside class="sidebar soc-sidebar">
+        <div class="side-logo">
+            <div class="logo-dot">✦</div>
+            <div>
+                <h2>MediGuard</h2>
+                <span>SOC Console</span>
+            </div>
+        </div>
+
+        <nav>
+            <a href="/soc">SOC Dashboard</a>
+            <a href="/device-console" class="active">Device Console</a>
+            <a href="/logs">Logs</a>
+            <a href="/verify_logs">Verify Secure Logs</a>
+            <a href="/logout">Logout</a>
+        </nav>
+
+        <div class="side-note">
+            <span>Logged in as</span>
+            <b>SOC Team</b>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <div class="topbar page-enter">
+            <div>
+                <span class="page-kicker cyber-kicker">Developer Telemetry</span>
+                <h1>Device Console</h1>
+                <p>Live backend state, recent ESP32 event activity, and current health signals for the room sensor.</p>
+            </div>
+
+            <div class="top-actions">
+                <div id="liveIndicator" class="live-indicator live-active" aria-live="polite">
+                    <span class="live-dot"></span>
+                    <span>LIVE</span>
+                </div>
+                <button id="toggleAutoScroll" class="btn-secondary" type="button">Auto Scroll</button>
+                <button id="pauseConsole" class="btn-secondary" type="button">Pause Refresh</button>
+                <button id="clearConsole" class="btn-secondary" type="button">Clear View</button>
+            </div>
+        </div>
+
+        <div id="alertBanner" class="alert-banner hidden" role="status" aria-live="polite"></div>
+        <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+        <section class="stats-grid">
+            <div id="deviceStateCard" class="stat-card success">
+                <span>Device</span>
+                <h2 id="deviceStateValue">{{ state.device_state }}</h2>
+                <p id="deviceNameValue">{{ state.device_name }}</p>
+            </div>
+
+            <div id="environmentCard" class="stat-card warning">
+                <span>Environment</span>
+                <h2 id="environmentValue">{{ state.environment }}</h2>
+            </div>
+
+            <div id="securityCard" class="stat-card danger">
+                <span>Security</span>
+                <h2 id="securityValue">{{ state.security }}</h2>
+            </div>
+
+            <div id="backendCard" class="stat-card">
+                <span>Backend</span>
+                <h2 id="backendValue">{{ state.backend }}</h2>
+            </div>
+
+            <div id="dataStreamCard" class="stat-card">
+                <span>Data Stream</span>
+                <h2 id="dataStreamValue">{{ state.data_stream_state or 'LIVE' }}</h2>
+            </div>
+
+            <div id="timeSourceCard" class="stat-card">
+                <span>Time Source</span>
+                <h2 id="timeSourceValue">{{ state.time_source or 'TIME_FAIL' }}</h2>
+            </div>
+
+            <div id="hardwareCard" class="stat-card">
+                <span>Hardware</span>
+                <h2 id="hardwareProfileValue">{{ state.hardware_profile or 'enhanced_v2' }}</h2>
+            </div>
+
+            <div id="packetCountCard" class="stat-card">
+                <span>Packets Received</span>
+                <h2 id="packetCountValue">{{ state.packets_received or 0 }}</h2>
+                <p id="lastUpdateValue">{{ state.last_update or state.last_seen or 'No Data' }}</p>
+            </div>
+
+            <div id="lastSeenCard" class="stat-card">
+                <span>Last Seen</span>
+                <h2 id="lastSeenValue">{{ state.last_seen or 'No Data' }}</h2>
+            </div>
+        </section>
+
+        <section class="console-grid">
+            <div class="panel animated-panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Live Device Snapshot</h2>
+                        <p>Operational telemetry snapshot assembled from the current backend state.</p>
+                    </div>
+                </div>
+
+                <div class="console-meta-grid">
+                    <div class="console-kv">
+                        <span>Device</span>
+                        <b id="deviceNameValue">{{ state.device_name }}</b>
+                    </div>
+                    <div class="console-kv">
+                        <span>Temperature</span>
+                        <b id="temperatureValue">{{ state.telemetry.temperature if state.telemetry.temperature is not none else '-' }}</b>
+                    </div>
+                    <div class="console-kv">
+                        <span>Humidity</span>
+                        <b id="humidityValue">{{ state.telemetry.humidity if state.telemetry.humidity is not none else '-' }}</b>
+                    </div>
+                    <div class="console-kv">
+                        <span>DHT22 Temp</span>
+                        <b id="dht22Value">{{ state.telemetry.dht22_temperature if state.telemetry.dht22_temperature is not none else '-' }}</b>
+                    </div>
+                    <div class="console-kv">
+                        <span>RTC</span>
+                        <b id="rtcValue">{{ state.telemetry.rtc_status }}</b>
+                    </div>
+                    <div class="console-kv">
+                        <span>SD Backup</span>
+                        <b id="sdValue">{{ state.telemetry.sd_backup_status }}</b>
+                    </div>
+                    <div class="console-kv">
+                        <span>Local Alert</span>
+                        <b id="localAlertValue">{{ state.telemetry.local_alert or 'Not reported' }}</b>
+                    </div>
+                    <div class="console-kv">
+                        <span>Hardware Profile</span>
+                        <b id="hardwareProfileValue">{{ state.hardware_profile }}</b>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel animated-panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>API & Backend Status</h2>
+                        <p>Most recent authenticated sensor transaction received by the Flask backend.</p>
+                    </div>
+                </div>
+
+                <div class="console-meta-grid">
+                    <div class="console-kv">
+                        <span>Endpoint</span>
+                        <b id="apiEndpointValue">{{ state.last_api_transaction.endpoint }}</b>
+                    </div>
+                    <div class="console-kv">
+                        <span>HTTP Status</span>
+                        <b id="apiStatusValue">{{ state.last_api_transaction.http_status or 'UNKNOWN' }}</b>
+                    </div>
+                    <div class="console-kv">
+                        <span>Auth</span>
+                        <b id="authValue">{{ state.last_api_transaction.authentication }}</b>
+                    </div>
+                    <div class="console-kv">
+                        <span>Nonce</span>
+                        <b id="nonceValue">{{ state.last_api_transaction.nonce }}</b>
+                    </div>
+                    <div class="console-kv">
+                        <span>Timestamp</span>
+                        <b id="timestampValue">{{ state.last_api_transaction.timestamp }}</b>
+                    </div>
+                    <div class="console-kv">
+                        <span>Response Time</span>
+                        <b id="responseTimeValue">{{ state.last_api_transaction.response_time_ms or 'N/A' }}</b>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="deviceEventsPanel" class="panel animated-panel">
+            <div class="panel-head">
+                <div>
+                    <h2>Recent Device Events</h2>
+                    <p>ESP32-originated telemetry and status events stored by the backend.</p>
+                </div>
+                <div class="panel-side-indicator">
+                    <span class="mini-live-indicator"></span>
+                    <span id="eventsLiveLabel">Monitoring</span>
+                    <button id="jumpToLatestButton" class="btn-secondary jump-to-latest" type="button" hidden>Jump to latest</button>
+                </div>
+            </div>
+
+            <div class="console-search-wrap">
+                <input id="eventSearch" class="console-search" type="text" placeholder="Search console..." aria-label="Search console events" />
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Category</th>
+                            <th>Level</th>
+                            <th>Message</th>
+                            <th>Source</th>
+                            <th>HTTP</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deviceEventsBody">
+                        {% for event in state.events %}
+                        <tr>
+                            <td>{{ event.timestamp }}</td>
+                            <td>{{ event.category }}</td>
+                            <td>
+                                {% if event.level == 'CRITICAL' %}
+                                    <span class="badge red">{{ event.level }}</span>
+                                {% elif event.level == 'WARNING' %}
+                                    <span class="badge yellow">{{ event.level }}</span>
+                                {% else %}
+                                    <span class="badge green">{{ event.level }}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ event.message }}</td>
+                            <td>{{ event.source }}</td>
+                            <td>{{ event.http_code or '-' }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" class="empty">No device events recorded yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="panel animated-panel">
+            <div class="panel-head">
+                <div>
+                    <h2>Raw Request / Response</h2>
+                    <p>Useful request fields plus the latest backend JSON response for engineering inspection.</p>
+                </div>
+            </div>
+
+            <div class="raw-panels">
+                <details class="raw-details" open>
+                    <summary>Raw Device Request</summary>
+                    <pre id="rawRequest" class="console-json">{{ state.raw_request | tojson(indent=2) }}</pre>
+                </details>
+
+                <details class="raw-details" open>
+                    <summary>Raw Backend Response</summary>
+                    <pre id="rawResponse" class="console-json">{{ state.raw_response | tojson(indent=2) }}</pre>
+                </details>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script>
+    const stateUrl = '/api/device_console_state';
+    const pollIntervalMs = 1000;
+    const duplicateCooldownMs = 8000;
+    const pauseButton = document.getElementById('pauseConsole');
+    const clearButton = document.getElementById('clearConsole');
+    const autoScrollButton = document.getElementById('toggleAutoScroll');
+    const eventsBody = document.getElementById('deviceEventsBody');
+    const rawResponse = document.getElementById('rawResponse');
+    const rawRequest = document.getElementById('rawRequest');
+    const alertBanner = document.getElementById('alertBanner');
+    const toastContainer = document.getElementById('toastContainer');
+    const liveIndicator = document.getElementById('liveIndicator');
+    const eventsLiveLabel = document.getElementById('eventsLiveLabel');
+    const deviceEventsPanel = document.getElementById('deviceEventsPanel');
+    const eventsScrollContainer = document.querySelector('#deviceEventsPanel .table-wrap');
+    const jumpToLatestButton = document.getElementById('jumpToLatestButton');
+    const eventSearch = document.getElementById('eventSearch');
+
+    let paused = false;
+    let autoScrollEnabled = true;
+    let lastState = {{ state | tojson | safe }};
+    let notificationCooldowns = new Map();
+    let currentFilter = '';
+    let liveStreamState = 'LIVE';
+    let pendingNewEvents = 0;
+
+    function isNearBottom(container, threshold = 80) {
+        if (!container) {
+            return true;
+        }
+
+        const distanceFromBottom = container.scrollHeight - container.scrollTop - container.clientHeight;
+        return distanceFromBottom <= threshold;
+    }
+
+    function updateJumpToLatestButton() {
+        if (!jumpToLatestButton) {
+            return;
+        }
+
+        if (pendingNewEvents > 0 && !isNearBottom(eventsScrollContainer)) {
+            jumpToLatestButton.hidden = false;
+            jumpToLatestButton.textContent = `${pendingNewEvents} new event${pendingNewEvents === 1 ? '' : 's'} ↓`;
+            return;
+        }
+
+        pendingNewEvents = 0;
+        jumpToLatestButton.hidden = true;
+        jumpToLatestButton.textContent = 'Jump to latest';
+    }
+
+    function scrollEventsToBottom() {
+        if (!eventsScrollContainer) {
+            return;
+        }
+
+        eventsScrollContainer.scrollTop = eventsScrollContainer.scrollHeight;
+        pendingNewEvents = 0;
+        updateJumpToLatestButton();
+    }
+
+    function setText(elementId, value, fallback = '-') {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.textContent = value ?? fallback;
+        }
+    }
+
+    function flashElement(elementId) {
+        const element = document.getElementById(elementId);
+        if (!element) {
+            return;
+        }
+
+        const target = element.closest('.console-kv') || element.closest('.stat-card') || element;
+        target.classList.remove('update-flash');
+        void target.offsetWidth;
+        target.classList.add('update-flash');
+        setTimeout(() => target.classList.remove('update-flash'), 900);
+    }
+
+    function setCardTone(cardId, tone) {
+        const card = document.getElementById(cardId);
+        if (!card) {
+            return;
+        }
+
+        const toneClasses = [
+            'success', 'warning', 'danger',
+            'tone-success', 'tone-warning', 'tone-danger',
+            'tone-cyan', 'tone-environment-critical',
+            'tone-live', 'tone-stale', 'tone-offline', 'tone-security-alert'
+        ];
+
+        toneClasses.forEach((className) => card.classList.remove(className));
+        if (tone) {
+            card.classList.add(tone);
+        }
+    }
+
+    function applyValueTone(elementId, tone, stateClass = '') {
+        const element = document.getElementById(elementId);
+        if (!element) {
+            return;
+        }
+
+        const target = element.closest('.console-kv') || element.closest('.stat-card');
+        if (!target) {
+            return;
+        }
+
+        const toneClasses = [
+            'success', 'warning', 'danger',
+            'tone-success', 'tone-warning', 'tone-danger',
+            'tone-cyan', 'tone-environment-critical',
+            'tone-live', 'tone-stale', 'tone-offline', 'tone-security-alert'
+        ];
+        const stateClasses = ['state-success', 'state-warning', 'state-danger', 'state-info', 'state-neutral'];
+
+        toneClasses.forEach((className) => target.classList.remove(className));
+        stateClasses.forEach((className) => target.classList.remove(className));
+        stateClasses.forEach((className) => element.classList.remove(className));
+
+        if (tone) {
+            target.classList.add(tone);
+        }
+
+        element.classList.add('value-status');
+        if (stateClass) {
+            element.classList.add(stateClass);
+        }
+    }
+
+    function getEventLevelClass(level) {
+        const normalizedLevel = String(level || '').toUpperCase();
+
+        if (normalizedLevel.includes('CRITICAL')) return 'badge red';
+        if (normalizedLevel.includes('WARNING')) return 'badge yellow';
+        if (normalizedLevel.includes('ERROR')) return 'badge red';
+        if (normalizedLevel.includes('INFO')) return 'badge blue';
+        return 'badge green';
+    }
+
+    function getCategoryBadgeClass(category, level = '') {
+        const normalizedCategory = String(category || '').toUpperCase();
+        const normalizedLevel = String(level || '').toUpperCase();
+
+        if (normalizedCategory === 'SECURITY') {
+            return normalizedLevel.includes('CRITICAL') || normalizedLevel.includes('ERROR') || normalizedLevel.includes('ATTACK')
+                ? 'badge red'
+                : 'badge green';
+        }
+
+        const map = {
+            SENSOR: 'badge cyan',
+            ENVIRONMENT: 'badge orange',
+            SYSTEM: 'badge gray',
+            NETWORK: 'badge blue',
+            API: 'badge purple',
+            STORAGE: 'badge yellow',
+            ERROR: 'badge red',
+            ALERT: 'badge red',
+            INFO: 'badge cyan'
+        };
+
+        return map[normalizedCategory] || 'badge gray';
+    }
+
+    function notifyOnce(key, title, text, tone = 'system') {
+        const now = Date.now();
+        const previous = notificationCooldowns.get(key);
+        if (previous && now - previous < duplicateCooldownMs) {
+            return;
+        }
+
+        notificationCooldowns.set(key, now);
+
+        const toast = document.createElement('div');
+        toast.className = `toast ${tone}`;
+        toast.innerHTML = `
+            <div class="toast-header">
+                <span class="toast-title">${title}</span>
+            </div>
+            <div class="toast-text">${text}</div>
+        `;
+
+        toastContainer.appendChild(toast);
+        setTimeout(() => {
+            toast.remove();
+        }, 5000);
+    }
+
+    function updateBanner(type, title, message) {
+        if (!title || !message) {
+            alertBanner.classList.add('hidden');
+            alertBanner.textContent = '';
+            alertBanner.className = 'alert-banner hidden';
+            return;
+        }
+
+        alertBanner.className = `alert-banner ${type}`;
+        alertBanner.innerHTML = `
+            <span class="alert-banner-title">${title}</span>
+            <span class="alert-banner-message">${message}</span>
+        `;
+        alertBanner.classList.remove('hidden');
+    }
+
+    function clearBanner() {
+        updateBanner('', '', '');
+    }
+
+    function renderEvents(events) {
+        const normalizedEvents = Array.isArray(events) ? events : [];
+        const previousIds = new Set((lastState.events || []).map((event) => event.id ?? `${event.timestamp}|${event.category}|${event.message}`));
+
+        if (normalizedEvents.length === 0) {
+            eventsBody.innerHTML = '<tr><td colspan="6" class="empty">No device events recorded yet.</td></tr>';
+            pendingNewEvents = 0;
+            updateJumpToLatestButton();
+            return;
+        }
+
+        let filteredEvents = normalizedEvents;
+        const query = (eventSearch?.value || '').trim().toLowerCase();
+
+        if (query) {
+            filteredEvents = normalizedEvents.filter((event) => {
+                const haystack = [
+                    event.timestamp,
+                    event.category,
+                    event.level,
+                    event.message,
+                    event.source,
+                    event.http_code
+                ].join(' ').toLowerCase();
+                return haystack.includes(query);
+            });
+        }
+
+        const newEvents = normalizedEvents.filter((event) => {
+            const eventKey = event.id ?? `${event.timestamp}|${event.category}|${event.message}`;
+            return !previousIds.has(eventKey);
+        });
+
+        const rows = filteredEvents.map((event, index) => {
+            const eventKey = event.id ?? `${event.timestamp}|${event.category}|${event.message}`;
+            const isNew = !previousIds.has(eventKey);
+            const isLatest = index === filteredEvents.length - 1;
+            const categoryClass = getCategoryBadgeClass(event.category, event.level);
+            const levelClass = getEventLevelClass(event.level);
+            return `
+                <tr class="device-events-row ${isNew ? 'new-event' : ''} ${isLatest ? 'latest-event' : ''}">
+                    <td>${event.timestamp || '-'}</td>
+                    <td><span class="${categoryClass}">${event.category || '-'}</span></td>
+                    <td><span class="${levelClass}">${event.level || '-'}</span></td>
+                    <td>${event.message || '-'}</td>
+                    <td>${event.source || '-'}</td>
+                    <td>${event.http_code ?? '-'}</td>
+                </tr>
+            `;
+        }).join('');
+
+        eventsBody.innerHTML = rows || '<tr><td colspan="6" class="empty">No events match the current filter.</td></tr>';
+
+        if (newEvents.length > 0 && !autoScrollEnabled) {
+            pendingNewEvents += newEvents.length;
+        } else if (newEvents.length > 0 && autoScrollEnabled && isNearBottom(eventsScrollContainer)) {
+            pendingNewEvents = 0;
+        } else if (newEvents.length > 0 && autoScrollEnabled && !isNearBottom(eventsScrollContainer)) {
+            pendingNewEvents += newEvents.length;
+        }
+
+        if (autoScrollEnabled && filteredEvents.length && isNearBottom(eventsScrollContainer)) {
+            scrollEventsToBottom();
+        } else {
+            updateJumpToLatestButton();
+        }
+    }
+
+    function updateConsole(state) {
+        const telemetry = state.telemetry || {};
+        const api = state.last_api_transaction || {};
+        const previousState = lastState || {};
+
+        const previousEnvironment = previousState.environment || '';
+        const previousSecurity = previousState.security || '';
+        const previousOnline = !!previousState.online;
+        const previousBackend = previousState.backend || '';
+
+        // card values
+        setText('deviceStateValue', state.device_state || 'OFFLINE');
+        setText('environmentValue', state.environment || 'NO DATA');
+        setText('securityValue', state.security || 'SECURE');
+        setText('backendValue', state.backend || 'OFFLINE');
+        setText('lastSeenValue', state.last_seen || 'No Data');
+        setText('dataStreamValue', state.data_stream_state || 'LIVE');
+        setText('timeSourceValue', state.time_source || 'TIME_FAIL');
+        setText('hardwareProfileValue', state.hardware_profile || 'enhanced_v2');
+        setText('packetCountValue', state.packets_received ?? 0);
+        setText('lastUpdateValue', state.last_update || state.last_seen || 'No Data');
+
+        setText('deviceNameValue', state.device_name || 'Unknown');
+        setText('temperatureValue', telemetry.temperature ?? '-');
+        setText('humidityValue', telemetry.humidity ?? '-');
+        setText('dht22Value', telemetry.dht22_temperature ?? '-');
+        setText('rtcValue', telemetry.rtc_status || 'TIME_FAIL');
+        setText('sdValue', telemetry.sd_backup_status || 'SD_MISSING');
+        setText('localAlertValue', telemetry.local_alert || 'Not reported');
+
+        setText('apiEndpointValue', api.endpoint || 'N/A');
+        setText('apiStatusValue', api.http_status || 'UNKNOWN');
+        setText('authValue', api.authentication || 'UNKNOWN');
+        setText('nonceValue', api.nonce || 'UNKNOWN');
+        setText('timestampValue', api.timestamp || 'UNKNOWN');
+        setText('responseTimeValue', api.response_time_ms ?? 'N/A');
+
+        rawResponse.textContent = JSON.stringify(state.raw_response || {}, null, 2);
+        rawRequest.textContent = JSON.stringify(state.raw_request || {}, null, 2);
+
+        const environmentState = (state.environment || '').toUpperCase();
+        const securityState = (state.security || '').toUpperCase();
+        const backendState = (state.backend || '').toUpperCase();
+        const dataStreamState = (state.data_stream_state || '').toUpperCase();
+        const timeSourceState = (state.time_source || '').toUpperCase();
+        const sdState = String((telemetry.sd_backup_status || '')).toUpperCase();
+        const httpStatus = Number(api.http_status || 0);
+        const authState = String(api.authentication || '').toUpperCase();
+        const localAlertState = String(telemetry.local_alert || '').toUpperCase();
+
+        const deviceTone = state.online ? (dataStreamState === 'STALE' ? 'tone-warning' : 'tone-success') : 'tone-danger';
+        const environmentTone = environmentState === 'CRITICAL'
+            ? 'tone-environment-critical'
+            : environmentState === 'WARNING'
+                ? 'tone-warning'
+                : 'tone-success';
+        const securityTone = securityState === 'CYBER ALERT'
+            ? 'tone-security-alert'
+            : securityState === 'WARNING'
+                ? 'tone-warning'
+                : 'tone-success';
+        const backendTone = backendState === 'CONNECTED'
+            ? 'tone-success'
+            : backendState === 'STALE' || backendState === 'DEGRADED'
+                ? 'tone-warning'
+                : 'tone-danger';
+        const streamTone = dataStreamState === 'LIVE'
+            ? 'tone-live'
+            : dataStreamState === 'STALE'
+                ? 'tone-stale'
+                : 'tone-offline';
+        const timeTone = timeSourceState === 'NTP_SYNCED'
+            ? 'tone-cyan'
+            : timeSourceState === 'RTC_FALLBACK'
+                ? 'tone-warning'
+                : 'tone-danger';
+        const sdTone = sdState === 'SD_OK'
+            ? 'tone-success'
+            : sdState === 'SD_MISSING'
+                ? 'tone-warning'
+                : sdState === 'SD_ERROR'
+                    ? 'tone-danger'
+                    : 'tone-warning';
+        const httpTone = httpStatus >= 500
+            ? 'tone-danger'
+            : httpStatus >= 400
+                ? 'tone-warning'
+                : httpStatus >= 200 && httpStatus < 300
+                    ? 'tone-success'
+                    : 'tone-warning';
+        const authTone = authState.includes('INVALID HMAC')
+            ? 'tone-danger'
+            : authState === 'HMAC VALID'
+                ? 'tone-success'
+                : 'tone-warning';
+
+        setCardTone('deviceStateCard', deviceTone);
+        setCardTone('environmentCard', environmentTone);
+        setCardTone('securityCard', securityTone);
+        setCardTone('backendCard', backendTone);
+        setCardTone('dataStreamCard', streamTone);
+        setCardTone('timeSourceCard', timeTone);
+        setCardTone('hardwareCard', 'tone-cyan');
+        setCardTone('packetCountCard', 'tone-success');
+
+        const temperatureStateClass = environmentState === 'CRITICAL'
+            ? 'state-danger'
+            : environmentState === 'WARNING'
+                ? 'state-warning'
+                : 'state-success';
+        const humidityStateClass = environmentState === 'CRITICAL'
+            ? 'state-warning'
+            : environmentState === 'WARNING'
+                ? 'state-warning'
+                : 'state-info';
+        const localAlertStateClass = localAlertState.includes('CRITICAL')
+            ? 'state-danger'
+            : localAlertState.includes('WARNING')
+                ? 'state-warning'
+                : 'state-success';
+
+        applyValueTone('deviceStateValue', deviceTone, state.online ? 'state-success' : 'state-danger');
+        applyValueTone('environmentValue', environmentTone, environmentState === 'CRITICAL' ? 'state-danger' : environmentState === 'WARNING' ? 'state-warning' : 'state-success');
+        applyValueTone('securityValue', securityTone, securityState === 'CYBER ALERT' ? 'state-danger' : securityState === 'WARNING' ? 'state-warning' : 'state-success');
+        applyValueTone('backendValue', backendTone, backendState === 'CONNECTED' ? 'state-success' : backendState === 'STALE' || backendState === 'DEGRADED' ? 'state-warning' : 'state-danger');
+        applyValueTone('dataStreamValue', streamTone, dataStreamState === 'LIVE' ? 'state-success' : dataStreamState === 'STALE' ? 'state-warning' : 'state-danger');
+        applyValueTone('timeSourceValue', timeTone, timeSourceState === 'NTP_SYNCED' ? 'state-success' : timeSourceState === 'RTC_FALLBACK' ? 'state-warning' : 'state-danger');
+        applyValueTone('temperatureValue', environmentTone, temperatureStateClass);
+        applyValueTone('humidityValue', environmentTone, humidityStateClass);
+        applyValueTone('dht22Value', environmentTone, temperatureStateClass);
+        applyValueTone('localAlertValue', localAlertStateClass === 'state-danger' ? 'tone-danger' : localAlertStateClass === 'state-warning' ? 'tone-warning' : 'tone-success', localAlertStateClass);
+        applyValueTone('rtcValue', timeTone, timeSourceState === 'NTP_SYNCED' ? 'state-success' : timeSourceState === 'RTC_FALLBACK' ? 'state-warning' : 'state-danger');
+        applyValueTone('sdValue', sdTone, sdState === 'SD_OK' ? 'state-success' : sdState === 'SD_MISSING' ? 'state-warning' : sdState === 'SD_ERROR' ? 'state-danger' : 'state-warning');
+        applyValueTone('apiStatusValue', httpTone, httpStatus >= 500 ? 'state-danger' : httpStatus >= 400 ? 'state-warning' : httpStatus >= 200 && httpStatus < 300 ? 'state-success' : 'state-neutral');
+        applyValueTone('authValue', authTone, authState.includes('INVALID HMAC') ? 'state-danger' : authState === 'HMAC VALID' ? 'state-success' : 'state-warning');
+        applyValueTone('nonceValue', authTone, String(api.nonce || '').toUpperCase().includes('VALID') ? 'state-success' : String(api.nonce || '').toUpperCase().includes('INVALID') ? 'state-danger' : 'state-warning');
+        applyValueTone('timestampValue', authTone, String(api.timestamp || '').toUpperCase() === 'VALID' ? 'state-success' : String(api.timestamp || '').toUpperCase().includes('INVALID') ? 'state-danger' : 'state-warning');
+
+        // live status transitions
+        if (state.online !== previousOnline) {
+            if (state.online) {
+                notifyOnce('device-restored', 'DEVICE RESTORED', `${state.device_name || 'ESP32_ROOM_1'} communication restored.`, 'success');
+                updateBanner('warning', 'DEVICE RESTORED', `${state.device_name || 'ESP32_ROOM_1'} communication restored.`);
+            } else {
+                notifyOnce('device-offline', 'WARNING', 'Device communication lost', `${state.device_name || 'ESP32_ROOM_1'} is no longer reachable. Last seen: ${state.last_seen || 'Unknown time'}`, 'warning');
+                updateBanner('warning', 'DEVICE OFFLINE', `${state.device_name || 'ESP32_ROOM_1'} is no longer reachable. Last seen: ${state.last_seen || 'Unknown time'}`);
+            }
+        }
+
+        if (state.backend !== previousBackend) {
+            if (state.backend === 'CONNECTED') {
+                notifyOnce('backend-connected', 'SYSTEM', 'Backend connection restored.', 'system');
+            } else {
+                notifyOnce('backend-offline', 'WARNING', 'Backend connection lost', 'Backend state is now offline.', 'warning');
+            }
+        }
+
+        if ((state.environment || '').toUpperCase() !== previousEnvironment && (state.environment || '').toUpperCase() === 'CRITICAL') {
+            notifyOnce('environment-critical', 'ENVIRONMENTAL CRITICAL', 'Temperature entered the critical cold-storage range. Security remains SECURE.', 'warning');
+            updateBanner('environment', 'CRITICAL ENVIRONMENTAL CONDITION', `Temperature: ${telemetry.temperature ?? '-'} °C | Security: ${state.security || 'SECURE'}`);
+        }
+
+        if ((state.security || '').toUpperCase() !== previousSecurity) {
+            if ((state.security || '').toUpperCase() === 'CYBER ALERT') {
+                const auth = (api.authentication || '').toUpperCase();
+                const message = auth.includes('INVALID HMAC')
+                    ? 'Invalid HMAC detected. Request rejected.'
+                    : auth.includes('REPLAY')
+                        ? 'Replay attempt detected. Request rejected.'
+                        : auth.includes('STALE')
+                            ? 'Stale device timestamp rejected.'
+                            : 'Security event detected.';
+
+                notifyOnce('cyber-alert', 'CYBERSECURITY ALERT', message, 'cyber');
+                updateBanner('cyber', 'CYBERSECURITY ALERT', message);
+            } else if (previousSecurity && previousSecurity.toUpperCase() === 'CYBER ALERT') {
+                notifyOnce('security-restored', 'DEVICE RESTORED', 'Security state returned to SECURE.', 'success');
+            }
+        }
+
+        // live auth response notifications
+        const auth = (api.authentication || '').toUpperCase();
+        if (auth && auth !== (previousState.last_api_transaction || {}).authentication?.toUpperCase()) {
+            if (auth.includes('INVALID HMAC')) {
+                notifyOnce('invalid-hmac', 'CYBERSECURITY ALERT', 'Invalid HMAC detected. Request rejected.', 'cyber');
+            } else if (auth.includes('REPLAY')) {
+                notifyOnce('replay-attack', 'CYBERSECURITY ALERT', 'Replay attempt detected. Request rejected.', 'cyber');
+            } else if (auth.includes('STALE')) {
+                notifyOnce('stale-timestamp', 'SECURITY WARNING', 'Stale device timestamp rejected.', 'warning');
+            } else if (auth === 'HMAC VALID') {
+                if ((previousState.last_api_transaction || {}).authentication && (previousState.last_api_transaction || {}).authentication.toUpperCase() !== 'HMAC VALID') {
+                    notifyOnce('auth-valid', 'DEVICE RESTORED', 'Authenticated sensor reading accepted.', 'success');
+                }
+            }
+        }
+
+        if (!state.online && !state.last_seen) {
+            updateBanner('warning', 'DEVICE OFFLINE', `${state.device_name || 'ESP32_ROOM_1'} is no longer reachable.`);
+        }
+
+        renderEvents(state.events || []);
+
+        // value changes
+        const valueChecks = [
+            ['temperatureValue', telemetry.temperature, previousState.telemetry ? previousState.telemetry.temperature : undefined],
+            ['humidityValue', telemetry.humidity, previousState.telemetry ? previousState.telemetry.humidity : undefined],
+            ['dht22Value', telemetry.dht22_temperature, previousState.telemetry ? previousState.telemetry.dht22_temperature : undefined],
+            ['environmentValue', state.environment, previousState.environment],
+            ['rtcValue', telemetry.rtc_status, previousState.telemetry ? previousState.telemetry.rtc_status : undefined],
+            ['sdValue', telemetry.sd_backup_status, previousState.telemetry ? previousState.telemetry.sd_backup_status : undefined],
+            ['apiStatusValue', api.http_status, (previousState.last_api_transaction || {}).http_status],
+            ['securityValue', state.security, previousState.security]
+        ];
+
+        valueChecks.forEach(([id, currentValue, previousValue]) => {
+            if (currentValue !== previousValue) {
+                flashElement(id);
+            }
+        });
+
+        if (!state.online || (state.security || '').toUpperCase() !== 'CYBER ALERT') {
+            if (!(state.environment || '').toUpperCase() === 'CRITICAL') {
+                clearBanner();
+            }
+        }
+
+        if ((state.environment || '').toUpperCase() !== 'CRITICAL' && (state.security || '').toUpperCase() !== 'CYBER ALERT' && state.online) {
+            clearBanner();
+        }
+
+        lastState = state;
+        liveIndicator.classList.remove('live-paused');
+        liveIndicator.classList.add('live-active');
+        eventsLiveLabel.textContent = paused ? 'Paused' : 'Monitoring';
+        rawResponse.classList.add('update-flash');
+        rawRequest.classList.add('update-flash');
+        setTimeout(() => {
+            rawResponse.classList.remove('update-flash');
+            rawRequest.classList.remove('update-flash');
+        }, 900);
+    }
+
+    async function refreshConsole() {
+        if (paused) {
+            return;
+        }
+
+        try {
+            const response = await fetch(stateUrl, {
+                headers: { 'Accept': 'application/json' }
+            });
+            if (!response.ok) {
+                throw new Error('Request failed: ' + response.status);
+            }
+            const data = await response.json();
+            if (data && data.success) {
+                updateConsole(data);
+            }
+        } catch (error) {
+            console.error('Console refresh failed:', error);
+        }
+    }
+
+    pauseButton.addEventListener('click', () => {
+        paused = !paused;
+        pauseButton.textContent = paused ? 'Resume Refresh' : 'Pause Refresh';
+        liveIndicator.classList.toggle('live-paused', paused);
+        liveIndicator.classList.toggle('live-active', !paused);
+        eventsLiveLabel.textContent = paused ? 'Paused' : 'Monitoring';
+    });
+
+    autoScrollButton.addEventListener('click', () => {
+        autoScrollEnabled = !autoScrollEnabled;
+        autoScrollButton.textContent = autoScrollEnabled ? 'Auto Scroll' : 'Manual Scroll';
+        eventsLiveLabel.textContent = paused ? 'Paused' : (autoScrollEnabled ? 'Monitoring' : 'Manual');
+
+        if (autoScrollEnabled && eventsScrollContainer) {
+            scrollEventsToBottom();
+        } else {
+            updateJumpToLatestButton();
+        }
+    });
+
+    clearButton.addEventListener('click', () => {
+        eventsBody.innerHTML = '<tr><td colspan="6" class="empty">Events cleared from the browser view.</td></tr>';
+        pendingNewEvents = 0;
+        updateJumpToLatestButton();
+        notifyOnce('events-cleared', 'VIEW UPDATED', 'Browser event view cleared. Backend logs remain unchanged.', 'system');
+    });
+
+    eventSearch.addEventListener('input', () => {
+        renderEvents(lastState.events || []);
+    });
+
+    if (eventsScrollContainer) {
+        eventsScrollContainer.addEventListener('scroll', () => {
+            if (isNearBottom(eventsScrollContainer)) {
+                pendingNewEvents = 0;
+            }
+            updateJumpToLatestButton();
+        });
+    }
+
+    jumpToLatestButton.addEventListener('click', () => {
+        autoScrollEnabled = true;
+        autoScrollButton.textContent = 'Auto Scroll';
+        eventsLiveLabel.textContent = paused ? 'Paused' : 'Monitoring';
+        scrollEventsToBottom();
+    });
+
+    updateConsole(lastState);
+    setInterval(refreshConsole, pollIntervalMs);
+</script>
+
+</body>
+</html>

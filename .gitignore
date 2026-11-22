@@ -4,6 +4,7 @@ __pycache__/
 
 .env
 .env.local
+secrets.h
 
 logs.csv
 logs_backup_wrong_header.csv
@@ -21,3 +22,5 @@ data/old_dataset_backup/
 data/medical_storage_dataset.csv
 
 *.zip
+
+LOCAL_LOGIN_INFO.txt
